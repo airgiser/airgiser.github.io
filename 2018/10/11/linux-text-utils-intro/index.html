@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Linux系统有许多的工具用来对文本进行过滤和处理，下面对一些常用的工具进行简单介绍。  grep grep工具对文件的每一行搜索指定的模式字符串。如果找到了匹配这个字符串的行，就打印该行的内容。  基本语法 123grep [OPTIONS] PATTERN [FILE...] grep [OPTIONS] [-e PATTERN | -f FILE] [FILE...]  常用选项 12345">
+<meta name="keywords" content="Linux,Shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux常用文本处理命令">
+<meta property="og:url" content="https://airgiser.github.io/2018/10/11/linux-text-utils-intro/index.html">
+<meta property="og:site_name" content="WeiJun&#39;s Programming Notes">
+<meta property="og:description" content="Linux系统有许多的工具用来对文本进行过滤和处理，下面对一些常用的工具进行简单介绍。  grep grep工具对文件的每一行搜索指定的模式字符串。如果找到了匹配这个字符串的行，就打印该行的内容。  基本语法 123grep [OPTIONS] PATTERN [FILE...] grep [OPTIONS] [-e PATTERN | -f FILE] [FILE...]  常用选项 12345">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-12T10:37:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux常用文本处理命令">
+<meta name="twitter:description" content="Linux系统有许多的工具用来对文本进行过滤和处理，下面对一些常用的工具进行简单介绍。  grep grep工具对文件的每一行搜索指定的模式字符串。如果找到了匹配这个字符串的行，就打印该行的内容。  基本语法 123grep [OPTIONS] PATTERN [FILE...] grep [OPTIONS] [-e PATTERN | -f FILE] [FILE...]  常用选项 12345">
+
+
+
+
+
+
+  <link rel="canonical" href="https://airgiser.github.io/2018/10/11/linux-text-utils-intro/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Linux常用文本处理命令 | WeiJun's Programming Notes</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WeiJun's Programming Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/11/linux-text-utils-intro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeiJun's Programming Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux常用文本处理命令
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-11 18:47:59" itemprop="dateCreated datePublished" datetime="2018-10-11T18:47:59+08:00">2018-10-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-12 18:37:58" itemprop="dateModified" datetime="2018-10-12T18:37:58+08:00">2018-10-12</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Linux系统有许多的工具用来对文本进行过滤和处理，下面对一些常用的工具进行简单介绍。</p>
+<h2 id="grep"><a class="markdownIt-Anchor" href="#grep"></a> grep</h2>
+<p>grep工具对文件的每一行搜索指定的模式字符串。如果找到了匹配这个字符串的行，就打印该行的内容。</p>
+<h3 id="基本语法"><a class="markdownIt-Anchor" href="#基本语法"></a> 基本语法</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grep [OPTIONS] PATTERN [FILE...] </span><br><span class="line"></span><br><span class="line">grep [OPTIONS] [-e PATTERN | -f FILE] [FILE...]</span><br></pre></td></tr></table></figure>
+<h3 id="常用选项"><a class="markdownIt-Anchor" href="#常用选项"></a> 常用选项</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定pattern，可用于需要匹配多个模式的情况</span></span><br><span class="line">-e PATTERN</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定文件中，每行存储一个模式</span></span><br><span class="line">-f FILE</span><br><span class="line"></span><br><span class="line"><span class="comment"># 忽略大小写</span></span><br><span class="line">-i, --ignore-case</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 反检索，只显示不匹配的行。</span></span><br><span class="line">-v, --invert-match</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 匹配整个单词</span></span><br><span class="line">-w, --word-regexp</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 匹配整行</span></span><br><span class="line">-x, --line-regexp</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># 只输出匹配的行数，不显示匹配的内容。</span></span><br><span class="line">-c, --count</span><br><span class="line"></span><br><span class="line"><span class="comment"># 高亮匹配的字符串</span></span><br><span class="line"><span class="comment"># WHEN is never, always, auto</span></span><br><span class="line">--color[=WHEN]    </span><br><span class="line"></span><br><span class="line"><span class="comment"># 搜索多个文件时，不显示匹配文件名 </span></span><br><span class="line">-h，--no-filename</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示行号</span></span><br><span class="line">-n，--line-number</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只显示匹配的部分</span></span><br><span class="line">-o, --only-matching</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不显示错误信息。</span></span><br><span class="line">-s，--no-messages</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不显示信息，只返回退出状态。0表示匹配成功</span></span><br><span class="line">-q，--quiet</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出匹配成功的文件</span></span><br><span class="line">-l，--files-with-matches</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出不匹配模式的文件</span></span><br><span class="line">-L，--files-without-match</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="示例"><a class="markdownIt-Anchor" href="#示例"></a> 示例</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 搜索字符串 golf 的所有实例</span></span><br><span class="line">$ grep golf grep.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 搜索 golf 和 Golf</span></span><br><span class="line">$ grep [gG]olf grep.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># g 和 lf 之间可以是任意字符</span></span><br><span class="line">$ grep g.lf grep.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># g 和 lf 之间只可以是a和z之间的字符</span></span><br><span class="line">$ grep g[a-z]lf grep.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># g 和 lf 之间可以是a和z之间的字符或A和Z之间的字符</span></span><br><span class="line">$ grep g[a-zA-Z]lf grep.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># g 和 lf 之间不可以是数字</span></span><br><span class="line">$ grep g[^0-9]lf</span><br><span class="line"></span><br><span class="line"><span class="comment"># g 和 lf 之间的 o 可以出现0次，1次或多次</span></span><br><span class="line">$ grep go*lf grep.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># o 出现0次或1次</span></span><br><span class="line">$ grep go?lf grep.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># o 出现1次或多次</span></span><br><span class="line">$ grep go+lf grep.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 行首为 golf</span></span><br><span class="line">$ grep ^golf grep.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 行尾为 golf</span></span><br><span class="line">$ grep golf$ grep.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 行尾位 .go</span></span><br><span class="line">$ grep <span class="string">'\.go$'</span> grep.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有不含 foo 或 bar 的行</span></span><br><span class="line">$ grep -v -e <span class="string">'foo'</span> -e <span class="string">'bar'</span> grep.txt</span><br></pre></td></tr></table></figure>
+<h3 id="fgrep"><a class="markdownIt-Anchor" href="#fgrep"></a> fgrep</h3>
+<p>fgrep(等同于<code>grep -F</code>)对文件搜索某个字符串，并打印包含这个字符串的所有行的内容。与grep不同的是，fgrep搜索的是一个字符串，而不可以匹配使用模式的正则表达式。fgrep一次可以搜索多个对象(用回车分隔)。通常速度比grep更快。</p>
+<p><code>-f</code> 选项可以让我们可以指定一个包含搜索项的文件，其中可以列出经常搜索的内容。</p>
+<p>示例：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># File:search_items</span></span><br><span class="line">foo</span><br><span class="line">bar</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从 myfile 中查找 search_items 文件列出的搜索项，输出匹配的行</span></span><br><span class="line">$ fgrep -f search_items myfile</span><br></pre></td></tr></table></figure>
+<h3 id="egrep"><a class="markdownIt-Anchor" href="#egrep"></a> egrep</h3>
+<p>egrep(等同于<code>grep -E</code>)是grep的一个功能更加强大的版本，它让我们可以一次搜索多个对象。要搜索的对象是使用回车符（与fgrep一样）或管道符（|）来分隔的。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ egrep <span class="string">"first|second"</span> myfile</span><br></pre></td></tr></table></figure>
+<p>除了搜索多个目标的功能之外，egrep还提供了重复搜索和分组搜索的功能：</p>
+<ul>
+<li>‘?’ 查找问号前面字符的零次匹配或一次匹配。</li>
+<li>‘+’ 查找加号前面字符的一次或多次匹配。</li>
+<li>‘( )’ 表示一个分组。</li>
+</ul>
+<h2 id="cut"><a class="markdownIt-Anchor" href="#cut"></a> cut</h2>
+<p>使用 cut 工具，我们可以将文件中数据域的各个列分隔开来。默认的分隔符是制表符。</p>
+<h3 id="基本语法-2"><a class="markdownIt-Anchor" href="#基本语法-2"></a> 基本语法</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cut -b list [-n] [file ...]</span><br><span class="line">cut -c list [file ...]</span><br><span class="line">cut -f list [-w | -d delim] [-s] [file ...]</span><br></pre></td></tr></table></figure>
+<h3 id="常用选项-2"><a class="markdownIt-Anchor" href="#常用选项-2"></a> 常用选项</h3>
+<ul>
+<li>-f 可以用来指定希望显示的域</li>
+<li>-c 允许我们指定字符而不是域</li>
+<li>-d 允许我们指定其他分隔符，而不是制表符</li>
+</ul>
+<h3 id="示例-2"><a class="markdownIt-Anchor" href="#示例-2"></a> 示例</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># File:sample</span></span><br><span class="line">one    two    three</span><br><span class="line">four   five   six</span><br><span class="line">seven  eight  nine</span><br><span class="line">ten    eleven twelve</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cut -f2 sample</span><br></pre></td></tr></table></figure>
+<p>返回：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">two</span><br><span class="line">five</span><br><span class="line">eight</span><br><span class="line">eleven</span><br></pre></td></tr></table></figure>
+<p>命令修改为：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cut -f1,3 sample</span><br></pre></td></tr></table></figure>
+<p>返回第1和第3个字段：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">one    three</span><br><span class="line">four   six</span><br><span class="line">seven  nine</span><br><span class="line">ten    twelve</span><br></pre></td></tr></table></figure>
+<p>再修改为：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cut -f2- sample</span><br></pre></td></tr></table></figure>
+<p>返回第2到最后一个字段：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">two    three</span><br><span class="line">five   six</span><br><span class="line">eight  nine</span><br><span class="line">eleven twelve</span><br></pre></td></tr></table></figure>
+<h2 id="paste"><a class="markdownIt-Anchor" href="#paste"></a> paste</h2>
+<p>paste 工具可以对文件中的域进行合并。它从每个源文件中提取一行内容，并将其与另外一个源文件中的一行内容合并在一起。</p>
+<h3 id="基本语法-3"><a class="markdownIt-Anchor" href="#基本语法-3"></a> 基本语法</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paste [-s]  [-d list] file ...</span><br></pre></td></tr></table></figure>
+<h3 id="示例-3"><a class="markdownIt-Anchor" href="#示例-3"></a> 示例</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># File:fileone</span></span><br><span class="line">one</span><br><span class="line">two</span><br><span class="line">three</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># File:filetwo</span></span><br><span class="line">four    seven</span><br><span class="line">five    eight</span><br><span class="line">six     nine</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ paste fileone filetwo</span><br></pre></td></tr></table></figure>
+<p>得到输出：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">one     four    seven</span><br><span class="line">two     five    eight</span><br><span class="line">three   six     nine</span><br></pre></td></tr></table></figure>
+<p>制表符是默认的分隔符，但是我们可以使用-d选项将其修改成任何其他值。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ paste -d<span class="string">", "</span> fileone filetwo</span><br></pre></td></tr></table></figure>
+<p>得到输出</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">one,four    seven</span><br><span class="line">two,five    eight</span><br><span class="line">three,six     nine</span><br></pre></td></tr></table></figure>
+<p>我们也可以使用<code>-s</code>选项将fileone的内容在一行中输出，后面加上一个回车键，然后再显示filetwo的内容。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ paste -s fileone filetwo</span><br></pre></td></tr></table></figure>
+<p>得到输出：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">one     two     three</span><br><span class="line">four    seven   five    eight   six     nine</span><br></pre></td></tr></table></figure>
+<h2 id="join"><a class="markdownIt-Anchor" href="#join"></a> join</h2>
+<p>join是paste的一个很好的增强版本。join只有在所要连接的文件共享某个共同的域时才会工作。默认情况下，它期望这个共同的域就是第一个域。</p>
+<h3 id="基本语法-4"><a class="markdownIt-Anchor" href="#基本语法-4"></a> 基本语法</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">join [-a file_number | -v file_number] [-e  string] [-o list] [-t char]</span><br><span class="line">      [-1 field] [-2 field] file1 file2</span><br></pre></td></tr></table></figure>
+<h3 id="示例-4"><a class="markdownIt-Anchor" href="#示例-4"></a> 示例</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># File:fileone</span></span><br><span class="line">1   one</span><br><span class="line">2   two</span><br><span class="line">3   three</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># File:filetwo</span></span><br><span class="line">1   first</span><br><span class="line">2   second</span><br><span class="line">3   third</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ join fileone filetwo</span><br></pre></td></tr></table></figure>
+<p>得到输出：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 one first</span><br><span class="line">2 two second</span><br><span class="line">3 three third</span><br></pre></td></tr></table></figure>
+<p>此时第一个域相同的地方就会被识别出来，匹配项也就进行了合并。这种匹配必须非常精确。</p>
+<p>假如在fileone文件中添加一行内容：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># File:fileone</span></span><br><span class="line">1   one</span><br><span class="line">2   two</span><br><span class="line">4   four</span><br><span class="line">3   three</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ join fileone filetwo</span><br></pre></td></tr></table></figure>
+<p>得到输出：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 one first</span><br><span class="line">2 two second</span><br></pre></td></tr></table></figure>
+<p>默认情况下，join只会查找第一个域进行匹配，并输出所有列的内容；不过我们可以对这种行为进行修改。</p>
+<ul>
+<li>
+<p><code>-1</code> 选项让我们可以指定使用哪个域作为fileone中的匹配项</p>
+</li>
+<li>
+<p><code>-2</code> 选项让我们可以指定使用哪个域作为filetwo中的匹配项。</p>
+</li>
+<li>
+<p><code>-o</code> 选项可以以 {file.field} 格式来指定输出结果。</p>
+</li>
+</ul>
+<p>举例来说，要对 fileone 的第二个域和 filetwo 的第三个域进行匹配，我们可以使用下面的语法：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ join -1 2 -2 3 fileone filetwo</span><br></pre></td></tr></table></figure>
+<p>如要在匹配行上打印fileone的第二个域和filetwo的第三个域，语法为：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ join -o 1.2 -o 2.3 fileone filetwo</span><br></pre></td></tr></table></figure>
+<h2 id="awk"><a class="markdownIt-Anchor" href="#awk"></a> awk</h2>
+<p>awk本身实际上是一种编程语言，可以实现复杂的逻辑语句，还可以简化部分文本的提取。</p>
+<h3 id="基本语法-5"><a class="markdownIt-Anchor" href="#基本语法-5"></a> 基本语法</h3>
+<p>awk命令包括一个模式和由一条或多条语句构成的操作，语法如下所示：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk <span class="string">'/pattern/ &#123;action&#125;'</span> file</span><br></pre></td></tr></table></figure>
+<p>请注意：</p>
+<ul>
+<li>awk 测试指定文件中的每个记录是否符合模式匹配。如果找到匹配项，就执行指定的操作。</li>
+<li>awk 可以在管道中作为过滤器，如果没有指定文件，它也可以从键盘（标准输入）中接收输入。</li>
+</ul>
+<h3 id="提取数据"><a class="markdownIt-Anchor" href="#提取数据"></a> 提取数据</h3>
+<p>一种非常有用的操作是提取并打印数据，下面是如何引用一条记录中的域：</p>
+<ul>
+<li><code>$0</code> —— 整条记录</li>
+<li><code>$1</code> —— 该记录中的第一个域</li>
+<li><code>$2</code> —— 该记录中的第二个域</li>
+</ul>
+<p>我们可以从一条记录中提取多个域，之间用逗号分开。</p>
+<p>例如，要提取/etc/passwd文件中的第一个和第六个域，命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk -F: <span class="string">'&#123;print $1,$6&#125;'</span> /etc/passwd</span><br></pre></td></tr></table></figure>
+<p>-F是由预先定义的FS变量所定义的输入域分隔符</p>
+<p>在域之间使用短横线作为分隔符进行输出，命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk -F: <span class="string">'&#123;OFS="-"&#125;&#123;print $1,$6&#125;'</span> /etc/passwd</span><br></pre></td></tr></table></figure>
+<h3 id="过滤记录"><a class="markdownIt-Anchor" href="#过滤记录"></a> 过滤记录</h3>
+<p>我们可以使用比较运算符来过滤记录：==, !=, &gt;, &lt;, &gt;=, &lt;=</p>
+<p>多个条件可用逻辑运算符连接：&amp;&amp;, ||</p>
+<p>例如，获取第一列的值等于&quot;root&quot;的记录，命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk -F: <span class="string">'$1=="root" '</span> /etc/passwd</span><br></pre></td></tr></table></figure>
+<h3 id="字符串匹配"><a class="markdownIt-Anchor" href="#字符串匹配"></a> 字符串匹配</h3>
+<p>我们可以指定模式进行字符串匹配，~ 表示模式开始。/ /中是模式。</p>
+<p>例如，对第5列匹配模式&quot;System&quot;，命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk -F: <span class="string">'$5 ~ /System/ '</span> /etc/passwd</span><br></pre></td></tr></table></figure>
+<p>也可以像grep一样匹配一行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk <span class="string">'/System/ '</span> /etc/passwd</span><br></pre></td></tr></table></figure>
+<p>可以使用’!'对模式取反：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ awk -F: <span class="string">'$5 !~ /System/ '</span> /etc/passwd</span><br><span class="line">$ awk <span class="string">'!/System/ '</span> /etc/passwd</span><br></pre></td></tr></table></figure>
+<h3 id="拆分文件"><a class="markdownIt-Anchor" href="#拆分文件"></a> 拆分文件</h3>
+<p>我们可以使用重定向符号’&gt;'对文件进行拆分。</p>
+<p>以下命令根据第1列的值进行分割：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ps aux | awk <span class="string">'$1=="root"||$1=="myusername" &#123;print &gt; $1&#125;'</span></span><br></pre></td></tr></table></figure>
+<h3 id="统计"><a class="markdownIt-Anchor" href="#统计"></a> 统计</h3>
+<p>下面的命令计算所有的C文件，CPP文件和H文件的文件大小总和。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ls -l  *.cpp *.c *.h | awk <span class="string">'&#123;sum+=$5&#125; END &#123;print sum&#125;'</span></span><br></pre></td></tr></table></figure>
+<p>统计每个用户的进程的占了多少内存（其中NR!=1表示不处理表头）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ps aux | awk <span class="string">'NR!=1&#123;a[$1]+=$6;&#125; END &#123; for(i in a) print i ", " a[i]"KB";&#125;'</span></span><br></pre></td></tr></table></figure>
+<h2 id="head"><a class="markdownIt-Anchor" href="#head"></a> head</h2>
+<p>head 工具打印每个文件的最开始部分的内容（默认是10行）。如果没有给定文件，它就从标准输入中读入内容，如果给定了文件名就从文件中读入内容。</p>
+<h3 id="基本语法-6"><a class="markdownIt-Anchor" href="#基本语法-6"></a> 基本语法</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">head [-n count | -c bytes] [file ...]</span><br></pre></td></tr></table></figure>
+<h3 id="示例-5"><a class="markdownIt-Anchor" href="#示例-5"></a> 示例</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># displays the first 100 lines of a file</span></span><br><span class="line">$ head -100 myfile</span><br></pre></td></tr></table></figure>
+<p>我们可以使用-c选项指定要显示的字节个数。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dieplays the first 2 bytes of a file</span></span><br><span class="line">$ head -c 2 myfile</span><br></pre></td></tr></table></figure>
+<h2 id="tail"><a class="markdownIt-Anchor" href="#tail"></a> tail</h2>
+<p>tail 工具打印每个文件的最末尾部分的内容（默认是10行）。如果没有给定文件，它就从标准输入中读入内容，如果给定了文件名就从文件中读入内容。</p>
+<h3 id="基本语法-7"><a class="markdownIt-Anchor" href="#基本语法-7"></a> 基本语法</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail [-F | -f | -r] [-q] [-b number | -c number | -n number] [file ...]</span><br></pre></td></tr></table></figure>
+<h3 id="示例-6"><a class="markdownIt-Anchor" href="#示例-6"></a> 示例</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># displays the last 100 lines of a file</span></span><br><span class="line">$ tail -100 myfile</span><br></pre></td></tr></table></figure>
+<p>我们可以使用-c选项指定要显示的字节个数。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dieplays the last 2 bytes of a file</span></span><br><span class="line">$ tail -c 2 myfile</span><br></pre></td></tr></table></figure>
+<h2 id="wc"><a class="markdownIt-Anchor" href="#wc"></a> wc</h2>
+<p>统计文件里面有多少单词，多少行，多少字符等等。</p>
+<h3 id="基本语法-8"><a class="markdownIt-Anchor" href="#基本语法-8"></a> 基本语法</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wc [-clmw] [file ...]</span><br></pre></td></tr></table></figure>
+<h3 id="示例-7"><a class="markdownIt-Anchor" href="#示例-7"></a> 示例</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wc [-clmw] [file ...]</span><br></pre></td></tr></table></figure>
+<p>使用wc统计/etc/passwd</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wc /etc/passwd</span><br></pre></td></tr></table></figure>
+<p>得到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">40    45    1719 /etc/passwd</span><br></pre></td></tr></table></figure>
+<p>其中40是行数，45是单词数，1719是字节数。</p>
+<p>使用不同的选项：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ wc -l /etc/passwd  <span class="comment">#统计行数</span></span><br><span class="line">40 /etc/passwd       <span class="comment">#表示系统有40个账户</span></span><br><span class="line"></span><br><span class="line">$ wc -w /etc/passwd  <span class="comment">#统计单词数</span></span><br><span class="line">45 /etc/passwd</span><br><span class="line"></span><br><span class="line">$ wc -m /etc/passwd  <span class="comment">#统计字节数</span></span><br><span class="line">1719</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h2>
+<p><a href="http://www.ibm.com/developerworks/cn/linux/l-textutils.html" target="_blank" rel="noopener">http://www.ibm.com/developerworks/cn/linux/l-textutils.html</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/Shell/" rel="tag"># Shell</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/11/effective-learning-skills/" rel="next" title="高效学习技巧">
+                <i class="fa fa-chevron-left"></i> 高效学习技巧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/12/scikit-learn-intro/" rel="prev" title="scikit-learn 笔记 - 基本流程">
+                scikit-learn 笔记 - 基本流程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">WeiJun</p>
+              <p class="site-description motion-element" itemprop="description">If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#grep"><span class="nav-number">1.</span> <span class="nav-text"> grep</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本语法"><span class="nav-number">1.1.</span> <span class="nav-text"> 基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用选项"><span class="nav-number">1.2.</span> <span class="nav-text"> 常用选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例"><span class="nav-number">1.3.</span> <span class="nav-text"> 示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fgrep"><span class="nav-number">1.4.</span> <span class="nav-text"> fgrep</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#egrep"><span class="nav-number">1.5.</span> <span class="nav-text"> egrep</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cut"><span class="nav-number">2.</span> <span class="nav-text"> cut</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本语法-2"><span class="nav-number">2.1.</span> <span class="nav-text"> 基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用选项-2"><span class="nav-number">2.2.</span> <span class="nav-text"> 常用选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-2"><span class="nav-number">2.3.</span> <span class="nav-text"> 示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#paste"><span class="nav-number">3.</span> <span class="nav-text"> paste</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本语法-3"><span class="nav-number">3.1.</span> <span class="nav-text"> 基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-3"><span class="nav-number">3.2.</span> <span class="nav-text"> 示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#join"><span class="nav-number">4.</span> <span class="nav-text"> join</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本语法-4"><span class="nav-number">4.1.</span> <span class="nav-text"> 基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-4"><span class="nav-number">4.2.</span> <span class="nav-text"> 示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#awk"><span class="nav-number">5.</span> <span class="nav-text"> awk</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本语法-5"><span class="nav-number">5.1.</span> <span class="nav-text"> 基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提取数据"><span class="nav-number">5.2.</span> <span class="nav-text"> 提取数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过滤记录"><span class="nav-number">5.3.</span> <span class="nav-text"> 过滤记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串匹配"><span class="nav-number">5.4.</span> <span class="nav-text"> 字符串匹配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拆分文件"><span class="nav-number">5.5.</span> <span class="nav-text"> 拆分文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#统计"><span class="nav-number">5.6.</span> <span class="nav-text"> 统计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#head"><span class="nav-number">6.</span> <span class="nav-text"> head</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本语法-6"><span class="nav-number">6.1.</span> <span class="nav-text"> 基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-5"><span class="nav-number">6.2.</span> <span class="nav-text"> 示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tail"><span class="nav-number">7.</span> <span class="nav-text"> tail</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本语法-7"><span class="nav-number">7.1.</span> <span class="nav-text"> 基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-6"><span class="nav-number">7.2.</span> <span class="nav-text"> 示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wc"><span class="nav-number">8.</span> <span class="nav-text"> wc</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本语法-8"><span class="nav-number">8.1.</span> <span class="nav-text"> 基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-7"><span class="nav-number">8.2.</span> <span class="nav-text"> 示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">9.</span> <span class="nav-text"> 参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">WeiJun</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="Total Visitors">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="Total Views">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

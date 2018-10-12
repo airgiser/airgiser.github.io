@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="WeiJun&#39;s Programming Notes">
+<meta property="og:url" content="https://airgiser.github.io/index.html">
+<meta property="og:site_name" content="WeiJun&#39;s Programming Notes">
+<meta property="og:description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WeiJun&#39;s Programming Notes">
+<meta name="twitter:description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+
+
+
+
+
+
+  <link rel="canonical" href="https://airgiser.github.io/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>WeiJun's Programming Notes</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WeiJun's Programming Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home menu-item-active">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/12/scikit-learn-ml/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeiJun's Programming Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/12/scikit-learn-ml/" itemprop="url">
+                  scikit-learn 笔记 - 常用机器学习算法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-12 16:57:53 / Modified: 19:26:41" itemprop="dateCreated datePublished" datetime="2018-10-12T16:57:53+08:00">2018-10-12</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="特征缩放-feature-scaling"><a class="markdownIt-Anchor" href="#特征缩放-feature-scaling"></a> 特征缩放 (Feature Scaling)</h2>
+<p>在使用机器学习算法前，经常需要进行特征缩放(feature scaling)，将所有特征都缩放到相同的尺度 ([0,1]的范围)。</p>
+<p>下面是进行特征缩放的一种方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x&apos; = \frac&#123;x - x_&#123;min&#125;&#125;&#123;x_&#123;max&#125; - x_&#123;min&#125;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">featureScaling</span><span class="params">(arr)</span>:</span></span><br><span class="line">    minval = min(arr)</span><br><span class="line">    maxval = max(arr)</span><br><span class="line">    <span class="keyword">return</span> [<span class="number">1.0</span> * (val - minval) / (maxval - minval) <span class="keyword">for</span> val <span class="keyword">in</span> arr]</span><br></pre></td></tr></table></figure>
+<p>使用sklearn：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> MinMaxScaler</span><br><span class="line"></span><br><span class="line">train_data = numpy.array([[<span class="number">-1</span>, <span class="number">2</span>], [<span class="number">-0.5</span>, <span class="number">6</span>], [<span class="number">0</span>, <span class="number">10</span>], [<span class="number">1</span>, <span class="number">18</span>]])</span><br><span class="line">test_data = numpy.array([[<span class="number">2</span>, <span class="number">2</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># create the scaler</span></span><br><span class="line">scaler = MinMaxScaler()</span><br><span class="line"></span><br><span class="line"><span class="comment"># compute the minimum and maximum to be used for later scaling.</span></span><br><span class="line">scaler.fit(train_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># scaling features</span></span><br><span class="line">print(scaler.transform(train_data))</span><br><span class="line">print(scaler.transform(test_data))</span><br></pre></td></tr></table></figure>
+<p>对许多机器学习算法，特征缩放将影响最终的效果，如SVM和K-Means等(影响计算距离时各特征的比重)。</p>
+<p>此外，特征缩放通常可以加速(大部分)机器学习算法的训练过程。</p>
+<h2 id="朴素贝叶斯-naive-bayes"><a class="markdownIt-Anchor" href="#朴素贝叶斯-naive-bayes"></a> 朴素贝叶斯 (Naive Bayes)</h2>
+<p>朴素贝叶斯分类器是一类简单的概率分类器，它基于贝叶斯定理和特征间的强大的（朴素的）独立假设，算法实现简单且可以支持很大的特征空间，同时也具备很快的训练速度。以下是贝叶斯公式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(A|B) = \frac&#123;P(B|A) P(A)&#125;&#123;P(B)&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>P(A|B)是已知B发生后A的条件概率，也由于得自B的取值而被称作A的<strong>后验概率</strong>。</li>
+<li>P(B|A)是已知A发生后B的条件概率，也由于得自A的取值而被称作B的后验概率(似然率)。</li>
+<li>P(A)是A的<strong>先验概率</strong>（或边缘概率）。之所以称为&quot;先验&quot;是因为它不考虑任何B方面的因素。</li>
+<li>P(B)是B的先验概率或边缘概率。</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/12/scikit-learn-ml/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/12/scikit-learn-intro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeiJun's Programming Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/12/scikit-learn-intro/" itemprop="url">
+                  scikit-learn 笔记 - 基本流程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-12 15:44:16 / Modified: 18:37:58" itemprop="dateCreated datePublished" datetime="2018-10-12T15:44:16+08:00">2018-10-12</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="数据加载"><a class="markdownIt-Anchor" href="#数据加载"></a> 数据加载</h2>
+<p>scikit-learn 在实现时使用了 NumPy 数组，所以我们可以用 NumPy 来加载 csv 文件。</p>
+<p>从指定 URL 加载数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line"><span class="comment"># url with dataset</span></span><br><span class="line">url =  <span class="string">"http://www.example.com/ml-data"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># download the file</span></span><br><span class="line">raw_data = urllib.urlopen(url)</span><br><span class="line"></span><br><span class="line"><span class="comment"># load the CSV file as a numpy matrix</span></span><br><span class="line">dataset = np.loadtxt(raw_data, delimiter=<span class="string">","</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># separate the data from the target attributes</span></span><br><span class="line">X = dataset[:,<span class="number">0</span>:<span class="number">7</span>]</span><br><span class="line">y = dataset[:,<span class="number">8</span>]</span><br></pre></td></tr></table></figure>
+<p>从指定文件加载数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># load the CSV file as a numpy matrix</span></span><br><span class="line">dataset = np.loadtxt(<span class="string">"data/example.csv"</span>, delimiter=<span class="string">","</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># separate the data from the target attributes</span></span><br><span class="line">X = dataset[:,<span class="number">0</span>:<span class="number">7</span>]</span><br><span class="line">y = dataset[:,<span class="number">8</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="数据归一化"><a class="markdownIt-Anchor" href="#数据归一化"></a> 数据归一化</h2>
+<p>大多数的梯度方法对数据的缩放都很敏感。因此在运行算法之前，需要对数据进行预处理，使之归一化，或规格化。归一化会进行<strong>特征缩放</strong>，替换所有特征的名义值，使得每个特征值在0和1之间。规格化还可以使得每个特征的值有0和1的离差。scikit-learn 已经提供了相应的函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> preprocessing</span><br><span class="line"></span><br><span class="line"><span class="comment"># normalize the data attributes</span></span><br><span class="line">normalized_X = preprocessing.normalize(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># standardize the data attributes</span></span><br><span class="line">standardized_X = preprocessing.scale(X)</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/12/scikit-learn-intro/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/11/linux-text-utils-intro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeiJun's Programming Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/11/linux-text-utils-intro/" itemprop="url">
+                  Linux常用文本处理命令
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-11 18:47:59" itemprop="dateCreated datePublished" datetime="2018-10-11T18:47:59+08:00">2018-10-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-12 18:37:58" itemprop="dateModified" datetime="2018-10-12T18:37:58+08:00">2018-10-12</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Linux系统有许多的工具用来对文本进行过滤和处理，下面对一些常用的工具进行简单介绍。</p>
+<h2 id="grep"><a class="markdownIt-Anchor" href="#grep"></a> grep</h2>
+<p>grep工具对文件的每一行搜索指定的模式字符串。如果找到了匹配这个字符串的行，就打印该行的内容。</p>
+<h3 id="基本语法"><a class="markdownIt-Anchor" href="#基本语法"></a> 基本语法</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grep [OPTIONS] PATTERN [FILE...] </span><br><span class="line"></span><br><span class="line">grep [OPTIONS] [-e PATTERN | -f FILE] [FILE...]</span><br></pre></td></tr></table></figure>
+<h3 id="常用选项"><a class="markdownIt-Anchor" href="#常用选项"></a> 常用选项</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定pattern，可用于需要匹配多个模式的情况</span></span><br><span class="line">-e PATTERN</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定文件中，每行存储一个模式</span></span><br><span class="line">-f FILE</span><br><span class="line"></span><br><span class="line"><span class="comment"># 忽略大小写</span></span><br><span class="line">-i, --ignore-case</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 反检索，只显示不匹配的行。</span></span><br><span class="line">-v, --invert-match</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 匹配整个单词</span></span><br><span class="line">-w, --word-regexp</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 匹配整行</span></span><br><span class="line">-x, --line-regexp</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># 只输出匹配的行数，不显示匹配的内容。</span></span><br><span class="line">-c, --count</span><br><span class="line"></span><br><span class="line"><span class="comment"># 高亮匹配的字符串</span></span><br><span class="line"><span class="comment"># WHEN is never, always, auto</span></span><br><span class="line">--color[=WHEN]    </span><br><span class="line"></span><br><span class="line"><span class="comment"># 搜索多个文件时，不显示匹配文件名 </span></span><br><span class="line">-h，--no-filename</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示行号</span></span><br><span class="line">-n，--line-number</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只显示匹配的部分</span></span><br><span class="line">-o, --only-matching</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不显示错误信息。</span></span><br><span class="line">-s，--no-messages</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不显示信息，只返回退出状态。0表示匹配成功</span></span><br><span class="line">-q，--quiet</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出匹配成功的文件</span></span><br><span class="line">-l，--files-with-matches</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出不匹配模式的文件</span></span><br><span class="line">-L，--files-without-match</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/11/linux-text-utils-intro/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/11/effective-learning-skills/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeiJun's Programming Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/11/effective-learning-skills/" itemprop="url">
+                  高效学习技巧
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-11 17:37:46" itemprop="dateCreated datePublished" datetime="2018-10-11T17:37:46+08:00">2018-10-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-12 18:37:58" itemprop="dateModified" datetime="2018-10-12T18:37:58+08:00">2018-10-12</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>美国加州威廉格拉瑟学院(William Glasser Institute)的一项研究表明：</p>
+<ul>
+<li>如果通过阅读获取信息，最终只有大概10%被长期存储下来；看到或听到的信息能保留50%；</li>
+<li><strong>亲身体验</strong>(动用各种感官)的信息可以被保留80%；</li>
+<li>如果把学到的知识<strong>积极地教给他人</strong>，我们就可以记住至少95%。</li>
+</ul>
+<p>有效学习知识四大关键：</p>
+<ol>
+<li>有效吸收知识</li>
+<li>做好笔记</li>
+<li>记忆</li>
+<li>复习</li>
+</ol>
+<h2 id="高效阅读"><a class="markdownIt-Anchor" href="#高效阅读"></a> 高效阅读</h2>
+<p><strong>只要方法正确，阅读的速度越快，越容易记住相关信息</strong>。最好的方法就是一边读，一边在重点信息旁做标记，只要有笔或干脆用食指就可以。<strong>用笔或手指辅助阅读</strong>能大大提高阅读时的<strong>专注度</strong>，并极大地提高你的<strong>阅读速度</strong>。</p>
+<h2 id="关键点笔记"><a class="markdownIt-Anchor" href="#关键点笔记"></a> 关键点笔记</h2>
+<p>建议每专心阅读<strong>20分钟</strong>左右就停下来做些笔记，在刚刚读过的内容中找出<strong>关键点</strong>，然后在纸上写下这些关键信息。<strong>思维导图</strong>可以说是完美的信息储存工具。理想情况下应当凭记忆从刚刚读过的信息中抽取关键信息，而不用再回头翻一遍，不过也不必强求。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/11/effective-learning-skills/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+
+
+          </div>
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">WeiJun</p>
+              <p class="site-description motion-element" itemprop="description">If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">WeiJun</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="Total Visitors">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="Total Views">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

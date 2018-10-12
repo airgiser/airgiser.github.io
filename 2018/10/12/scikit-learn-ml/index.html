@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="特征缩放 (Feature Scaling) 在使用机器学习算法前，经常需要进行特征缩放(feature scaling)，将所有特征都缩放到相同的尺度 ([0,1]的范围)。 下面是进行特征缩放的一种方式： 1x&amp;apos; = \frac&amp;#123;x - x_&amp;#123;min&amp;#125;&amp;#125;&amp;#123;x_&amp;#123;max&amp;#125; - x_&amp;#123;min&amp;#125;&amp;#">
+<meta name="keywords" content="Machine Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="scikit-learn 笔记 - 常用机器学习算法">
+<meta property="og:url" content="https://airgiser.github.io/2018/10/12/scikit-learn-ml/index.html">
+<meta property="og:site_name" content="WeiJun&#39;s Programming Notes">
+<meta property="og:description" content="特征缩放 (Feature Scaling) 在使用机器学习算法前，经常需要进行特征缩放(feature scaling)，将所有特征都缩放到相同的尺度 ([0,1]的范围)。 下面是进行特征缩放的一种方式： 1x&amp;apos; = \frac&amp;#123;x - x_&amp;#123;min&amp;#125;&amp;#125;&amp;#123;x_&amp;#123;max&amp;#125; - x_&amp;#123;min&amp;#125;&amp;#">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-12T11:26:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="scikit-learn 笔记 - 常用机器学习算法">
+<meta name="twitter:description" content="特征缩放 (Feature Scaling) 在使用机器学习算法前，经常需要进行特征缩放(feature scaling)，将所有特征都缩放到相同的尺度 ([0,1]的范围)。 下面是进行特征缩放的一种方式： 1x&amp;apos; = \frac&amp;#123;x - x_&amp;#123;min&amp;#125;&amp;#125;&amp;#123;x_&amp;#123;max&amp;#125; - x_&amp;#123;min&amp;#125;&amp;#">
+
+
+
+
+
+
+  <link rel="canonical" href="https://airgiser.github.io/2018/10/12/scikit-learn-ml/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>scikit-learn 笔记 - 常用机器学习算法 | WeiJun's Programming Notes</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WeiJun's Programming Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/12/scikit-learn-ml/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeiJun's Programming Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">scikit-learn 笔记 - 常用机器学习算法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-12 16:57:53 / Modified: 19:26:41" itemprop="dateCreated datePublished" datetime="2018-10-12T16:57:53+08:00">2018-10-12</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="特征缩放-feature-scaling"><a class="markdownIt-Anchor" href="#特征缩放-feature-scaling"></a> 特征缩放 (Feature Scaling)</h2>
+<p>在使用机器学习算法前，经常需要进行特征缩放(feature scaling)，将所有特征都缩放到相同的尺度 ([0,1]的范围)。</p>
+<p>下面是进行特征缩放的一种方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x&apos; = \frac&#123;x - x_&#123;min&#125;&#125;&#123;x_&#123;max&#125; - x_&#123;min&#125;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">featureScaling</span><span class="params">(arr)</span>:</span></span><br><span class="line">    minval = min(arr)</span><br><span class="line">    maxval = max(arr)</span><br><span class="line">    <span class="keyword">return</span> [<span class="number">1.0</span> * (val - minval) / (maxval - minval) <span class="keyword">for</span> val <span class="keyword">in</span> arr]</span><br></pre></td></tr></table></figure>
+<p>使用sklearn：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> MinMaxScaler</span><br><span class="line"></span><br><span class="line">train_data = numpy.array([[<span class="number">-1</span>, <span class="number">2</span>], [<span class="number">-0.5</span>, <span class="number">6</span>], [<span class="number">0</span>, <span class="number">10</span>], [<span class="number">1</span>, <span class="number">18</span>]])</span><br><span class="line">test_data = numpy.array([[<span class="number">2</span>, <span class="number">2</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># create the scaler</span></span><br><span class="line">scaler = MinMaxScaler()</span><br><span class="line"></span><br><span class="line"><span class="comment"># compute the minimum and maximum to be used for later scaling.</span></span><br><span class="line">scaler.fit(train_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># scaling features</span></span><br><span class="line">print(scaler.transform(train_data))</span><br><span class="line">print(scaler.transform(test_data))</span><br></pre></td></tr></table></figure>
+<p>对许多机器学习算法，特征缩放将影响最终的效果，如SVM和K-Means等(影响计算距离时各特征的比重)。</p>
+<p>此外，特征缩放通常可以加速(大部分)机器学习算法的训练过程。</p>
+<h2 id="朴素贝叶斯-naive-bayes"><a class="markdownIt-Anchor" href="#朴素贝叶斯-naive-bayes"></a> 朴素贝叶斯 (Naive Bayes)</h2>
+<p>朴素贝叶斯分类器是一类简单的概率分类器，它基于贝叶斯定理和特征间的强大的（朴素的）独立假设，算法实现简单且可以支持很大的特征空间，同时也具备很快的训练速度。以下是贝叶斯公式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(A|B) = \frac&#123;P(B|A) P(A)&#125;&#123;P(B)&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>P(A|B)是已知B发生后A的条件概率，也由于得自B的取值而被称作A的<strong>后验概率</strong>。</li>
+<li>P(B|A)是已知A发生后B的条件概率，也由于得自A的取值而被称作B的后验概率(似然率)。</li>
+<li>P(A)是A的<strong>先验概率</strong>（或边缘概率）。之所以称为&quot;先验&quot;是因为它不考虑任何B方面的因素。</li>
+<li>P(B)是B的先验概率或边缘概率。</li>
+</ul>
+<a id="more"></a>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.naive_bayes <span class="keyword">import</span> GaussianNB</span><br><span class="line"></span><br><span class="line"><span class="comment"># create classifier</span></span><br><span class="line">clf = GaussianNB()</span><br><span class="line"></span><br><span class="line"><span class="comment"># fit the classifier on the training features and labels</span></span><br><span class="line">clf.fit(features_train, labels_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># use the trained classifier to predict labels for the test features</span></span><br><span class="line">pred = clf.predict(features_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># calculate the accuracy on the test data</span></span><br><span class="line">accuracy = clf.score(features_test, labels_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># also can use the below code to calculate the accuracy</span></span><br><span class="line"><span class="comment"># from sklearn.metrics import accuracy_score</span></span><br><span class="line"><span class="comment"># accuracy = accuracy_score(pred, labels_test)</span></span><br></pre></td></tr></table></figure>
+<h2 id="支持向量机-svm"><a class="markdownIt-Anchor" href="#支持向量机-svm"></a> 支持向量机 (SVM)</h2>
+<p>支持向量机 (SVM) 有时也称为最大化间距分类器 (maximum margin classifier)。其目标是找到一条分隔线，使得这条分隔线离不同类别最近的数据点间距(margin)越远越好。</p>
+<p>SVM的超参数 C 用于防止过拟合：</p>
+<ul>
+<li>C过大时，规则化项的权重太小，可能会导致过拟合</li>
+<li>C过小时，规则化项的权重过大，可能会导致欠拟合</li>
+</ul>
+<p>通过使用不同的核函数，可以构建复杂的非线性分类器，可选的核函数很多，比如：</p>
+<ul>
+<li>径向基核函数(Radial Basis Function-RBF)</li>
+<li>多项式核函数(Polynomial Kernel)</li>
+<li>Sigmoid核函数</li>
+<li>…</li>
+</ul>
+<p>SVM的缺点：</p>
+<ul>
+<li>SVM在训练数据集特别大时，训练速度较慢。</li>
+<li>存在噪点时SVM可能表现不佳</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line"></span><br><span class="line"><span class="comment"># create classifier</span></span><br><span class="line">clf = SVC(kernel=<span class="string">"linear"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># fit the classifier on the training features and labels</span></span><br><span class="line">clf.fit(features_train, labels_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># use the trained classifier to predict labels for the test features</span></span><br><span class="line">pred = clf.predict(features_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># calculate the accuracy on the test data</span></span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score</span><br><span class="line">acc = accuracy_score(pred, labels_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># also can use the below code to calculate the accuracy</span></span><br><span class="line"><span class="comment"># acc = clf.score(features_test, labels_test)</span></span><br></pre></td></tr></table></figure>
+<h2 id="决策树-decision-tree"><a class="markdownIt-Anchor" href="#决策树-decision-tree"></a> 决策树 (Decision Tree)</h2>
+<p>决策树通常可用于解决多元线性问题，它将目标函数表示为树型结构，每个结点处理一个属性的值，进行线性分离，每个分支对应该特征的一种情况。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier</span><br><span class="line"></span><br><span class="line"><span class="comment"># create classifier</span></span><br><span class="line">clf = DecisionTreeClassifier()</span><br><span class="line"></span><br><span class="line"><span class="comment"># fit the classifier on the training features and labels</span></span><br><span class="line">clf.fit(features_train, labels_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># use the trained classifier to predict labels for the test features</span></span><br><span class="line">pred = clf.predict(features_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># calculate the accuracy on the test data</span></span><br><span class="line">acc = clf.score(features_test, labels_test)</span><br></pre></td></tr></table></figure>
+<p>当出现过拟合或欠拟合时，需要尝试不同的超参数，如最小分隔样本（结点所属样本数到达阈值时不再继续分割）、最大深度等。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clf = DecisionTreeClassifier(min_samples_split=<span class="number">50</span>)</span><br></pre></td></tr></table></figure>
+<p>决策树ID3算法利用信息增益这个统计量来选择每个结点的属性，信息增益的计算依赖于熵。</p>
+<h3 id="熵"><a class="markdownIt-Anchor" href="#熵"></a> 熵</h3>
+<p>熵主要用于控制决策树如何决定在何处分割数据，它是测量一系列样本中的不纯度的方式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Entropy = -\sum_&#123;k=1&#125;^K&#123;(p_k) log_2(p_k)&#125;</span><br></pre></td></tr></table></figure>
+<p>公式中 p_k 表示训练集中类别 k 的样本比例。</p>
+<p>例如，某结点的所有样本可分为 2 个类别，如果每个类别刚好各占总的样本量的一半(p=0.5)，则计算可得熵为1，表示有最高的不纯度。而如果所有样本都只属于一类，则计算可得到熵为0，表示最低的不纯度。</p>
+<h3 id="信息增益"><a class="markdownIt-Anchor" href="#信息增益"></a> 信息增益</h3>
+<p>信息增益表示用某个特定属性分割样本集而引起熵的预期减少程度，可定量地表示某一个属性根据目标分类标签对训练样本的分类效果，计算公式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Gain(L, X^i) = Entropy(L) - \sum_&#123;v \in values(X^i)&#125; \frac&#123;|L_v|&#125;&#123;|L|&#125;Entropy(L_v)</span><br></pre></td></tr></table></figure>
+<p>结点的训练子集 L 根据属性 X 值分割的信息增益等于该结点的熵减去分割后各子结点的熵的加权平均。</p>
+<h3 id="优缺点"><a class="markdownIt-Anchor" href="#优缺点"></a> 优缺点</h3>
+<p>决策树的优点：易于使用，且某种程度上能以图形的方式解释数据，便于理解。另外，决策树还很方便在一些集成方法中使用。</p>
+<p>决策树的缺点：数据包含大量的特征时，复杂的决策树容易过拟合。</p>
+<h2 id="k-nn-k-nearest-neighbors"><a class="markdownIt-Anchor" href="#k-nn-k-nearest-neighbors"></a> k-NN (k nearest neighbors)</h2>
+<p>k-NN（k-最近邻）算法可以说是所有机器学习算法中最简单的算法。它通过计算新数据与训练数据特征值之间的距离, 然后选取 k (k&gt;=1) 个距离最近的邻居进行分类或者回归。</p>
+<p>有时候，一个简单的k-NN算法在良好选择的特征上会有很出色的表现。如果参数（主要是metrics）设置得当，其在回归问题中通常可以表现出最好的质量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> metrics</span><br><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier</span><br><span class="line"></span><br><span class="line"><span class="comment">### create classifier</span></span><br><span class="line">clf = KNeighborsClassifier()</span><br><span class="line"></span><br><span class="line"><span class="comment">### fit the classifier on the training features and labels</span></span><br><span class="line">clf.fit(features_train, labels_train)</span><br><span class="line"></span><br><span class="line"><span class="comment">### use the trained classifier to predict labels for the test features</span></span><br><span class="line">predicted = clf.predict(features_test)</span><br><span class="line"></span><br><span class="line"><span class="comment">### calculate the accuracy on the test data</span></span><br><span class="line">accuracy = clf.score(features_test, labels_test)</span><br><span class="line"></span><br><span class="line"><span class="comment">### summarize the fit of the classifier</span></span><br><span class="line">print(metrics.classification_report(labels_test, predicted))</span><br><span class="line">print(metrics.confusion_matrix(labels_test, predicted))</span><br></pre></td></tr></table></figure>
+<h2 id="adaboost"><a class="markdownIt-Anchor" href="#adaboost"></a> AdaBoost</h2>
+<p>AdaBoost是一种集成学习方法。</p>
+<p>AdaBoost是&quot;Adaptive Boosting&quot;的简写，它是一种迭代算法，通过组合许多其他的机器学习算法来提升性能，在每一轮迭代中加入一个新的弱分类器（某种机器学习算法），直到达到某个预定的足够小的错误率。</p>
+<p>每一个训练样本都被赋予一个权重，表明它被某个分类器选入训练集的概率。如果某个样本点已经被准确地分类，那么在构造下一个训练集中，它被选中的概率就被降低；相反，如果某个样本点没有被准确地分类，那么它的权重就得到提高。通过这样的方式，AdaBoost方法能<strong>聚焦于那些较难分的样本</strong>上。</p>
+<p>AdaBoost方法对于噪声数据和异常数据很敏感，相对于大多数其它学习算法而言，不容易出现过拟合现象。</p>
+<p><strong>AdaBoost（以决策树为弱分类器）通常被称为最好的开箱即用的分类器。</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> AdaBoostClassifier</span><br><span class="line"></span><br><span class="line"><span class="comment"># create classifier</span></span><br><span class="line">clf = AdaBoostClassifier(n_estimators=<span class="number">20</span>, learning_rate = <span class="number">2.0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># fit the classifier on the training features and labels</span></span><br><span class="line">clf.fit(features_train, labels_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># use the trained classifier to predict labels for the test features</span></span><br><span class="line">predicted = clf.predict(features_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># calculate the accuracy on the test data</span></span><br><span class="line">accuracy = clf.score(features_test, labels_test)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">"accuracy: "</span>, accuracy</span><br></pre></td></tr></table></figure>
+<h2 id="随机森林-random-forest"><a class="markdownIt-Anchor" href="#随机森林-random-forest"></a> 随机森林 (Random forest)</h2>
+<p>随机森林是通过集成学习(Ensemble Learning)的思想将多棵树集成的一种算法，它的基本单元是决策树。</p>
+<p>随机森林是用随机的方式建立一个森林，森林由很多的决策树组成，每棵决策树都是一个分类器。对于一个输入样本，N棵树会有N个分类结果，投票次数最多的类别即为最终的输出，这就是一种最简单的 Bagging 思想。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line"></span><br><span class="line"><span class="comment"># create classifier</span></span><br><span class="line">clf = RandomForestClassifier(n_estimators=<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># fit the classifier on the training features and labels</span></span><br><span class="line">clf.fit(features_train, labels_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># use the trained classifier to predict labels for the test features</span></span><br><span class="line">pred = clf.predict(features_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># calculate the accuracy on the test data</span></span><br><span class="line">acc = clf.score(features_test, labels_test)</span><br></pre></td></tr></table></figure>
+<h2 id="线性回归-linear-regression"><a class="markdownIt-Anchor" href="#线性回归-linear-regression"></a> 线性回归 (Linear Regression)</h2>
+<p>线性模型的数学表示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\hat&#123;y&#125;(w,x) = w_0 + w_1x_1 + ... + w_px_p</span><br></pre></td></tr></table></figure>
+<p>通常使用最小二乘法来解决线性回归问题，从而得到合适的系数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">min_w||Xw - y||^2</span><br></pre></td></tr></table></figure>
+<p>在sklearn中，通过线性回归得到的系数有 coef_ 和 intercept_ 。coef_ 表示向量w(w1,…,wp)， intercept_ 表示截距w0。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> mean_squared_error, r2_score</span><br><span class="line"></span><br><span class="line"><span class="comment"># create linear regression model</span></span><br><span class="line">reg = LinearRegression()</span><br><span class="line"></span><br><span class="line"><span class="comment"># fit the model on the training set</span></span><br><span class="line">clf.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># use the trained model to predict result for the test set</span></span><br><span class="line">pred = clf.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># The coefficients</span></span><br><span class="line">print(<span class="string">'Coefficients: '</span>, reg.coef_)</span><br><span class="line">print(<span class="string">'Intercept: '</span>, reg.intercept_)</span><br><span class="line"></span><br><span class="line"><span class="comment"># The mean squared error</span></span><br><span class="line">print(<span class="string">"Mean squared error: %.2f"</span></span><br><span class="line">      % mean_squared_error(y_test, pred))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Explained variance score: 1 is perfect prediction</span></span><br><span class="line">print(<span class="string">'Variance score: %.2f'</span> % r2_score(y_test, pred))</span><br><span class="line"><span class="comment"># also can use the below code</span></span><br><span class="line"><span class="comment"># reg.score(X_test, y_test)</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html#sklearn.linear_model.LinearRegression.score" target="_blank" rel="noopener">R^2 Score</a></p>
+</blockquote>
+<h3 id="线性回归模型可视化"><a class="markdownIt-Anchor" href="#线性回归模型可视化"></a> 线性回归模型可视化</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plt.scatter(X, Y)</span><br><span class="line">plt.plot(X, reg.predict(X), color=<span class="string">'red'</span>, linewidth=<span class="number">2</span>)</span><br><span class="line">plt.xlabel(<span class="string">"x"</span>)</span><br><span class="line">plt.ylabel(<span class="string">"y"</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h2 id="异常值outlier处理"><a class="markdownIt-Anchor" href="#异常值outlier处理"></a> 异常值(Outlier)处理</h2>
+<p><strong>异常值产生可能的原因</strong>：</p>
+<ul>
+<li>数据录入错误</li>
+<li>传感器故障</li>
+<li>反常事件</li>
+</ul>
+<p>前两者导致的异常值是需要忽略或<strong>舍弃</strong>的，而最后一个原因导致的异常值，在某些情况下是需要特别关注的，如欺诈检测。</p>
+<p><strong>异常值检测与删除</strong>：</p>
+<ol>
+<li>通过原始训练集训练模型</li>
+<li>删除训练集中<strong>误差</strong>很高的部分样本</li>
+<li>使用清理后的训练集进行训练</li>
+<li>可重复进行异常值删除和再次训练</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outlierCleaner</span><span class="params">(pred, features, actual)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">        Clean away the 10% of points that have the largest</span></span><br><span class="line"><span class="string">        residual errors (difference between the prediction</span></span><br><span class="line"><span class="string">        and the actual).</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Return a list of tuples where </span></span><br><span class="line"><span class="string">        each tuple is of the form (age, actual, error).</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    </span><br><span class="line">    m = len(features) / <span class="number">10</span></span><br><span class="line">    data = [(features[i], actual[i], (actual[i]-pred[i])**<span class="number">2</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(features))]</span><br><span class="line">    sorted_data = sorted(data, key=<span class="keyword">lambda</span> item: item[<span class="number">2</span>], reverse=<span class="keyword">True</span>)</span><br><span class="line">    cleaned_data = sorted_data[m:]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> cleaned_data</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> len(cleaned_data) &gt; <span class="number">0</span>:</span><br><span class="line">    <span class="comment"># refit your cleaned data!</span></span><br><span class="line">    features, actual, errors = zip(*cleaned_data)</span><br><span class="line">    features = numpy.reshape(numpy.array(features), (len(features), <span class="number">1</span>))</span><br><span class="line">    actual = numpy.reshape(numpy.array(actual), (len(actual), <span class="number">1</span>))</span><br><span class="line">    reg.fit(features, actual)</span><br></pre></td></tr></table></figure>
+<h2 id="聚类-clustering"><a class="markdownIt-Anchor" href="#聚类-clustering"></a> 聚类 (Clustering)</h2>
+<h3 id="k-均值-k-means"><a class="markdownIt-Anchor" href="#k-均值-k-means"></a> K-均值 (K-Means)</h3>
+<p><strong>K-Means 聚类算法的步骤</strong>：</p>
+<ol>
+<li>初始化聚类数及各聚类centroid</li>
+<li><strong>分配</strong>：根据离centroid的距离将样本归属到某一聚类</li>
+<li><strong>优化</strong>：根据聚类所属样本重新计算centroid</li>
+<li>如此重复。</li>
+</ol>
+<p><strong>K-Means 聚类算法的局限</strong>：</p>
+<p>聚类的结果非常依赖初始化的情况，很有可能得到局部最优结果。</p>
+<p>因此我们通常需要多次运行K-均值算法（对应sklearn中的n_init参数），每一次都重新进行随机初始化，最后选择最优（代价最低）的结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.cluster <span class="keyword">import</span> KMeans</span><br><span class="line"></span><br><span class="line"><span class="comment"># Compute k-means clustering</span></span><br><span class="line">kmeans = KMeans(n_clusters=<span class="number">2</span>)</span><br><span class="line">kmeans.fit(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Predict the closest cluster each sample in X belongs to.</span></span><br><span class="line">kmeans.predict(X)</span><br></pre></td></tr></table></figure>
+<h2 id="文本学习"><a class="markdownIt-Anchor" href="#文本学习"></a> 文本学习</h2>
+<h3 id="词袋-bag-of-words"><a class="markdownIt-Anchor" href="#词袋-bag-of-words"></a> 词袋 (Bag of Words)</h3>
+<p>词袋（Bag-of-Words, BOW）模型是文本向量化的一种方式，主要关注文档中单词的出现频率，舍弃了单词中的所有顺序信息。</p>
+<p>任何文档都可以编码成一个固定长度的向量，该向量表示词汇表中每个单词在文档中的计数或频率，长度为从所有文档中抽取的单词构成的词汇表的大小。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer</span><br><span class="line"></span><br><span class="line"><span class="comment"># CountVectorizer implements both tokenization and occurrence counting in a single class</span></span><br><span class="line">vectorizer = CountVectorizer()</span><br><span class="line"></span><br><span class="line"><span class="comment"># tokenizes a string</span></span><br><span class="line">analyze = vectorizer.build_analyzer()</span><br><span class="line">analyze(<span class="string">"This is a text document to analyze."</span>) == (</span><br><span class="line">    [<span class="string">'this'</span>, <span class="string">'is'</span>, <span class="string">'text'</span>, <span class="string">'document'</span>, <span class="string">'to'</span>, <span class="string">'analyze'</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># tokenize and count the word occurrences of a minimalistic corpus of text documents</span></span><br><span class="line">corpus = [</span><br><span class="line">    <span class="string">'This is the first document.'</span>,</span><br><span class="line">    <span class="string">'This is the second second document.'</span>,</span><br><span class="line">    <span class="string">'And the third one.'</span>,</span><br><span class="line">    <span class="string">'Is this the first document?'</span>,</span><br><span class="line">]</span><br><span class="line">X = vectorizer.fit_transform(corpus)</span><br><span class="line"><span class="keyword">print</span> vectorizer.get_feature_names() == (</span><br><span class="line">    [<span class="string">'and'</span>, <span class="string">'document'</span>, <span class="string">'first'</span>, <span class="string">'is'</span>, <span class="string">'one'</span>, <span class="string">'second'</span>, <span class="string">'the'</span>, <span class="string">'third'</span>, <span class="string">'this'</span>])</span><br><span class="line"><span class="keyword">print</span> X.toarray()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Transform a new document to document-term matrix.</span></span><br><span class="line"><span class="keyword">print</span> vectorizer.transform([<span class="string">'Something completely new.'</span>]).toarray()</span><br><span class="line"></span><br><span class="line"><span class="comment"># To preserve some of the local ordering information,</span></span><br><span class="line"><span class="comment"># we can extract 2-grams of words in addition to the 1-grams (individual words).</span></span><br><span class="line">bigram_vectorizer = CountVectorizer(ngram_range=(<span class="number">1</span>, <span class="number">2</span>),</span><br><span class="line">                                    token_pattern=<span class="string">r'\b\w+\b'</span>, min_df=<span class="number">1</span>)</span><br><span class="line">analyzer = bigram_vectorizer.build_analyzer()</span><br><span class="line"><span class="keyword">print</span> analyze(<span class="string">'Bi-grams are cool!'</span>) == (</span><br><span class="line">    [<span class="string">'bi'</span>, <span class="string">'grams'</span>, <span class="string">'are'</span>, <span class="string">'cool'</span>, <span class="string">'bi grams'</span>, <span class="string">'grams are'</span>, <span class="string">'are cool'</span>])</span><br><span class="line"><span class="keyword">print</span> bigram_vectorizer.fit_transform(corpus).toarray()</span><br></pre></td></tr></table></figure>
+<h4 id="stopwords"><a class="markdownIt-Anchor" href="#stopwords"></a> StopWords</h4>
+<p>并非所有文字都拥有相同的信息量，在文本分析前，我们通常需要进行预处理，去除停用词 (StopWords, 通常指那些低信息量高频率的词) ，从而简化语料库 (corpus) 。</p>
+<p>从 <strong><a href="http://www.nltk.org/" target="_blank" rel="noopener">NLTK</a></strong> 中获取停止词：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> nltk</span><br><span class="line">nltk.download(<span class="string">"stopwords"</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from nltk.corpus import stopwords</span><br><span class="line">sw = stopwords.words(&quot;english&quot;)</span><br></pre></td></tr></table></figure>
+<h4 id="词干提取"><a class="markdownIt-Anchor" href="#词干提取"></a> 词干提取</h4>
+<p>可能有许多单词都表示同一个意思，在得到词袋之前，可以先将这些词打包进行词干分析，即可得到合并后的词汇，从而简化语料库。</p>
+<p>可以使用 NLTK 提供的词干提取器 (Stemmer) 进行词干化。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> nltk.stem.snowball <span class="keyword">import</span> SnowballStemmer</span><br><span class="line"></span><br><span class="line">stemmer = SnowballStemmer(<span class="string">"english"</span>)</span><br><span class="line"><span class="keyword">print</span> stemmer.stem(<span class="string">"responsivity"</span>) == <span class="string">"respons"</span></span><br><span class="line"><span class="keyword">print</span> stemmer.stem(<span class="string">"responsiveness"</span>) == <span class="string">"respons"</span></span><br><span class="line"><span class="keyword">print</span> stemmer.stem(<span class="string">"unresponsive"</span>) == <span class="string">"unrespons"</span></span><br></pre></td></tr></table></figure>
+<p>应该在创建词袋之前先进行词干化：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.feature_extraction.text import CountVectorizer</span><br><span class="line"></span><br><span class="line"># split the text string into individual words</span><br><span class="line">document = &quot;Text Analysis is a major application field for machine learning algorithms.&quot;</span><br><span class="line">vectorizer = CountVectorizer()</span><br><span class="line">analyze = vectorizer.build_analyzer()</span><br><span class="line">wordlist = analyze(document)</span><br><span class="line"></span><br><span class="line"># stem each word</span><br><span class="line">from nltk.stem.snowball import SnowballStemmer</span><br><span class="line">stemmer = SnowballStemmer(&quot;english&quot;)</span><br><span class="line">stemedlist = [stemmer.stem(word) for word in wordlist]</span><br><span class="line"></span><br><span class="line"># join the stemmed word to words</span><br><span class="line">words = &quot; &quot;.join(stemedlist)</span><br><span class="line">print words</span><br></pre></td></tr></table></figure>
+<h3 id="tfidf"><a class="markdownIt-Anchor" href="#tfidf"></a> Tf–idf</h3>
+<p>单词的出现频率不能完全代表单词的权重，替代的方法是统计单词权重，其中流行的方法是 TF-IDF (Term Frequency–Inverse Document, 词频 - 逆文档频率)，代表一个词对于一个文档的重要程度。</p>
+<p>TF-IDF 在统计单词权重时会综合考虑（加权）词频和逆文档频率。</p>
+<p>词频 (Term Frequency) : 给定的某一个词在一篇文档中出现的次数，词频越高 TF 值越高。</p>
+<p>逆文档频率 (Inverse Document Frequency) : 单词在所有文档中出现的频率越高，IDF 值则下降，越罕见的词可能有更高的 IDF 值。</p>
+<p>TF-IDF 会把<strong>文档中更有代表意义的单词</strong>标注出来，例如仅在某篇文档中出现频率较高，而不是所有文档中都频繁出现的词。</p>
+<p>如果已经用 CountVectorizer 得到了向量，可以使用 <strong>TfidfTransformer</strong> 转换为 TF-IDF 表示。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> TfidfTransformer</span><br><span class="line"></span><br><span class="line"><span class="comment"># use TfidfTransformer to compute the tf-idfs </span></span><br><span class="line"><span class="comment"># X is generated by a CountVectorizer</span></span><br><span class="line">transformer = TfidfTransformer()</span><br><span class="line">tfidf = transformer.fit_transform(X)</span><br><span class="line"><span class="keyword">print</span> tfidf.toarray()</span><br></pre></td></tr></table></figure>
+<p>也可以直接使用 <strong>TfidfVectorizer</strong> 对文档进行向量化。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> TfidfVectorizer</span><br><span class="line"></span><br><span class="line"><span class="comment"># TfidfVectorizer combines all the options of CountVectorizer and TfidfTransformer in a single model</span></span><br><span class="line">vectorizer = TfidfVectorizer(stop_words=<span class="string">"english"</span>) <span class="comment"># set parameters to remove stop words</span></span><br><span class="line">X = vectorizer.fit_transform(corpus)</span><br></pre></td></tr></table></figure>
+<h3 id="hashingvectorizer"><a class="markdownIt-Anchor" href="#hashingvectorizer"></a> HashingVectorizer</h3>
+<p>当语料库很庞大时，将需要巨大的向量来编码文档，对内存要求很高，而且会减慢算法的速度。</p>
+<p>HashingVectorizer 结合了特征哈希和 CountVectorizer ，可以用来解决上面的问题。</p>
+<p>由于使用了单向的哈希方法，哈希化后的编码将无法转回单词的表达。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> HashingVectorizer</span><br><span class="line"></span><br><span class="line"><span class="comment"># Vectorizing a large text corpus with the hashing trick.</span></span><br><span class="line">hv = HashingVectorizer(n_features=<span class="number">10</span>)</span><br><span class="line">vec = hv.transform(corpus)</span><br></pre></td></tr></table></figure>
+<h2 id="特征选择-feature-selection"><a class="markdownIt-Anchor" href="#特征选择-feature-selection"></a> 特征选择 (Feature Selection)</h2>
+<p>选择合适的特征是机器学习算法中很关键的一环。通常，我们需要用尽量少的特征来表达尽量多的数据中包含的信息。以下是选择特征时常见的两个操作：</p>
+<ul>
+<li>欠拟合时需要加入新的特征来表示某些数据中重要的模式，添加新特征很多时候依赖于直觉与经验。</li>
+<li>找出最合适的特征，去除多余的特征。需要去除的特征有些是含有噪音，不利于模型训练，还有些可能与其他特征高度相关，导致重复的信息等等。此外，过多的特征也可能导致过拟合，还会造成训练速度缓慢。</li>
+</ul>
+<p>注意：警惕有BUG的特征，有时候某个特征对准确率提升特别明显，此时需要警惕是真的找到了关键特征还是引入了不合理的特征（如特征很多样本很少，此时本该过拟合反而准确率很高）。sklearn 中某些分类器如 DecisionTreeClassifier 可以通过属性查看各特征的重要性,  可以仔细筛查重要性非常高的特征是否存在问题：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier</span><br><span class="line"></span><br><span class="line">clf = DecisionTreeClassifier()</span><br><span class="line">clf.fit(features_train, labels_train)</span><br><span class="line"><span class="keyword">print</span> clf.feature_importances_</span><br></pre></td></tr></table></figure>
+<p>sklearn 中有多种辅助方法帮助自动选择特征。多数方法都属于单变量特征选择的范畴，即独立对待每个特征并询问其在分类或回归中的能力。</p>
+<p>sklearn 中有两大单变量特征选择工具：<strong>SelectPercentile</strong> 和 <strong>SelectKBest</strong>。 两者之间的区别从名字就可以看出：SelectPercentile 选择最有用的 x% 的特征，而 SelectKBest 选择 k 个最有用的特征。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_selection <span class="keyword">import</span> SelectPercentile, f_classif</span><br><span class="line"></span><br><span class="line"><span class="comment"># feature selection</span></span><br><span class="line">selector = SelectPercentile(f_classif, percentile=<span class="number">10</span>)</span><br><span class="line">selector.fit(features_train, labels_train)</span><br><span class="line">features_train = selector.transform(features_train).toarray()</span><br><span class="line">features_test  = selector.transform(features_test).toarray()</span><br></pre></td></tr></table></figure>
+<p>此外，使用 TfidfVectorizer 进行文本向量化时， 也有控制参数可以进行特征简化，下例中，max_df=0.5 表示如果单词出现在超过50%的文档中，将不加入词汇表：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># max_df - When building the vocabulary </span></span><br><span class="line"><span class="comment"># ignore terms that have a document frequency </span></span><br><span class="line"><span class="comment"># strictly higher than the given threshold </span></span><br><span class="line">vectorizer = TfidfVectorizer(sublinear_tf=<span class="keyword">True</span>, max_df=<span class="number">0.5</span>, stop_words=<span class="string">'english'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="套索回归-lasso-regression"><a class="markdownIt-Anchor" href="#套索回归-lasso-regression"></a> 套索回归 (Lasso Regression)</h3>
+<p>Lasso算法是一种同时进行<strong>特征选择和正则化</strong>的回归分析方法。</p>
+<p>其优化的目标函数如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">min_w \frac&#123;1&#125;&#123;2n_&#123;samples&#125;&#125;</span><br><span class="line">||Xw - y||^2</span><br><span class="line">+ \alpha||w||</span><br></pre></td></tr></table></figure>
+<p>使用 sklearn 中的 Lasso 算法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Lasso</span><br><span class="line"></span><br><span class="line">X_train = [[<span class="number">0</span>, <span class="number">0</span>], [<span class="number">1</span>, <span class="number">1</span>]]</span><br><span class="line">y_train = [<span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line">X_test = [[<span class="number">1</span>, <span class="number">1</span>]]</span><br><span class="line"></span><br><span class="line"><span class="comment"># create the Lasso model and fit on the training data</span></span><br><span class="line">reg = Lasso(alpha = <span class="number">0.1</span>)</span><br><span class="line">reg.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># The coefficients</span></span><br><span class="line">print(<span class="string">'Coefficients: '</span>, reg.coef_)</span><br><span class="line"></span><br><span class="line"><span class="comment"># predict labels for the test data</span></span><br><span class="line">pred = reg.predict(X_test)</span><br><span class="line"><span class="keyword">print</span> pred</span><br></pre></td></tr></table></figure>
+<h2 id="降维-dimensionality-reduction"><a class="markdownIt-Anchor" href="#降维-dimensionality-reduction"></a> 降维 (Dimensionality Reduction)</h2>
+<p>数据降维是在尽量保留有效信息的前提下压缩数据(减少特征个数)。</p>
+<h3 id="主成分分析pca"><a class="markdownIt-Anchor" href="#主成分分析pca"></a> 主成分分析(PCA)</h3>
+<p>PCA 可以通过在特征空间转换坐标系 (平移和旋转) 来降低数据维度。</p>
+<p>PCA 的目的是找到一个向量表示的直线(或一组向量表示的平面或空间)，即主成分。当我们把所有样本都投影到主成分上时，我们希望投影误差能尽可能地小(最大程度保留来自原始数据的信息)。</p>
+<p>PCA 实际上将输入的原始特征自动组合成了数量更少的一些新的特征（主成分），同时这些新的特征尽量多的保留了原始特征的信息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> sklearn.decomposition <span class="keyword">import</span> PCA</span><br><span class="line"></span><br><span class="line"><span class="comment"># training features</span></span><br><span class="line">X = np.array([[<span class="number">-1</span>, <span class="number">-1</span>], [<span class="number">-2</span>, <span class="number">-1</span>], [<span class="number">-3</span>, <span class="number">-2</span>], [<span class="number">1</span>, <span class="number">1</span>], [<span class="number">2</span>, <span class="number">1</span>], [<span class="number">3</span>, <span class="number">2</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># PCA</span></span><br><span class="line">pca = PCA(n_components=<span class="number">2</span>)</span><br><span class="line">pca.fit(X)</span><br><span class="line">transformed_X = pca.transform(X)</span><br><span class="line"><span class="keyword">print</span> transformed_X</span><br><span class="line"></span><br><span class="line"><span class="comment"># Percentage of variance explained by each of the selected components.</span></span><br><span class="line">print(pca.explained_variance_ratio_)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># Principal axes in feature space, representing the directions of maximum variance in the data. </span></span><br><span class="line"><span class="keyword">print</span> pca.components_</span><br><span class="line"></span><br><span class="line"><span class="comment"># same as pca.transform(X)</span></span><br><span class="line"><span class="keyword">print</span> np.dot(X, pca.components_)</span><br><span class="line"></span><br><span class="line"><span class="comment"># plot components</span></span><br><span class="line"><span class="keyword">for</span> origin, transformed <span class="keyword">in</span> zip(X, transformed_X):</span><br><span class="line">    <span class="comment"># first component</span></span><br><span class="line">    prj0 = [<span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line">    prj0[<span class="number">0</span>] = pca.components_[<span class="number">0</span>][<span class="number">0</span>] * transformed[<span class="number">0</span>]</span><br><span class="line">    prj0[<span class="number">1</span>] = pca.components_[<span class="number">0</span>][<span class="number">1</span>] * transformed[<span class="number">0</span>]</span><br><span class="line">    plt.scatter(prj0[<span class="number">0</span>], prj0[<span class="number">1</span>], color = <span class="string">'r'</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># second component</span></span><br><span class="line">    prj1 = [<span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line">    prj1[<span class="number">0</span>] = pca.components_[<span class="number">1</span>][<span class="number">0</span>] * transformed[<span class="number">1</span>]</span><br><span class="line">    prj1[<span class="number">1</span>] = pca.components_[<span class="number">1</span>][<span class="number">1</span>] * transformed[<span class="number">1</span>]</span><br><span class="line">    plt.scatter(prj1[<span class="number">0</span>], prj1[<span class="number">1</span>], color = <span class="string">'c'</span>)</span><br><span class="line">    </span><br><span class="line">    plt.scatter(origin[<span class="number">0</span>], origin[<span class="number">1</span>], color = <span class="string">'b'</span>)</span><br><span class="line">    plt.scatter(transformed[<span class="number">0</span>], transformed[<span class="number">1</span>], color = <span class="string">'g'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p>下面是使用 PCA 来获得脸部特征(eigenfaces, 特征脸) 从而结合 SVM 进行人脸识别的案例：<br>
+<a href="http://scikit-learn.org/0.18/auto_examples/applications/face_recognition.html" target="_blank" rel="noopener">Faces recognition example using PCA and SVM</a></p>
+<h2 id="交叉验证及超参数调试"><a class="markdownIt-Anchor" href="#交叉验证及超参数调试"></a> 交叉验证及超参数调试</h2>
+<h3 id="训练集-测试集"><a class="markdownIt-Anchor" href="#训练集-测试集"></a> 训练集、测试集</h3>
+<p>为了防止模型过拟合训练数据，需要从数据集划分一部分数据到测试集，在独立的测试集上评估性能（泛化能力）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm</span><br><span class="line"></span><br><span class="line"><span class="comment"># load the iris data set </span></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line"><span class="keyword">print</span> iris.data.shape, iris.target.shape</span><br><span class="line"></span><br><span class="line"><span class="comment"># split into training and test sets</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(</span><br><span class="line">    iris.data, iris.target, test_size=<span class="number">0.4</span>, random_state=<span class="number">0</span>)</span><br><span class="line"><span class="keyword">print</span> X_train.shape, y_train.shape</span><br><span class="line"><span class="keyword">print</span> X_test.shape, y_test.shape</span><br><span class="line"></span><br><span class="line"><span class="comment"># evaluation classifier</span></span><br><span class="line">clf = svm.SVC(kernel=<span class="string">'linear'</span>, C=<span class="number">1</span>).fit(X_train, y_train)</span><br><span class="line"><span class="keyword">print</span> clf.score(X_test, y_test)</span><br></pre></td></tr></table></figure>
+<h3 id="交叉验证-cross-validation"><a class="markdownIt-Anchor" href="#交叉验证-cross-validation"></a> 交叉验证 (Cross Validation)</h3>
+<p>在评估不同的模型参数(超参数)的效果时，直接使用测试集将有可能存在过拟合测试集的风险（多次人为调整模型参数再用测试集验证择优，相当于让模型某种程度学习了测试集），此时在测试集上评估泛化性能就不再准确。</p>
+<p>我们可以选择将数据集划分为训练集、验证集、测试集，在验证集上调试模型参数，但这样每个集合的样本量就会减少，在总的样本数较少时，就不太合适。</p>
+<h4 id="k-折交叉验证-k-fold-cv"><a class="markdownIt-Anchor" href="#k-折交叉验证-k-fold-cv"></a> K 折交叉验证 (k-fold CV)</h4>
+<p>K 折交叉验证将数据集划分为 k 个子集，从中挑选一个作为测试集，剩下所有的作为训练集。<br>
+每次评估性能时挑选不同的子集作为测试集。这样就可以更充分地利用数据，解决数据样本较少时数据集划分的问题。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> KFold</span><br><span class="line"></span><br><span class="line"><span class="comment"># Example of 2-fold cross-validation on a dataset with 4 samples</span></span><br><span class="line">X = np.array([[<span class="number">0.</span>, <span class="number">0.</span>], [<span class="number">1.</span>, <span class="number">1.</span>], [<span class="number">-1.</span>, <span class="number">-1.</span>], [<span class="number">2.</span>, <span class="number">2.</span>]])</span><br><span class="line">y = np.array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>])</span><br><span class="line">kf = KFold(n_splits=<span class="number">2</span>)</span><br><span class="line"><span class="keyword">for</span> train_indices, test_indices <span class="keyword">in</span> kf.split(X):</span><br><span class="line">    print(<span class="string">"%s %s"</span> % (train_indices, test_indices))</span><br><span class="line">    X_train, X_test, y_train, y_test = X[train_indices], X[test_indices], y[train_indices], y[test_indices]</span><br></pre></td></tr></table></figure>
+<p><ins>注意：如果数据存在某种顺序，在划分数据集时应该先进行洗牌 (shuffling, 打乱数据顺序)</ins>。</p>
+<h3 id="超参数调试"><a class="markdownIt-Anchor" href="#超参数调试"></a> 超参数调试</h3>
+<h4 id="gridsearchcv"><a class="markdownIt-Anchor" href="#gridsearchcv"></a> GridSearchCV</h4>
+<p>GridSearchCV 用于遍历多种参数组合，通过交叉验证确定具有最佳效果的参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm, datasets</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> GridSearchCV</span><br><span class="line"></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Dictionary with parameters names (string) as keys </span></span><br><span class="line"><span class="comment"># and lists of parameter settings to try as values.</span></span><br><span class="line"><span class="comment"># This enables searching over any sequence of parameter settings.</span></span><br><span class="line">parameters = &#123;<span class="string">'kernel'</span>:(<span class="string">'linear'</span>, <span class="string">'rbf'</span>), <span class="string">'C'</span>:[<span class="number">1</span>, <span class="number">10</span>]&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Run fit with all sets of parameters, </span></span><br><span class="line"><span class="comment"># and retained the best combination.</span></span><br><span class="line">svc = svm.SVC()</span><br><span class="line">clf = GridSearchCV(svc, parameters)</span><br><span class="line">clf.fit(iris.data, iris.target)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> clf.best_params_</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h2>
+<p><a href="https://cn.udacity.com/course/intro-to-machine-learning--ud120" target="_blank" rel="noopener">https://cn.udacity.com/course/intro-to-machine-learning--ud120</a></p>
+<p><a href="https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/neighbors.html#classification" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/neighbors.html#classification</a></p>
+<p><a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/AdaBoost</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/ensemble.html#adaboost" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/ensemble.html#adaboost</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Random_forest</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/ensemble.html#forest" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/ensemble.html#forest</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/linear_model.html" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/linear_model.html</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/clustering.html#k-means" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/clustering.html#k-means</a></p>
+<p><a href="https://www.naftaliharris.com/blog/visualizing-k-means-clustering/" target="_blank" rel="noopener">https://www.naftaliharris.com/blog/visualizing-k-means-clustering/</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/preprocessing.html#scaling-features-to-a-range" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/preprocessing.html#scaling-features-to-a-range</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/feature_extraction.html#tfidf-term-weighting" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/feature_extraction.html#tfidf-term-weighting</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/feature_extraction.html#vectorizing-a-large-text-corpus-with-the-hashing-trick" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/feature_extraction.html#vectorizing-a-large-text-corpus-with-the-hashing-trick</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/feature_extraction.html#feature-hashing" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/feature_extraction.html#feature-hashing</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/feature_selection.html" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/feature_selection.html</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/linear_model.html#lasso" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/linear_model.html#lasso</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/decomposition.html#pca" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/decomposition.html#pca</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/cross_validation.html" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/cross_validation.html</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/cross_validation.html#k-fold" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/cross_validation.html#k-fold</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/grid_search.html#grid-search" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/grid_search.html#grid-search</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/12/scikit-learn-intro/" rel="next" title="scikit-learn 笔记 - 基本流程">
+                <i class="fa fa-chevron-left"></i> scikit-learn 笔记 - 基本流程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">WeiJun</p>
+              <p class="site-description motion-element" itemprop="description">If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#特征缩放-feature-scaling"><span class="nav-number">1.</span> <span class="nav-text"> 特征缩放 (Feature Scaling)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#朴素贝叶斯-naive-bayes"><span class="nav-number">2.</span> <span class="nav-text"> 朴素贝叶斯 (Naive Bayes)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#支持向量机-svm"><span class="nav-number">3.</span> <span class="nav-text"> 支持向量机 (SVM)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#决策树-decision-tree"><span class="nav-number">4.</span> <span class="nav-text"> 决策树 (Decision Tree)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#熵"><span class="nav-number">4.1.</span> <span class="nav-text"> 熵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信息增益"><span class="nav-number">4.2.</span> <span class="nav-text"> 信息增益</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优缺点"><span class="nav-number">4.3.</span> <span class="nav-text"> 优缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k-nn-k-nearest-neighbors"><span class="nav-number">5.</span> <span class="nav-text"> k-NN (k nearest neighbors)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#adaboost"><span class="nav-number">6.</span> <span class="nav-text"> AdaBoost</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#随机森林-random-forest"><span class="nav-number">7.</span> <span class="nav-text"> 随机森林 (Random forest)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性回归-linear-regression"><span class="nav-number">8.</span> <span class="nav-text"> 线性回归 (Linear Regression)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性回归模型可视化"><span class="nav-number">8.1.</span> <span class="nav-text"> 线性回归模型可视化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异常值outlier处理"><span class="nav-number">9.</span> <span class="nav-text"> 异常值(Outlier)处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚类-clustering"><span class="nav-number">10.</span> <span class="nav-text"> 聚类 (Clustering)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#k-均值-k-means"><span class="nav-number">10.1.</span> <span class="nav-text"> K-均值 (K-Means)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文本学习"><span class="nav-number">11.</span> <span class="nav-text"> 文本学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#词袋-bag-of-words"><span class="nav-number">11.1.</span> <span class="nav-text"> 词袋 (Bag of Words)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#stopwords"><span class="nav-number">11.1.1.</span> <span class="nav-text"> StopWords</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#词干提取"><span class="nav-number">11.1.2.</span> <span class="nav-text"> 词干提取</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tfidf"><span class="nav-number">11.2.</span> <span class="nav-text"> Tf–idf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hashingvectorizer"><span class="nav-number">11.3.</span> <span class="nav-text"> HashingVectorizer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征选择-feature-selection"><span class="nav-number">12.</span> <span class="nav-text"> 特征选择 (Feature Selection)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#套索回归-lasso-regression"><span class="nav-number">12.1.</span> <span class="nav-text"> 套索回归 (Lasso Regression)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#降维-dimensionality-reduction"><span class="nav-number">13.</span> <span class="nav-text"> 降维 (Dimensionality Reduction)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主成分分析pca"><span class="nav-number">13.1.</span> <span class="nav-text"> 主成分分析(PCA)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交叉验证及超参数调试"><span class="nav-number">14.</span> <span class="nav-text"> 交叉验证及超参数调试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#训练集-测试集"><span class="nav-number">14.1.</span> <span class="nav-text"> 训练集、测试集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉验证-cross-validation"><span class="nav-number">14.2.</span> <span class="nav-text"> 交叉验证 (Cross Validation)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#k-折交叉验证-k-fold-cv"><span class="nav-number">14.2.1.</span> <span class="nav-text"> K 折交叉验证 (k-fold CV)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#超参数调试"><span class="nav-number">14.3.</span> <span class="nav-text"> 超参数调试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#gridsearchcv"><span class="nav-number">14.3.1.</span> <span class="nav-text"> GridSearchCV</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">15.</span> <span class="nav-text"> 参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">WeiJun</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="Total Visitors">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="Total Views">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
