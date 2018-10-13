@@ -288,7 +288,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/12/scikit-learn-ml/">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/13/scikit-learn-unsupervised-learning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="WeiJun">
@@ -307,8 +307,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/10/12/scikit-learn-ml/" itemprop="url">
-                  scikit-learn 笔记 - 常用机器学习算法
+                <a class="post-title-link" href="/2018/10/13/scikit-learn-unsupervised-learning/" itemprop="url">
+                  scikit-learn 笔记 - 非监督学习
                 </a>
               
             
@@ -334,24 +334,333 @@
                 
               
 
-              <time title="Created: 2018-10-12 16:57:53" itemprop="dateCreated datePublished" datetime="2018-10-12T16:57:53+08:00">2018-10-12</time>
+              <time title="Created: 2018-10-13 17:02:22 / Modified: 17:05:33" itemprop="dateCreated datePublished" datetime="2018-10-13T17:02:22+08:00">2018-10-13</time>
             
 
             
               
 
               
-                
-                <span class="post-meta-divider">|</span>
-                
+            
+          </span>
 
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="聚类-Clustering"><a href="#聚类-Clustering" class="headerlink" title="聚类 (Clustering)"></a>聚类 (Clustering)</h2><h3 id="K-均值-K-Means"><a href="#K-均值-K-Means" class="headerlink" title="K-均值 (K-Means)"></a>K-均值 (K-Means)</h3><p><strong>K-Means 聚类算法的步骤</strong>：</p>
+<ol>
+<li>初始化聚类数及各聚类centroid</li>
+<li><strong>分配</strong>：根据离centroid的距离将样本归属到某一聚类</li>
+<li><strong>优化</strong>：根据聚类所属样本重新计算centroid</li>
+<li>如此重复。</li>
+</ol>
+<p><strong>K-Means 聚类算法的局限</strong>：</p>
+<p>聚类的结果非常依赖初始化的情况，很有可能得到局部最优结果。</p>
+<p>因此我们通常需要多次运行K-均值算法（对应sklearn中的n_init参数），每一次都重新进行随机初始化，最后选择最优（代价最低）的结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.cluster <span class="keyword">import</span> KMeans</span><br><span class="line"></span><br><span class="line"><span class="comment"># Compute k-means clustering</span></span><br><span class="line">kmeans = KMeans(n_clusters=<span class="number">2</span>)</span><br><span class="line">kmeans.fit(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Predict the closest cluster each sample in X belongs to.</span></span><br><span class="line">kmeans.predict(X)</span><br></pre></td></tr></table></figure>
+<h2 id="降维-Dimensionality-Reduction"><a href="#降维-Dimensionality-Reduction" class="headerlink" title="降维 (Dimensionality Reduction)"></a>降维 (Dimensionality Reduction)</h2><p>数据降维是在尽量保留有效信息的前提下压缩数据(减少特征个数)。</p>
+<h3 id="主成分分析-PCA"><a href="#主成分分析-PCA" class="headerlink" title="主成分分析(PCA)"></a>主成分分析(PCA)</h3><p>PCA 可以通过在特征空间转换坐标系 (平移和旋转) 来降低数据维度。</p>
+<p>PCA 的目的是找到一个向量表示的直线(或一组向量表示的平面或空间)，即主成分。当我们把所有样本都投影到主成分上时，我们希望投影误差能尽可能地小(最大程度保留来自原始数据的信息)。</p>
+<p>PCA 实际上将输入的原始特征自动组合成了数量更少的一些新的特征（主成分），同时这些新的特征尽量多的保留了原始特征的信息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> sklearn.decomposition <span class="keyword">import</span> PCA</span><br><span class="line"></span><br><span class="line"><span class="comment"># training features</span></span><br><span class="line">X = np.array([[<span class="number">-1</span>, <span class="number">-1</span>], [<span class="number">-2</span>, <span class="number">-1</span>], [<span class="number">-3</span>, <span class="number">-2</span>], [<span class="number">1</span>, <span class="number">1</span>], [<span class="number">2</span>, <span class="number">1</span>], [<span class="number">3</span>, <span class="number">2</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># PCA</span></span><br><span class="line">pca = PCA(n_components=<span class="number">2</span>)</span><br><span class="line">pca.fit(X)</span><br><span class="line">transformed_X = pca.transform(X)</span><br><span class="line"><span class="keyword">print</span> transformed_X</span><br><span class="line"></span><br><span class="line"><span class="comment"># Percentage of variance explained by each of the selected components.</span></span><br><span class="line">print(pca.explained_variance_ratio_)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># Principal axes in feature space, representing the directions of maximum variance in the data. </span></span><br><span class="line"><span class="keyword">print</span> pca.components_</span><br><span class="line"></span><br><span class="line"><span class="comment"># same as pca.transform(X)</span></span><br><span class="line"><span class="keyword">print</span> np.dot(X, pca.components_)</span><br><span class="line"></span><br><span class="line"><span class="comment"># plot components</span></span><br><span class="line"><span class="keyword">for</span> origin, transformed <span class="keyword">in</span> zip(X, transformed_X):</span><br><span class="line">    <span class="comment"># first component</span></span><br><span class="line">    prj0 = [<span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line">    prj0[<span class="number">0</span>] = pca.components_[<span class="number">0</span>][<span class="number">0</span>] * transformed[<span class="number">0</span>]</span><br><span class="line">    prj0[<span class="number">1</span>] = pca.components_[<span class="number">0</span>][<span class="number">1</span>] * transformed[<span class="number">0</span>]</span><br><span class="line">    plt.scatter(prj0[<span class="number">0</span>], prj0[<span class="number">1</span>], color = <span class="string">'r'</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># second component</span></span><br><span class="line">    prj1 = [<span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line">    prj1[<span class="number">0</span>] = pca.components_[<span class="number">1</span>][<span class="number">0</span>] * transformed[<span class="number">1</span>]</span><br><span class="line">    prj1[<span class="number">1</span>] = pca.components_[<span class="number">1</span>][<span class="number">1</span>] * transformed[<span class="number">1</span>]</span><br><span class="line">    plt.scatter(prj1[<span class="number">0</span>], prj1[<span class="number">1</span>], color = <span class="string">'c'</span>)</span><br><span class="line">    </span><br><span class="line">    plt.scatter(origin[<span class="number">0</span>], origin[<span class="number">1</span>], color = <span class="string">'b'</span>)</span><br><span class="line">    plt.scatter(transformed[<span class="number">0</span>], transformed[<span class="number">1</span>], color = <span class="string">'g'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p>下面是使用 PCA 来获得脸部特征(eigenfaces, 特征脸) 从而结合 SVM 进行人脸识别的案例：<br><a href="http://scikit-learn.org/0.18/auto_examples/applications/face_recognition.html" target="_blank" rel="noopener">Faces recognition example using PCA and SVM</a> </p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/13/scikit-learn-unsupervised-learning/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/13/scikit-learn-supervised-learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeiJun's Programming Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
                 
-                  <span class="post-meta-item-text">Edited on</span>
+                <a class="post-title-link" href="/2018/10/13/scikit-learn-supervised-learning/" itemprop="url">
+                  scikit-learn 笔记 - 监督学习
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
                 
-                <time title="Modified: 2018-10-13 12:55:20" itemprop="dateModified" datetime="2018-10-13T12:55:20+08:00">2018-10-13</time>
+              
+
+              <time title="Created: 2018-10-13 16:55:53 / Modified: 16:57:47" itemprop="dateCreated datePublished" datetime="2018-10-13T16:55:53+08:00">2018-10-13</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="线性回归-Linear-Regression"><a href="#线性回归-Linear-Regression" class="headerlink" title="线性回归 (Linear Regression)"></a>线性回归 (Linear Regression)</h2><p>线性模型的数学表示：</p>
+<script type="math/tex; mode=display">
+\hat{y}(w,x) = w_0 + w_1x_1 + ... + w_px_p</script><p>通常使用最小二乘法来解决线性回归问题，从而得到合适的系数。</p>
+<script type="math/tex; mode=display">
+min_w||Xw - y||^2</script><p>在sklearn中，通过线性回归得到的系数有 coef<em> 和 intercept</em> 。coef<em> 表示向量w(w1,…,wp)， intercept</em> 表示截距w0。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> mean_squared_error, r2_score</span><br><span class="line"></span><br><span class="line"><span class="comment"># create linear regression model</span></span><br><span class="line">reg = LinearRegression()</span><br><span class="line"></span><br><span class="line"><span class="comment"># fit the model on the training set</span></span><br><span class="line">clf.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># use the trained model to predict result for the test set</span></span><br><span class="line">pred = clf.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># The coefficients</span></span><br><span class="line">print(<span class="string">'Coefficients: '</span>, reg.coef_)</span><br><span class="line">print(<span class="string">'Intercept: '</span>, reg.intercept_)</span><br><span class="line"></span><br><span class="line"><span class="comment"># The mean squared error</span></span><br><span class="line">print(<span class="string">"Mean squared error: %.2f"</span></span><br><span class="line">      % mean_squared_error(y_test, pred))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Explained variance score: 1 is perfect prediction</span></span><br><span class="line">print(<span class="string">'Variance score: %.2f'</span> % r2_score(y_test, pred))</span><br><span class="line"><span class="comment"># also can use the below code</span></span><br><span class="line"><span class="comment"># reg.score(X_test, y_test)</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html#sklearn.linear_model.LinearRegression.score" target="_blank" rel="noopener">R^2 Score</a> </p>
+</blockquote>
+<h3 id="线性回归模型可视化"><a href="#线性回归模型可视化" class="headerlink" title="线性回归模型可视化"></a>线性回归模型可视化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plt.scatter(X, Y)</span><br><span class="line">plt.plot(X, reg.predict(X), color=<span class="string">'red'</span>, linewidth=<span class="number">2</span>)</span><br><span class="line">plt.xlabel(<span class="string">"x"</span>)</span><br><span class="line">plt.ylabel(<span class="string">"y"</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h2 id="朴素贝叶斯-Naive-Bayes"><a href="#朴素贝叶斯-Naive-Bayes" class="headerlink" title="朴素贝叶斯 (Naive Bayes)"></a>朴素贝叶斯 (Naive Bayes)</h2><p>朴素贝叶斯分类器是一类简单的概率分类器，它基于贝叶斯定理和特征间的强大的（朴素的）独立假设，算法实现简单且可以支持很大的特征空间，同时也具备很快的训练速度。以下是贝叶斯公式。</p>
+<script type="math/tex; mode=display">
+P(A|B) = \frac{P(B|A) P(A)}{P(B)}</script><ul>
+<li>P(A|B)是已知B发生后A的条件概率，也由于得自B的取值而被称作A的<strong>后验概率</strong>。</li>
+<li>P(B|A)是已知A发生后B的条件概率，也由于得自A的取值而被称作B的后验概率(似然率)。</li>
+<li>P(A)是A的<strong>先验概率</strong>（或边缘概率）。之所以称为”先验”是因为它不考虑任何B方面的因素。</li>
+<li>P(B)是B的先验概率或边缘概率。</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/13/scikit-learn-supervised-learning/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/13/scikit-learn-dataset-trans/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeiJun's Programming Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/13/scikit-learn-dataset-trans/" itemprop="url">
+                  scikit-learn 笔记 - 数据集转换
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-13 16:50:48 / Modified: 17:00:39" itemprop="dateCreated datePublished" datetime="2018-10-13T16:50:48+08:00">2018-10-13</time>
+            
+
+            
+              
+
               
             
           </span>
@@ -392,17 +701,12 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
 <p>使用sklearn：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> MinMaxScaler</span><br><span class="line"></span><br><span class="line">train_data = numpy.array([[<span class="number">-1</span>, <span class="number">2</span>], [<span class="number">-0.5</span>, <span class="number">6</span>], [<span class="number">0</span>, <span class="number">10</span>], [<span class="number">1</span>, <span class="number">18</span>]])</span><br><span class="line">test_data = numpy.array([[<span class="number">2</span>, <span class="number">2</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># create the scaler</span></span><br><span class="line">scaler = MinMaxScaler()</span><br><span class="line"></span><br><span class="line"><span class="comment"># compute the minimum and maximum to be used for later scaling.</span></span><br><span class="line">scaler.fit(train_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># scaling features</span></span><br><span class="line">print(scaler.transform(train_data))</span><br><span class="line">print(scaler.transform(test_data))</span><br></pre></td></tr></table></figure></p>
 <p>对许多机器学习算法，特征缩放将影响最终的效果，如SVM和K-Means等(影响计算距离时各特征的比重)。</p>
 <p>此外，特征缩放通常可以加速(大部分)机器学习算法的训练过程。</p>
-<h2 id="朴素贝叶斯-Naive-Bayes"><a href="#朴素贝叶斯-Naive-Bayes" class="headerlink" title="朴素贝叶斯 (Naive Bayes)"></a>朴素贝叶斯 (Naive Bayes)</h2><p>朴素贝叶斯分类器是一类简单的概率分类器，它基于贝叶斯定理和特征间的强大的（朴素的）独立假设，算法实现简单且可以支持很大的特征空间，同时也具备很快的训练速度。以下是贝叶斯公式。</p>
-<script type="math/tex; mode=display">
-P(A|B) = \frac{P(B|A) P(A)}{P(B)}</script><ul>
-<li>P(A|B)是已知B发生后A的条件概率，也由于得自B的取值而被称作A的<strong>后验概率</strong>。</li>
-<li>P(B|A)是已知A发生后B的条件概率，也由于得自A的取值而被称作B的后验概率(似然率)。</li>
-<li>P(A)是A的<strong>先验概率</strong>（或边缘概率）。之所以称为”先验”是因为它不考虑任何B方面的因素。</li>
-<li>P(B)是B的先验概率或边缘概率。</li>
-</ul>
+<h2 id="文本学习"><a href="#文本学习" class="headerlink" title="文本学习"></a>文本学习</h2><h3 id="词袋-Bag-of-Words"><a href="#词袋-Bag-of-Words" class="headerlink" title="词袋 (Bag of Words)"></a>词袋 (Bag of Words)</h3><p>词袋（Bag-of-Words, BOW）模型是文本向量化的一种方式，主要关注文档中单词的出现频率，舍弃了单词中的所有顺序信息。</p>
+<p>任何文档都可以编码成一个固定长度的向量，该向量表示词汇表中每个单词在文档中的计数或频率，长度为从所有文档中抽取的单词构成的词汇表的大小。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer</span><br><span class="line"></span><br><span class="line"><span class="comment"># CountVectorizer implements both tokenization and occurrence counting in a single class</span></span><br><span class="line">vectorizer = CountVectorizer()</span><br><span class="line"></span><br><span class="line"><span class="comment"># tokenizes a string</span></span><br><span class="line">analyze = vectorizer.build_analyzer()</span><br><span class="line">analyze(<span class="string">"This is a text document to analyze."</span>) == (</span><br><span class="line">    [<span class="string">'this'</span>, <span class="string">'is'</span>, <span class="string">'text'</span>, <span class="string">'document'</span>, <span class="string">'to'</span>, <span class="string">'analyze'</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># tokenize and count the word occurrences of a minimalistic corpus of text documents</span></span><br><span class="line">corpus = [</span><br><span class="line">    <span class="string">'This is the first document.'</span>,</span><br><span class="line">    <span class="string">'This is the second second document.'</span>,</span><br><span class="line">    <span class="string">'And the third one.'</span>,</span><br><span class="line">    <span class="string">'Is this the first document?'</span>,</span><br><span class="line">]</span><br><span class="line">X = vectorizer.fit_transform(corpus)</span><br><span class="line"><span class="keyword">print</span> vectorizer.get_feature_names() == (</span><br><span class="line">    [<span class="string">'and'</span>, <span class="string">'document'</span>, <span class="string">'first'</span>, <span class="string">'is'</span>, <span class="string">'one'</span>, <span class="string">'second'</span>, <span class="string">'the'</span>, <span class="string">'third'</span>, <span class="string">'this'</span>])</span><br><span class="line"><span class="keyword">print</span> X.toarray()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Transform a new document to document-term matrix.</span></span><br><span class="line"><span class="keyword">print</span> vectorizer.transform([<span class="string">'Something completely new.'</span>]).toarray()</span><br><span class="line"></span><br><span class="line"><span class="comment"># To preserve some of the local ordering information,</span></span><br><span class="line"><span class="comment"># we can extract 2-grams of words in addition to the 1-grams (individual words).</span></span><br><span class="line">bigram_vectorizer = CountVectorizer(ngram_range=(<span class="number">1</span>, <span class="number">2</span>),</span><br><span class="line">                                    token_pattern=<span class="string">r'\b\w+\b'</span>, min_df=<span class="number">1</span>)</span><br><span class="line">analyzer = bigram_vectorizer.build_analyzer()</span><br><span class="line"><span class="keyword">print</span> analyze(<span class="string">'Bi-grams are cool!'</span>) == (</span><br><span class="line">    [<span class="string">'bi'</span>, <span class="string">'grams'</span>, <span class="string">'are'</span>, <span class="string">'cool'</span>, <span class="string">'bi grams'</span>, <span class="string">'grams are'</span>, <span class="string">'are cool'</span>])</span><br><span class="line"><span class="keyword">print</span> bigram_vectorizer.fit_transform(corpus).toarray()</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/10/12/scikit-learn-ml/#more" rel="contents">
+            <a class="btn" href="/2018/10/13/scikit-learn-dataset-trans/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -504,12 +808,24 @@ P(A|B) = \frac{P(B|A) P(A)}{P(B)}</script><ul>
                 
               
 
-              <time title="Created: 2018-10-12 15:44:16 / Modified: 18:37:58" itemprop="dateCreated datePublished" datetime="2018-10-12T15:44:16+08:00">2018-10-12</time>
+              <time title="Created: 2018-10-12 15:44:16" itemprop="dateCreated datePublished" datetime="2018-10-12T15:44:16+08:00">2018-10-12</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-13 17:05:35" itemprop="dateModified" datetime="2018-10-13T17:05:35+08:00">2018-10-13</time>
               
             
           </span>
@@ -543,14 +859,10 @@ P(A|B) = \frac{P(B|A) P(A)}{P(B)}</script><ul>
 
       
         
-          <h2 id="数据加载"><a class="markdownIt-Anchor" href="#数据加载"></a> 数据加载</h2>
-<p>scikit-learn 在实现时使用了 NumPy 数组，所以我们可以用 NumPy 来加载 csv 文件。</p>
-<p>从指定 URL 加载数据：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line"><span class="comment"># url with dataset</span></span><br><span class="line">url =  <span class="string">"http://www.example.com/ml-data"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># download the file</span></span><br><span class="line">raw_data = urllib.urlopen(url)</span><br><span class="line"></span><br><span class="line"><span class="comment"># load the CSV file as a numpy matrix</span></span><br><span class="line">dataset = np.loadtxt(raw_data, delimiter=<span class="string">","</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># separate the data from the target attributes</span></span><br><span class="line">X = dataset[:,<span class="number">0</span>:<span class="number">7</span>]</span><br><span class="line">y = dataset[:,<span class="number">8</span>]</span><br></pre></td></tr></table></figure>
-<p>从指定文件加载数据：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># load the CSV file as a numpy matrix</span></span><br><span class="line">dataset = np.loadtxt(<span class="string">"data/example.csv"</span>, delimiter=<span class="string">","</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># separate the data from the target attributes</span></span><br><span class="line">X = dataset[:,<span class="number">0</span>:<span class="number">7</span>]</span><br><span class="line">y = dataset[:,<span class="number">8</span>]</span><br></pre></td></tr></table></figure>
-<h2 id="数据归一化"><a class="markdownIt-Anchor" href="#数据归一化"></a> 数据归一化</h2>
-<p>大多数的梯度方法对数据的缩放都很敏感。因此在运行算法之前，需要对数据进行预处理，使之归一化，或规格化。归一化会进行<strong>特征缩放</strong>，替换所有特征的名义值，使得每个特征值在0和1之间。规格化还可以使得每个特征的值有0和1的离差。scikit-learn 已经提供了相应的函数。</p>
+          <h2 id="数据加载"><a href="#数据加载" class="headerlink" title="数据加载"></a>数据加载</h2><p>scikit-learn 在实现时使用了 NumPy 数组，所以我们可以用 NumPy 来加载 csv 文件。</p>
+<p>从指定 URL 加载数据：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line"><span class="comment"># url with dataset</span></span><br><span class="line">url =  <span class="string">"http://www.example.com/ml-data"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># download the file</span></span><br><span class="line">raw_data = urllib.urlopen(url)</span><br><span class="line"></span><br><span class="line"><span class="comment"># load the CSV file as a numpy matrix</span></span><br><span class="line">dataset = np.loadtxt(raw_data, delimiter=<span class="string">","</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># separate the data from the target attributes</span></span><br><span class="line">X = dataset[:,<span class="number">0</span>:<span class="number">7</span>]</span><br><span class="line">y = dataset[:,<span class="number">8</span>]</span><br></pre></td></tr></table></figure></p>
+<p>从指定文件加载数据：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># load the CSV file as a numpy matrix</span></span><br><span class="line">dataset = np.loadtxt(<span class="string">"data/example.csv"</span>, delimiter=<span class="string">","</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># separate the data from the target attributes</span></span><br><span class="line">X = dataset[:,<span class="number">0</span>:<span class="number">7</span>]</span><br><span class="line">y = dataset[:,<span class="number">8</span>]</span><br></pre></td></tr></table></figure></p>
+<h2 id="数据归一化"><a href="#数据归一化" class="headerlink" title="数据归一化"></a>数据归一化</h2><p>大多数的梯度方法对数据的缩放都很敏感。因此在运行算法之前，需要对数据进行预处理，使之归一化，或规格化。归一化会进行<strong>特征缩放</strong>，替换所有特征的名义值，使得每个特征值在0和1之间。规格化还可以使得每个特征的值有0和1的离差。scikit-learn 已经提供了相应的函数。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> preprocessing</span><br><span class="line"></span><br><span class="line"><span class="comment"># normalize the data attributes</span></span><br><span class="line">normalized_X = preprocessing.normalize(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># standardize the data attributes</span></span><br><span class="line">standardized_X = preprocessing.scale(X)</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
@@ -708,12 +1020,9 @@ P(A|B) = \frac{P(B|A) P(A)}{P(B)}</script><ul>
       
         
           <p>Linux系统有许多的工具用来对文本进行过滤和处理，下面对一些常用的工具进行简单介绍。</p>
-<h2 id="grep"><a class="markdownIt-Anchor" href="#grep"></a> grep</h2>
-<p>grep工具对文件的每一行搜索指定的模式字符串。如果找到了匹配这个字符串的行，就打印该行的内容。</p>
-<h3 id="基本语法"><a class="markdownIt-Anchor" href="#基本语法"></a> 基本语法</h3>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grep [OPTIONS] PATTERN [FILE...] </span><br><span class="line"></span><br><span class="line">grep [OPTIONS] [-e PATTERN | -f FILE] [FILE...]</span><br></pre></td></tr></table></figure>
-<h3 id="常用选项"><a class="markdownIt-Anchor" href="#常用选项"></a> 常用选项</h3>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定pattern，可用于需要匹配多个模式的情况</span></span><br><span class="line">-e PATTERN</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定文件中，每行存储一个模式</span></span><br><span class="line">-f FILE</span><br><span class="line"></span><br><span class="line"><span class="comment"># 忽略大小写</span></span><br><span class="line">-i, --ignore-case</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 反检索，只显示不匹配的行。</span></span><br><span class="line">-v, --invert-match</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 匹配整个单词</span></span><br><span class="line">-w, --word-regexp</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 匹配整行</span></span><br><span class="line">-x, --line-regexp</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># 只输出匹配的行数，不显示匹配的内容。</span></span><br><span class="line">-c, --count</span><br><span class="line"></span><br><span class="line"><span class="comment"># 高亮匹配的字符串</span></span><br><span class="line"><span class="comment"># WHEN is never, always, auto</span></span><br><span class="line">--color[=WHEN]    </span><br><span class="line"></span><br><span class="line"><span class="comment"># 搜索多个文件时，不显示匹配文件名 </span></span><br><span class="line">-h，--no-filename</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示行号</span></span><br><span class="line">-n，--line-number</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只显示匹配的部分</span></span><br><span class="line">-o, --only-matching</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不显示错误信息。</span></span><br><span class="line">-s，--no-messages</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不显示信息，只返回退出状态。0表示匹配成功</span></span><br><span class="line">-q，--quiet</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出匹配成功的文件</span></span><br><span class="line">-l，--files-with-matches</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出不匹配模式的文件</span></span><br><span class="line">-L，--files-without-match</span><br></pre></td></tr></table></figure>
+<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><p>grep工具对文件的每一行搜索指定的模式字符串。如果找到了匹配这个字符串的行，就打印该行的内容。</p>
+<h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grep [OPTIONS] PATTERN [FILE...] </span><br><span class="line"></span><br><span class="line">grep [OPTIONS] [-e PATTERN | -f FILE] [FILE...]</span><br></pre></td></tr></table></figure>
+<h3 id="常用选项"><a href="#常用选项" class="headerlink" title="常用选项"></a>常用选项</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定pattern，可用于需要匹配多个模式的情况</span></span><br><span class="line">-e PATTERN</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定文件中，每行存储一个模式</span></span><br><span class="line">-f FILE</span><br><span class="line"></span><br><span class="line"><span class="comment"># 忽略大小写</span></span><br><span class="line">-i, --ignore-case</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 反检索，只显示不匹配的行。</span></span><br><span class="line">-v, --invert-match</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 匹配整个单词</span></span><br><span class="line">-w, --word-regexp</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 匹配整行</span></span><br><span class="line">-x, --line-regexp</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># 只输出匹配的行数，不显示匹配的内容。</span></span><br><span class="line">-c, --count</span><br><span class="line"></span><br><span class="line"><span class="comment"># 高亮匹配的字符串</span></span><br><span class="line"><span class="comment"># WHEN is never, always, auto</span></span><br><span class="line">--color[=WHEN]    </span><br><span class="line"></span><br><span class="line"><span class="comment"># 搜索多个文件时，不显示匹配文件名 </span></span><br><span class="line">-h，--no-filename</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示行号</span></span><br><span class="line">-n，--line-number</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只显示匹配的部分</span></span><br><span class="line">-o, --only-matching</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不显示错误信息。</span></span><br><span class="line">-s，--no-messages</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不显示信息，只返回退出状态。0表示匹配成功</span></span><br><span class="line">-q，--quiet</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出匹配成功的文件</span></span><br><span class="line">-l，--files-with-matches</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出不匹配模式的文件</span></span><br><span class="line">-L，--files-without-match</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/10/11/linux-text-utils-intro/#more" rel="contents">
@@ -882,10 +1191,8 @@ P(A|B) = \frac{P(B|A) P(A)}{P(B)}</script><ul>
 <li>记忆</li>
 <li>复习</li>
 </ol>
-<h2 id="高效阅读"><a class="markdownIt-Anchor" href="#高效阅读"></a> 高效阅读</h2>
-<p><strong>只要方法正确，阅读的速度越快，越容易记住相关信息</strong>。最好的方法就是一边读，一边在重点信息旁做标记，只要有笔或干脆用食指就可以。<strong>用笔或手指辅助阅读</strong>能大大提高阅读时的<strong>专注度</strong>，并极大地提高你的<strong>阅读速度</strong>。</p>
-<h2 id="关键点笔记"><a class="markdownIt-Anchor" href="#关键点笔记"></a> 关键点笔记</h2>
-<p>建议每专心阅读<strong>20分钟</strong>左右就停下来做些笔记，在刚刚读过的内容中找出<strong>关键点</strong>，然后在纸上写下这些关键信息。<strong>思维导图</strong>可以说是完美的信息储存工具。理想情况下应当凭记忆从刚刚读过的信息中抽取关键信息，而不用再回头翻一遍，不过也不必强求。</p>
+<h2 id="高效阅读"><a href="#高效阅读" class="headerlink" title="高效阅读"></a>高效阅读</h2><p><strong>只要方法正确，阅读的速度越快，越容易记住相关信息</strong>。最好的方法就是一边读，一边在重点信息旁做标记，只要有笔或干脆用食指就可以。<strong>用笔或手指辅助阅读</strong>能大大提高阅读时的<strong>专注度</strong>，并极大地提高你的<strong>阅读速度</strong>。</p>
+<h2 id="关键点笔记"><a href="#关键点笔记" class="headerlink" title="关键点笔记"></a>关键点笔记</h2><p>建议每专心阅读<strong>20分钟</strong>左右就停下来做些笔记，在刚刚读过的内容中找出<strong>关键点</strong>，然后在纸上写下这些关键信息。<strong>思维导图</strong>可以说是完美的信息储存工具。理想情况下应当凭记忆从刚刚读过的信息中抽取关键信息，而不用再回头翻一遍，不过也不必强求。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/10/11/effective-learning-skills/#more" rel="contents">
@@ -972,7 +1279,7 @@ P(A|B) = \frac{P(B|A) P(A)}{P(B)}</script><ul>
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1211,7 +1518,11 @@ P(A|B) = \frac{P(B|A) P(A)}{P(B)}</script><ul>
   
     
       
+    
+      
         
+      
+    
       
     
       

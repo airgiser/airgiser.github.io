@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="特征缩放 (Feature Scaling)在使用机器学习算法前，经常需要进行特征缩放(feature scaling)，将所有特征都缩放到相同的尺度 ([0,1]的范围)。 下面是进行特征缩放的一种方式：  x&apos; = \frac{x - x_{min}}{x_{max} - x_{min}}1234def featureScaling(arr):    minval = min(arr)">
+<meta name="keywords" content="Machine Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="scikit-learn 笔记 - 数据集转换">
+<meta property="og:url" content="https://airgiser.github.io/2018/10/13/scikit-learn-dataset-trans/index.html">
+<meta property="og:site_name" content="WeiJun&#39;s Programming Notes">
+<meta property="og:description" content="特征缩放 (Feature Scaling)在使用机器学习算法前，经常需要进行特征缩放(feature scaling)，将所有特征都缩放到相同的尺度 ([0,1]的范围)。 下面是进行特征缩放的一种方式：  x&apos; = \frac{x - x_{min}}{x_{max} - x_{min}}1234def featureScaling(arr):    minval = min(arr)">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-13T09:00:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="scikit-learn 笔记 - 数据集转换">
+<meta name="twitter:description" content="特征缩放 (Feature Scaling)在使用机器学习算法前，经常需要进行特征缩放(feature scaling)，将所有特征都缩放到相同的尺度 ([0,1]的范围)。 下面是进行特征缩放的一种方式：  x&apos; = \frac{x - x_{min}}{x_{max} - x_{min}}1234def featureScaling(arr):    minval = min(arr)">
+
+
+
+
+
+
+  <link rel="canonical" href="https://airgiser.github.io/2018/10/13/scikit-learn-dataset-trans/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>scikit-learn 笔记 - 数据集转换 | WeiJun's Programming Notes</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WeiJun's Programming Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/13/scikit-learn-dataset-trans/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeiJun's Programming Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">scikit-learn 笔记 - 数据集转换
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-13 16:50:48 / Modified: 17:00:39" itemprop="dateCreated datePublished" datetime="2018-10-13T16:50:48+08:00">2018-10-13</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="特征缩放-Feature-Scaling"><a href="#特征缩放-Feature-Scaling" class="headerlink" title="特征缩放 (Feature Scaling)"></a>特征缩放 (Feature Scaling)</h2><p>在使用机器学习算法前，经常需要进行特征缩放(feature scaling)，将所有特征都缩放到相同的尺度 ([0,1]的范围)。</p>
+<p>下面是进行特征缩放的一种方式：</p>
+<script type="math/tex; mode=display">
+x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">featureScaling</span><span class="params">(arr)</span>:</span></span><br><span class="line">    minval = min(arr)</span><br><span class="line">    maxval = max(arr)</span><br><span class="line">    <span class="keyword">return</span> [<span class="number">1.0</span> * (val - minval) / (maxval - minval) <span class="keyword">for</span> val <span class="keyword">in</span> arr]</span><br></pre></td></tr></table></figure>
+<p>使用sklearn：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> MinMaxScaler</span><br><span class="line"></span><br><span class="line">train_data = numpy.array([[<span class="number">-1</span>, <span class="number">2</span>], [<span class="number">-0.5</span>, <span class="number">6</span>], [<span class="number">0</span>, <span class="number">10</span>], [<span class="number">1</span>, <span class="number">18</span>]])</span><br><span class="line">test_data = numpy.array([[<span class="number">2</span>, <span class="number">2</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># create the scaler</span></span><br><span class="line">scaler = MinMaxScaler()</span><br><span class="line"></span><br><span class="line"><span class="comment"># compute the minimum and maximum to be used for later scaling.</span></span><br><span class="line">scaler.fit(train_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># scaling features</span></span><br><span class="line">print(scaler.transform(train_data))</span><br><span class="line">print(scaler.transform(test_data))</span><br></pre></td></tr></table></figure></p>
+<p>对许多机器学习算法，特征缩放将影响最终的效果，如SVM和K-Means等(影响计算距离时各特征的比重)。</p>
+<p>此外，特征缩放通常可以加速(大部分)机器学习算法的训练过程。</p>
+<h2 id="文本学习"><a href="#文本学习" class="headerlink" title="文本学习"></a>文本学习</h2><h3 id="词袋-Bag-of-Words"><a href="#词袋-Bag-of-Words" class="headerlink" title="词袋 (Bag of Words)"></a>词袋 (Bag of Words)</h3><p>词袋（Bag-of-Words, BOW）模型是文本向量化的一种方式，主要关注文档中单词的出现频率，舍弃了单词中的所有顺序信息。</p>
+<p>任何文档都可以编码成一个固定长度的向量，该向量表示词汇表中每个单词在文档中的计数或频率，长度为从所有文档中抽取的单词构成的词汇表的大小。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer</span><br><span class="line"></span><br><span class="line"><span class="comment"># CountVectorizer implements both tokenization and occurrence counting in a single class</span></span><br><span class="line">vectorizer = CountVectorizer()</span><br><span class="line"></span><br><span class="line"><span class="comment"># tokenizes a string</span></span><br><span class="line">analyze = vectorizer.build_analyzer()</span><br><span class="line">analyze(<span class="string">"This is a text document to analyze."</span>) == (</span><br><span class="line">    [<span class="string">'this'</span>, <span class="string">'is'</span>, <span class="string">'text'</span>, <span class="string">'document'</span>, <span class="string">'to'</span>, <span class="string">'analyze'</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># tokenize and count the word occurrences of a minimalistic corpus of text documents</span></span><br><span class="line">corpus = [</span><br><span class="line">    <span class="string">'This is the first document.'</span>,</span><br><span class="line">    <span class="string">'This is the second second document.'</span>,</span><br><span class="line">    <span class="string">'And the third one.'</span>,</span><br><span class="line">    <span class="string">'Is this the first document?'</span>,</span><br><span class="line">]</span><br><span class="line">X = vectorizer.fit_transform(corpus)</span><br><span class="line"><span class="keyword">print</span> vectorizer.get_feature_names() == (</span><br><span class="line">    [<span class="string">'and'</span>, <span class="string">'document'</span>, <span class="string">'first'</span>, <span class="string">'is'</span>, <span class="string">'one'</span>, <span class="string">'second'</span>, <span class="string">'the'</span>, <span class="string">'third'</span>, <span class="string">'this'</span>])</span><br><span class="line"><span class="keyword">print</span> X.toarray()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Transform a new document to document-term matrix.</span></span><br><span class="line"><span class="keyword">print</span> vectorizer.transform([<span class="string">'Something completely new.'</span>]).toarray()</span><br><span class="line"></span><br><span class="line"><span class="comment"># To preserve some of the local ordering information,</span></span><br><span class="line"><span class="comment"># we can extract 2-grams of words in addition to the 1-grams (individual words).</span></span><br><span class="line">bigram_vectorizer = CountVectorizer(ngram_range=(<span class="number">1</span>, <span class="number">2</span>),</span><br><span class="line">                                    token_pattern=<span class="string">r'\b\w+\b'</span>, min_df=<span class="number">1</span>)</span><br><span class="line">analyzer = bigram_vectorizer.build_analyzer()</span><br><span class="line"><span class="keyword">print</span> analyze(<span class="string">'Bi-grams are cool!'</span>) == (</span><br><span class="line">    [<span class="string">'bi'</span>, <span class="string">'grams'</span>, <span class="string">'are'</span>, <span class="string">'cool'</span>, <span class="string">'bi grams'</span>, <span class="string">'grams are'</span>, <span class="string">'are cool'</span>])</span><br><span class="line"><span class="keyword">print</span> bigram_vectorizer.fit_transform(corpus).toarray()</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h4 id="StopWords"><a href="#StopWords" class="headerlink" title="StopWords"></a>StopWords</h4><p>并非所有文字都拥有相同的信息量，在文本分析前，我们通常需要进行预处理，去除停用词 (StopWords, 通常指那些低信息量高频率的词) ，从而简化语料库 (corpus) 。</p>
+<p>从 <strong><a href="http://www.nltk.org/" target="_blank" rel="noopener">NLTK</a></strong> 中获取停止词：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> nltk</span><br><span class="line">nltk.download(<span class="string">"stopwords"</span>)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from nltk.corpus import stopwords</span><br><span class="line">sw = stopwords.words(&quot;english&quot;)</span><br></pre></td></tr></table></figure>
+<h4 id="词干提取"><a href="#词干提取" class="headerlink" title="词干提取"></a>词干提取</h4><p>可能有许多单词都表示同一个意思，在得到词袋之前，可以先将这些词打包进行词干分析，即可得到合并后的词汇，从而简化语料库。</p>
+<p>可以使用 NLTK 提供的词干提取器 (Stemmer) 进行词干化。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> nltk.stem.snowball <span class="keyword">import</span> SnowballStemmer</span><br><span class="line"></span><br><span class="line">stemmer = SnowballStemmer(<span class="string">"english"</span>)</span><br><span class="line"><span class="keyword">print</span> stemmer.stem(<span class="string">"responsivity"</span>) == <span class="string">"respons"</span></span><br><span class="line"><span class="keyword">print</span> stemmer.stem(<span class="string">"responsiveness"</span>) == <span class="string">"respons"</span></span><br><span class="line"><span class="keyword">print</span> stemmer.stem(<span class="string">"unresponsive"</span>) == <span class="string">"unrespons"</span></span><br></pre></td></tr></table></figure>
+<p>应该在创建词袋之前先进行词干化：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.feature_extraction.text import CountVectorizer</span><br><span class="line"></span><br><span class="line"># split the text string into individual words</span><br><span class="line">document = &quot;Text Analysis is a major application field for machine learning algorithms.&quot;</span><br><span class="line">vectorizer = CountVectorizer()</span><br><span class="line">analyze = vectorizer.build_analyzer()</span><br><span class="line">wordlist = analyze(document)</span><br><span class="line"></span><br><span class="line"># stem each word</span><br><span class="line">from nltk.stem.snowball import SnowballStemmer</span><br><span class="line">stemmer = SnowballStemmer(&quot;english&quot;)</span><br><span class="line">stemedlist = [stemmer.stem(word) for word in wordlist]</span><br><span class="line"></span><br><span class="line"># join the stemmed word to words</span><br><span class="line">words = &quot; &quot;.join(stemedlist)</span><br><span class="line">print words</span><br></pre></td></tr></table></figure></p>
+<h3 id="Tf–idf"><a href="#Tf–idf" class="headerlink" title="Tf–idf"></a>Tf–idf</h3><p>单词的出现频率不能完全代表单词的权重，替代的方法是统计单词权重，其中流行的方法是 TF-IDF (Term Frequency–Inverse Document, 词频 - 逆文档频率)，代表一个词对于一个文档的重要程度。</p>
+<p>TF-IDF 在统计单词权重时会综合考虑（加权）词频和逆文档频率。</p>
+<p>词频 (Term Frequency) : 给定的某一个词在一篇文档中出现的次数，词频越高 TF 值越高。</p>
+<p>逆文档频率 (Inverse Document Frequency) : 单词在所有文档中出现的频率越高，IDF 值则下降，越罕见的词可能有更高的 IDF 值。</p>
+<p>TF-IDF 会把<strong>文档中更有代表意义的单词</strong>标注出来，例如仅在某篇文档中出现频率较高，而不是所有文档中都频繁出现的词。</p>
+<p>如果已经用 CountVectorizer 得到了向量，可以使用 <strong>TfidfTransformer</strong> 转换为 TF-IDF 表示。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> TfidfTransformer</span><br><span class="line"></span><br><span class="line"><span class="comment"># use TfidfTransformer to compute the tf-idfs </span></span><br><span class="line"><span class="comment"># X is generated by a CountVectorizer</span></span><br><span class="line">transformer = TfidfTransformer()</span><br><span class="line">tfidf = transformer.fit_transform(X)</span><br><span class="line"><span class="keyword">print</span> tfidf.toarray()</span><br></pre></td></tr></table></figure></p>
+<p>也可以直接使用 <strong>TfidfVectorizer</strong> 对文档进行向量化。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> TfidfVectorizer</span><br><span class="line"></span><br><span class="line"><span class="comment"># TfidfVectorizer combines all the options of CountVectorizer and TfidfTransformer in a single model</span></span><br><span class="line">vectorizer = TfidfVectorizer(stop_words=<span class="string">"english"</span>) <span class="comment"># set parameters to remove stop words</span></span><br><span class="line">X = vectorizer.fit_transform(corpus)</span><br></pre></td></tr></table></figure></p>
+<h3 id="HashingVectorizer"><a href="#HashingVectorizer" class="headerlink" title="HashingVectorizer"></a>HashingVectorizer</h3><p>当语料库很庞大时，将需要巨大的向量来编码文档，对内存要求很高，而且会减慢算法的速度。</p>
+<p>HashingVectorizer 结合了特征哈希和 CountVectorizer ，可以用来解决上面的问题。</p>
+<p>由于使用了单向的哈希方法，哈希化后的编码将无法转回单词的表达。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> HashingVectorizer</span><br><span class="line"></span><br><span class="line"><span class="comment"># Vectorizing a large text corpus with the hashing trick.</span></span><br><span class="line">hv = HashingVectorizer(n_features=<span class="number">10</span>)</span><br><span class="line">vec = hv.transform(corpus)</span><br></pre></td></tr></table></figure>
+<h2 id="特征选择-Feature-Selection"><a href="#特征选择-Feature-Selection" class="headerlink" title="特征选择 (Feature Selection)"></a>特征选择 (Feature Selection)</h2><p>选择合适的特征是机器学习算法中很关键的一环。通常，我们需要用尽量少的特征来表达尽量多的数据中包含的信息。以下是选择特征时常见的两个操作：</p>
+<ul>
+<li>欠拟合时需要加入新的特征来表示某些数据中重要的模式，添加新特征很多时候依赖于直觉与经验。</li>
+<li>找出最合适的特征，去除多余的特征。需要去除的特征有些是含有噪音，不利于模型训练，还有些可能与其他特征高度相关，导致重复的信息等等。此外，过多的特征也可能导致过拟合，还会造成训练速度缓慢。</li>
+</ul>
+<p>注意：警惕有BUG的特征，有时候某个特征对准确率提升特别明显，此时需要警惕是真的找到了关键特征还是引入了不合理的特征（如特征很多样本很少，此时本该过拟合反而准确率很高）。sklearn 中某些分类器如 DecisionTreeClassifier 可以通过属性查看各特征的重要性,  可以仔细筛查重要性非常高的特征是否存在问题：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier</span><br><span class="line"></span><br><span class="line">clf = DecisionTreeClassifier()</span><br><span class="line">clf.fit(features_train, labels_train)</span><br><span class="line"><span class="keyword">print</span> clf.feature_importances_</span><br></pre></td></tr></table></figure></p>
+<p>sklearn 中有多种辅助方法帮助自动选择特征。多数方法都属于单变量特征选择的范畴，即独立对待每个特征并询问其在分类或回归中的能力。</p>
+<p>sklearn 中有两大单变量特征选择工具：<strong>SelectPercentile</strong> 和 <strong>SelectKBest</strong>。 两者之间的区别从名字就可以看出：SelectPercentile 选择最有用的 x% 的特征，而 SelectKBest 选择 k 个最有用的特征。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_selection <span class="keyword">import</span> SelectPercentile, f_classif</span><br><span class="line"></span><br><span class="line"><span class="comment"># feature selection</span></span><br><span class="line">selector = SelectPercentile(f_classif, percentile=<span class="number">10</span>)</span><br><span class="line">selector.fit(features_train, labels_train)</span><br><span class="line">features_train = selector.transform(features_train).toarray()</span><br><span class="line">features_test  = selector.transform(features_test).toarray()</span><br></pre></td></tr></table></figure>
+<p>此外，使用 TfidfVectorizer 进行文本向量化时， 也有控制参数可以进行特征简化，下例中，max_df=0.5 表示如果单词出现在超过50%的文档中，将不加入词汇表：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># max_df - When building the vocabulary </span></span><br><span class="line"><span class="comment"># ignore terms that have a document frequency </span></span><br><span class="line"><span class="comment"># strictly higher than the given threshold </span></span><br><span class="line">vectorizer = TfidfVectorizer(sublinear_tf=<span class="keyword">True</span>, max_df=<span class="number">0.5</span>, stop_words=<span class="string">'english'</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="套索回归-Lasso-Regression"><a href="#套索回归-Lasso-Regression" class="headerlink" title="套索回归 (Lasso Regression)"></a>套索回归 (Lasso Regression)</h3><p>Lasso算法是一种同时进行<strong>特征选择和正则化</strong>的回归分析方法。</p>
+<p>其优化的目标函数如下：</p>
+<script type="math/tex; mode=display">
+min_w \frac{1}{2n_{samples}}
+||Xw - y||^2
++ \alpha||w||</script><p>使用 sklearn 中的 Lasso 算法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Lasso</span><br><span class="line"></span><br><span class="line">X_train = [[<span class="number">0</span>, <span class="number">0</span>], [<span class="number">1</span>, <span class="number">1</span>]]</span><br><span class="line">y_train = [<span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line">X_test = [[<span class="number">1</span>, <span class="number">1</span>]]</span><br><span class="line"></span><br><span class="line"><span class="comment"># create the Lasso model and fit on the training data</span></span><br><span class="line">reg = Lasso(alpha = <span class="number">0.1</span>)</span><br><span class="line">reg.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># The coefficients</span></span><br><span class="line">print(<span class="string">'Coefficients: '</span>, reg.coef_)</span><br><span class="line"></span><br><span class="line"><span class="comment"># predict labels for the test data</span></span><br><span class="line">pred = reg.predict(X_test)</span><br><span class="line"><span class="keyword">print</span> pred</span><br></pre></td></tr></table></figure></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://scikit-learn.org/stable/modules/preprocessing.html#scaling-features-to-a-range" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/preprocessing.html#scaling-features-to-a-range</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/feature_extraction.html#tfidf-term-weighting" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/feature_extraction.html#tfidf-term-weighting</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/feature_extraction.html#vectorizing-a-large-text-corpus-with-the-hashing-trick" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/feature_extraction.html#vectorizing-a-large-text-corpus-with-the-hashing-trick</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/feature_extraction.html#feature-hashing" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/feature_extraction.html#feature-hashing</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/feature_selection.html" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/feature_selection.html</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/linear_model.html#lasso" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/linear_model.html#lasso</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/12/scikit-learn-intro/" rel="next" title="scikit-learn 笔记 - 基本流程">
+                <i class="fa fa-chevron-left"></i> scikit-learn 笔记 - 基本流程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/13/scikit-learn-supervised-learning/" rel="prev" title="scikit-learn 笔记 - 监督学习">
+                scikit-learn 笔记 - 监督学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">WeiJun</p>
+              <p class="site-description motion-element" itemprop="description">If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#特征缩放-Feature-Scaling"><span class="nav-number">1.</span> <span class="nav-text">特征缩放 (Feature Scaling)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文本学习"><span class="nav-number">2.</span> <span class="nav-text">文本学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#词袋-Bag-of-Words"><span class="nav-number">2.1.</span> <span class="nav-text">词袋 (Bag of Words)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#StopWords"><span class="nav-number">2.1.1.</span> <span class="nav-text">StopWords</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#词干提取"><span class="nav-number">2.1.2.</span> <span class="nav-text">词干提取</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tf–idf"><span class="nav-number">2.2.</span> <span class="nav-text">Tf–idf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashingVectorizer"><span class="nav-number">2.3.</span> <span class="nav-text">HashingVectorizer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征选择-Feature-Selection"><span class="nav-number">3.</span> <span class="nav-text">特征选择 (Feature Selection)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#套索回归-Lasso-Regression"><span class="nav-number">3.1.</span> <span class="nav-text">套索回归 (Lasso Regression)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">WeiJun</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="Total Visitors">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="Total Views">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
