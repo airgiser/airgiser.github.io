@@ -109,18 +109,18 @@
 
 
 
-  <meta name="description" content="性能评估为了防止模型过拟合训练数据，需要从数据集划分一部分数据到测试集，在独立的测试集上评估性能（泛化能力）。 scikit-learn 提供了多种评估方法，包括：  学习器的 score 方法返回默认的评估指标。 使用交叉验证的模型评估工具内部使用了相应的评分策略 metrics 模块实现了用于各种不同目的的性能评估指标。  123456789101112131415161718import n">
+  <meta name="description" content="性能评估为了防止模型过拟合训练数据，需要从数据集划分一部分数据到测试集，在独立的测试集上评估性能（泛化能力）。 scikit-learn 提供了多种评估方法，包括：  学习器的 score 方法返回默认的评估指标。 使用交叉验证的模型评估工具内部使用了相应的评分策略 metrics 模块实现了用于各种不同目的的性能评估指标。  123456789101112131415161718192021im">
 <meta name="keywords" content="Machine Learning">
 <meta property="og:type" content="article">
 <meta property="og:title" content="scikit-learn 笔记 - 模型选择与评估">
 <meta property="og:url" content="https://airgiser.github.io/2018/10/16/scikit-learn-model-eval/index.html">
 <meta property="og:site_name" content="WeiJun&#39;s Programming Notes">
-<meta property="og:description" content="性能评估为了防止模型过拟合训练数据，需要从数据集划分一部分数据到测试集，在独立的测试集上评估性能（泛化能力）。 scikit-learn 提供了多种评估方法，包括：  学习器的 score 方法返回默认的评估指标。 使用交叉验证的模型评估工具内部使用了相应的评分策略 metrics 模块实现了用于各种不同目的的性能评估指标。  123456789101112131415161718import n">
+<meta property="og:description" content="性能评估为了防止模型过拟合训练数据，需要从数据集划分一部分数据到测试集，在独立的测试集上评估性能（泛化能力）。 scikit-learn 提供了多种评估方法，包括：  学习器的 score 方法返回默认的评估指标。 使用交叉验证的模型评估工具内部使用了相应的评分策略 metrics 模块实现了用于各种不同目的的性能评估指标。  123456789101112131415161718192021im">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-16T04:29:44.000Z">
+<meta property="og:updated_time" content="2018-10-17T04:23:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="scikit-learn 笔记 - 模型选择与评估">
-<meta name="twitter:description" content="性能评估为了防止模型过拟合训练数据，需要从数据集划分一部分数据到测试集，在独立的测试集上评估性能（泛化能力）。 scikit-learn 提供了多种评估方法，包括：  学习器的 score 方法返回默认的评估指标。 使用交叉验证的模型评估工具内部使用了相应的评分策略 metrics 模块实现了用于各种不同目的的性能评估指标。  123456789101112131415161718import n">
+<meta name="twitter:description" content="性能评估为了防止模型过拟合训练数据，需要从数据集划分一部分数据到测试集，在独立的测试集上评估性能（泛化能力）。 scikit-learn 提供了多种评估方法，包括：  学习器的 score 方法返回默认的评估指标。 使用交叉验证的模型评估工具内部使用了相应的评分策略 metrics 模块实现了用于各种不同目的的性能评估指标。  123456789101112131415161718192021im">
 
 
 
@@ -343,12 +343,24 @@
                 
               
 
-              <time title="Created: 2018-10-16 12:27:08 / Modified: 12:29:44" itemprop="dateCreated datePublished" datetime="2018-10-16T12:27:08+08:00">2018-10-16</time>
+              <time title="Created: 2018-10-16 12:27:08" itemprop="dateCreated datePublished" datetime="2018-10-16T12:27:08+08:00">2018-10-16</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-17 12:23:30" itemprop="dateModified" datetime="2018-10-17T12:23:30+08:00">2018-10-17</time>
               
             
           </span>
@@ -396,7 +408,7 @@
 <li>使用交叉验证的模型评估工具内部使用了相应的评分策略</li>
 <li>metrics 模块实现了用于各种不同目的的性能评估指标。</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm</span><br><span class="line"></span><br><span class="line"><span class="comment"># load the iris data set </span></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line"><span class="keyword">print</span> iris.data.shape, iris.target.shape</span><br><span class="line"></span><br><span class="line"><span class="comment"># split into training and test sets</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(</span><br><span class="line">    iris.data, iris.target, test_size=<span class="number">0.4</span>, random_state=<span class="number">0</span>)</span><br><span class="line"><span class="keyword">print</span> X_train.shape, y_train.shape</span><br><span class="line"><span class="keyword">print</span> X_test.shape, y_test.shape</span><br><span class="line"></span><br><span class="line"><span class="comment"># evaluation classifier</span></span><br><span class="line">clf = svm.SVC(kernel=<span class="string">'linear'</span>, C=<span class="number">1</span>).fit(X_train, y_train)</span><br><span class="line"><span class="keyword">print</span> clf.score(X_test, y_test)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm</span><br><span class="line"></span><br><span class="line"><span class="comment"># load the iris data set </span></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line"><span class="keyword">print</span> iris.data.shape, iris.target.shape</span><br><span class="line"></span><br><span class="line"><span class="comment"># split into training and test sets</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(</span><br><span class="line">    iris.data, iris.target, test_size=<span class="number">0.4</span>, random_state=<span class="number">0</span>)</span><br><span class="line"><span class="keyword">print</span> X_train.shape, y_train.shape</span><br><span class="line"><span class="keyword">print</span> X_test.shape, y_test.shape</span><br><span class="line"></span><br><span class="line"><span class="comment"># evaluation classifier</span></span><br><span class="line">clf = svm.SVC(kernel=<span class="string">'linear'</span>, C=<span class="number">1</span>).fit(X_train, y_train)</span><br><span class="line"><span class="keyword">print</span> clf.score(X_test, y_test) </span><br><span class="line">pred = clf.predict(X_test)</span><br><span class="line">print(metrics.classification_report(y_test, pred))</span><br><span class="line">print(metrics.confusion_matrix(y_test, pred))</span><br></pre></td></tr></table></figure>
 <h1 id="交叉验证-Cross-Validation"><a href="#交叉验证-Cross-Validation" class="headerlink" title="交叉验证 (Cross Validation)"></a>交叉验证 (Cross Validation)</h1><p>在评估不同的模型参数(超参数)的效果时，直接使用测试集将有可能存在过拟合测试集的风险（多次人为调整模型参数再用测试集验证择优，相当于让模型某种程度学习了测试集），此时在测试集上评估泛化性能就不再准确。</p>
 <p>我们可以选择将数据集划分为训练集、验证集、测试集，在验证集上调试模型参数，但这样每个集合的样本量就会减少，在总的样本数较少时，就不太合适。</p>
 <a id="more"></a>

@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://airgiser.github.io/2018/10/13/scikit-learn-dataset-trans/</loc>
+    
+    <lastmod>2018-10-17T04:25:38.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://airgiser.github.io/2018/10/16/scikit-learn-model-eval/</loc>
+    
+    <lastmod>2018-10-17T04:23:30.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://airgiser.github.io/2018/10/11/linux-text-utils-intro/</loc>
     
     <lastmod>2018-10-16T07:43:48.000Z</lastmod>
@@ -9,23 +23,9 @@
   </url>
   
   <url>
-    <loc>https://airgiser.github.io/2018/10/16/scikit-learn-model-eval/</loc>
-    
-    <lastmod>2018-10-16T04:29:44.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://airgiser.github.io/2018/10/13/scikit-learn-unsupervised-learning/</loc>
     
     <lastmod>2018-10-16T04:17:25.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://airgiser.github.io/2018/10/13/scikit-learn-dataset-trans/</loc>
-    
-    <lastmod>2018-10-16T04:14:07.000Z</lastmod>
     
   </url>
   

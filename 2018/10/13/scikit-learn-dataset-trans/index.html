@@ -117,7 +117,7 @@
 <meta property="og:site_name" content="WeiJun&#39;s Programming Notes">
 <meta property="og:description" content="特征缩放 (Feature Scaling)在使用机器学习算法前，经常需要进行特征缩放(feature scaling)，将所有特征都缩放到相同的尺度 ([0,1]的范围)。 下面是进行特征缩放的一种方式：  x&apos; = \frac{x - x_{min}}{x_{max} - x_{min}}1234def featureScaling(arr):    minval = min(arr)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-16T04:14:07.000Z">
+<meta property="og:updated_time" content="2018-10-17T04:25:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="scikit-learn 笔记 - 数据集转换">
 <meta name="twitter:description" content="特征缩放 (Feature Scaling)在使用机器学习算法前，经常需要进行特征缩放(feature scaling)，将所有特征都缩放到相同的尺度 ([0,1]的范围)。 下面是进行特征缩放的一种方式：  x&apos; = \frac{x - x_{min}}{x_{max} - x_{min}}1234def featureScaling(arr):    minval = min(arr)">
@@ -360,7 +360,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2018-10-16 12:14:07" itemprop="dateModified" datetime="2018-10-16T12:14:07+08:00">2018-10-16</time>
+                <time title="Modified: 2018-10-17 12:25:38" itemprop="dateModified" datetime="2018-10-17T12:25:38+08:00">2018-10-17</time>
               
             
           </span>
@@ -415,7 +415,7 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
 <a id="more"></a>
 <h3 id="StopWords"><a href="#StopWords" class="headerlink" title="StopWords"></a>StopWords</h3><p>并非所有文字都拥有相同的信息量，在文本分析前，我们通常需要进行预处理，去除停用词 (StopWords, 通常指那些低信息量高频率的词) ，从而简化语料库 (corpus) 。</p>
 <p>从 <strong><a href="http://www.nltk.org/" target="_blank" rel="noopener">NLTK</a></strong> 中获取停止词：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> nltk</span><br><span class="line">nltk.download(<span class="string">"stopwords"</span>)</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from nltk.corpus import stopwords</span><br><span class="line">sw = stopwords.words(&quot;english&quot;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> nltk.corpus <span class="keyword">import</span> stopwords</span><br><span class="line">sw = stopwords.words(<span class="string">"english"</span>)</span><br></pre></td></tr></table></figure>
 <h3 id="词干提取"><a href="#词干提取" class="headerlink" title="词干提取"></a>词干提取</h3><p>可能有许多单词都表示同一个意思，在得到词袋之前，可以先将这些词打包进行词干分析，即可得到合并后的词汇，从而简化语料库。</p>
 <p>可以使用 NLTK 提供的词干提取器 (Stemmer) 进行词干化。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> nltk.stem.snowball <span class="keyword">import</span> SnowballStemmer</span><br><span class="line"></span><br><span class="line">stemmer = SnowballStemmer(<span class="string">"english"</span>)</span><br><span class="line"><span class="keyword">print</span> stemmer.stem(<span class="string">"responsivity"</span>) == <span class="string">"respons"</span></span><br><span class="line"><span class="keyword">print</span> stemmer.stem(<span class="string">"responsiveness"</span>) == <span class="string">"respons"</span></span><br><span class="line"><span class="keyword">print</span> stemmer.stem(<span class="string">"unresponsive"</span>) == <span class="string">"unrespons"</span></span><br></pre></td></tr></table></figure>
