@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://airgiser.github.io/2018/10/17/data-science-process/</loc>
+    
+    <lastmod>2018-10-17T08:24:01.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://airgiser.github.io/2018/10/11/linux-text-utils-intro/</loc>
+    
+    <lastmod>2018-10-17T08:19:38.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://airgiser.github.io/2018/10/13/scikit-learn-dataset-trans/</loc>
     
     <lastmod>2018-10-17T04:25:38.000Z</lastmod>
@@ -12,13 +26,6 @@
     <loc>https://airgiser.github.io/2018/10/16/scikit-learn-model-eval/</loc>
     
     <lastmod>2018-10-17T04:23:30.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://airgiser.github.io/2018/10/11/linux-text-utils-intro/</loc>
-    
-    <lastmod>2018-10-16T07:43:48.000Z</lastmod>
     
   </url>
   
