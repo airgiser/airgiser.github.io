@@ -117,7 +117,7 @@
 <meta property="og:site_name" content="WeiJun&#39;s Programming Notes">
 <meta property="og:description" content="线性回归 (Linear Regression)线性模型的数学表示：  \hat{y}(w,x) = w_0 + w_1x_1 + ... + w_px_p通常使用最小二乘法来解决线性回归问题，从而得到合适的系数。  min_w||Xw - y||^2在sklearn中，通过线性回归得到的系数有 coef 和 intercept 。coef 表示向量w(w1,…,wp)， intercept 表示">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-13T08:57:47.000Z">
+<meta property="og:updated_time" content="2018-10-18T06:12:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="scikit-learn 笔记 - 监督学习">
 <meta name="twitter:description" content="线性回归 (Linear Regression)线性模型的数学表示：  \hat{y}(w,x) = w_0 + w_1x_1 + ... + w_px_p通常使用最小二乘法来解决线性回归问题，从而得到合适的系数。  min_w||Xw - y||^2在sklearn中，通过线性回归得到的系数有 coef 和 intercept 。coef 表示向量w(w1,…,wp)， intercept 表示">
@@ -343,12 +343,24 @@
                 
               
 
-              <time title="Created: 2018-10-13 16:55:53 / Modified: 16:57:47" itemprop="dateCreated datePublished" datetime="2018-10-13T16:55:53+08:00">2018-10-13</time>
+              <time title="Created: 2018-10-13 16:55:53" itemprop="dateCreated datePublished" datetime="2018-10-13T16:55:53+08:00">2018-10-13</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-18 14:12:25" itemprop="dateModified" datetime="2018-10-18T14:12:25+08:00">2018-10-18</time>
               
             
           </span>
@@ -399,6 +411,7 @@ min_w||Xw - y||^2</script><p>在sklearn中，通过线性回归得到的系数�
 <p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html#sklearn.linear_model.LinearRegression.score" target="_blank" rel="noopener">R^2 Score</a> </p>
 </blockquote>
 <h3 id="线性回归模型可视化"><a href="#线性回归模型可视化" class="headerlink" title="线性回归模型可视化"></a>线性回归模型可视化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plt.scatter(X, Y)</span><br><span class="line">plt.plot(X, reg.predict(X), color=<span class="string">'red'</span>, linewidth=<span class="number">2</span>)</span><br><span class="line">plt.xlabel(<span class="string">"x"</span>)</span><br><span class="line">plt.ylabel(<span class="string">"y"</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <h2 id="朴素贝叶斯-Naive-Bayes"><a href="#朴素贝叶斯-Naive-Bayes" class="headerlink" title="朴素贝叶斯 (Naive Bayes)"></a>朴素贝叶斯 (Naive Bayes)</h2><p>朴素贝叶斯分类器是一类简单的概率分类器，它基于贝叶斯定理和特征间的强大的（朴素的）独立假设，算法实现简单且可以支持很大的特征空间，同时也具备很快的训练速度。以下是贝叶斯公式。</p>
 <script type="math/tex; mode=display">
 P(A|B) = \frac{P(B|A) P(A)}{P(B)}</script><ul>
@@ -407,7 +420,6 @@ P(A|B) = \frac{P(B|A) P(A)}{P(B)}</script><ul>
 <li>P(A)是A的<strong>先验概率</strong>（或边缘概率）。之所以称为”先验”是因为它不考虑任何B方面的因素。</li>
 <li>P(B)是B的先验概率或边缘概率。</li>
 </ul>
-<a id="more"></a>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.naive_bayes <span class="keyword">import</span> GaussianNB</span><br><span class="line"></span><br><span class="line"><span class="comment"># create classifier</span></span><br><span class="line">clf = GaussianNB()</span><br><span class="line"></span><br><span class="line"><span class="comment"># fit the classifier on the training features and labels</span></span><br><span class="line">clf.fit(features_train, labels_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># use the trained classifier to predict labels for the test features</span></span><br><span class="line">pred = clf.predict(features_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># calculate the accuracy on the test data</span></span><br><span class="line">accuracy = clf.score(features_test, labels_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># also can use the below code to calculate the accuracy</span></span><br><span class="line"><span class="comment"># from sklearn.metrics import accuracy_score</span></span><br><span class="line"><span class="comment"># accuracy = accuracy_score(pred, labels_test)</span></span><br></pre></td></tr></table></figure>
 <h2 id="支持向量机-SVM"><a href="#支持向量机-SVM" class="headerlink" title="支持向量机 (SVM)"></a>支持向量机 (SVM)</h2><p>支持向量机 (SVM) 有时也称为最大化间距分类器 (maximum margin classifier)。其目标是找到一条分隔线，使得这条分隔线离不同类别最近的数据点间距(margin)越远越好。</p>
 <p>SVM的超参数 C 用于防止过拟合：</p>
@@ -595,7 +607,7 @@ Gain(L, X^i) = Entropy(L) - \sum_{v \in values(X^i)} \frac{|L_v|}{|L|}Entropy(L_
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>

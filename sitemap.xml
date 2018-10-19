@@ -2,23 +2,44 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://airgiser.github.io/2018/10/17/data-science-process/</loc>
+    <loc>https://airgiser.github.io/2018/10/19/numpy-ndarray/</loc>
     
-    <lastmod>2018-10-17T08:24:01.000Z</lastmod>
+    <lastmod>2018-10-19T04:12:46.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://airgiser.github.io/2018/10/11/linux-text-utils-intro/</loc>
     
-    <lastmod>2018-10-17T08:19:38.000Z</lastmod>
+    <lastmod>2018-10-19T03:51:34.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://airgiser.github.io/2018/10/13/scikit-learn-dataset-trans/</loc>
     
-    <lastmod>2018-10-17T04:25:38.000Z</lastmod>
+    <lastmod>2018-10-18T09:18:11.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://airgiser.github.io/2018/10/13/scikit-learn-unsupervised-learning/</loc>
+    
+    <lastmod>2018-10-18T06:13:16.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://airgiser.github.io/2018/10/13/scikit-learn-supervised-learning/</loc>
+    
+    <lastmod>2018-10-18T06:12:25.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://airgiser.github.io/2018/10/17/data-science-process/</loc>
+    
+    <lastmod>2018-10-18T06:07:59.000Z</lastmod>
     
   </url>
   
@@ -30,23 +51,9 @@
   </url>
   
   <url>
-    <loc>https://airgiser.github.io/2018/10/13/scikit-learn-unsupervised-learning/</loc>
-    
-    <lastmod>2018-10-16T04:17:25.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://airgiser.github.io/2018/10/12/scikit-learn-intro/</loc>
     
     <lastmod>2018-10-16T04:11:50.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://airgiser.github.io/2018/10/13/scikit-learn-supervised-learning/</loc>
-    
-    <lastmod>2018-10-13T08:57:47.000Z</lastmod>
     
   </url>
   

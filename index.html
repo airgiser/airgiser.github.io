@@ -300,6 +300,153 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/19/numpy-ndarray/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeiJun's Programming Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/19/numpy-ndarray/" itemprop="url">
+                  NumPy 笔记 - 多维数组
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-19 11:47:55 / Modified: 12:12:46" itemprop="dateCreated datePublished" datetime="2018-10-19T11:47:55+08:00">2018-10-19</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="数组对象"><a href="#数组对象" class="headerlink" title="数组对象"></a>数组对象</h1><p>Numpy 核心的对象是 <code>ndarray</code>，表示多维数组，可以看作由类型相同(通常是数字)的元素组成的表。</p>
+<p>可以通过官方教程的例子了解其基本属性：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = np.arange(<span class="number">15</span>).reshape(<span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([[ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>],</span><br><span class="line">        [ <span class="number">5</span>,  <span class="number">6</span>,  <span class="number">7</span>,  <span class="number">8</span>,  <span class="number">9</span>],</span><br><span class="line">        [<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>, <span class="number">14</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.shape <span class="comment"># 数组的形状(各维度大小）</span></span><br><span class="line">(<span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.ndim  <span class="comment"># 数组的维数</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.dtype.name <span class="comment"># 数组中元素的类型</span></span><br><span class="line"><span class="string">'int64'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.itemsize   <span class="comment"># 数组中每个元素的字节大小</span></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.size  <span class="comment"># 数组元素的总数</span></span><br><span class="line"><span class="number">15</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(a)</span><br><span class="line">&lt;type <span class="string">'numpy.ndarray'</span>&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = np.array([<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b</span><br><span class="line">array([<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(b)</span><br><span class="line">&lt;type <span class="string">'numpy.ndarray'</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<h1 id="创建数组"><a href="#创建数组" class="headerlink" title="创建数组"></a>创建数组</h1><p>Numpy中创建数组的方式很多，下面列举常见的创建数组的方式。</p>
+<h2 id="np-array"><a href="#np-array" class="headerlink" title="np.array()"></a>np.array()</h2><p>我们可以使用<code>array</code>函数从 Python 的列表或元组创建数组。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/19/numpy-ndarray/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/17/data-science-process/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -346,12 +493,24 @@
                 
               
 
-              <time title="Created: 2018-10-17 15:54:13 / Modified: 16:24:01" itemprop="dateCreated datePublished" datetime="2018-10-17T15:54:13+08:00">2018-10-17</time>
+              <time title="Created: 2018-10-17 15:54:13" itemprop="dateCreated datePublished" datetime="2018-10-17T15:54:13+08:00">2018-10-17</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-18 14:07:59" itemprop="dateModified" datetime="2018-10-18T14:07:59+08:00">2018-10-18</time>
               
             
           </span>
@@ -408,11 +567,6 @@
 <li>NoSQL 存储 - 如 Redis, MongoDB, HBase 等，通过其 API 或 Web 服务访问。</li>
 </ul>
 <h1 id="准备数据-Prepare-Data"><a href="#准备数据-Prepare-Data" class="headerlink" title="准备数据(Prepare Data)"></a>准备数据(Prepare Data)</h1><p>获取数据之后，首先需要探索数据以形成对现有数据的理解，随后对数据进行必要的预处理，为下一阶段的数据分析做准备。</p>
-<h2 id="探索数据-Explore-Data"><a href="#探索数据-Explore-Data" class="headerlink" title="探索数据(Explore Data)"></a>探索数据(Explore Data)</h2><p>探索数据的主要目的是更好的理解现有数据的特性，比如了解数据的相关性、整体趋势、离群值等。主要有以下手段：</p>
-<ul>
-<li>初步分析</li>
-<li>可视化</li>
-</ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/10/17/data-science-process/#more" rel="contents">
@@ -699,7 +853,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2018-10-16 12:17:25" itemprop="dateModified" datetime="2018-10-16T12:17:25+08:00">2018-10-16</time>
+                <time title="Modified: 2018-10-18 14:13:16" itemprop="dateModified" datetime="2018-10-18T14:13:16+08:00">2018-10-18</time>
               
             
           </span>
@@ -743,12 +897,6 @@
 </ol>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.cluster <span class="keyword">import</span> KMeans</span><br><span class="line"></span><br><span class="line"><span class="comment"># Compute k-means clustering</span></span><br><span class="line">kmeans = KMeans(n_clusters=<span class="number">2</span>)</span><br><span class="line">kmeans.fit(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Predict the closest cluster each sample in X belongs to.</span></span><br><span class="line">kmeans.predict(X)</span><br></pre></td></tr></table></figure>
 <p><strong>K-Means 聚类算法的局限</strong>：</p>
-<p>聚类的结果非常依赖初始化的情况，很有可能得到局部最优结果。</p>
-<p>因此我们通常需要多次运行K-均值算法（对应sklearn中的n_init参数），每一次都重新进行随机初始化，最后选择最优（代价最低）的结果。</p>
-<h2 id="降维-Dimensionality-Reduction"><a href="#降维-Dimensionality-Reduction" class="headerlink" title="降维 (Dimensionality Reduction)"></a>降维 (Dimensionality Reduction)</h2><p>数据降维是在尽量保留有效信息的前提下压缩数据(减少特征个数)。</p>
-<h3 id="主成分分析-PCA"><a href="#主成分分析-PCA" class="headerlink" title="主成分分析(PCA)"></a>主成分分析(PCA)</h3><p>PCA 可以通过在特征空间转换坐标系 (平移和旋转) 来降低数据维度。</p>
-<p>PCA 的目的是找到一个向量表示的直线(或一组向量表示的平面或空间)，即主成分。当我们把所有样本都投影到主成分上时，我们希望投影误差能尽可能地小(最大程度保留来自原始数据的信息)。</p>
-<p>PCA 实际上将输入的原始特征自动组合成了数量更少的一些新的特征（主成分），同时这些新的特征尽量多的保留了原始特征的信息。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/10/13/scikit-learn-unsupervised-learning/#more" rel="contents">
@@ -853,12 +1001,24 @@
                 
               
 
-              <time title="Created: 2018-10-13 16:55:53 / Modified: 16:57:47" itemprop="dateCreated datePublished" datetime="2018-10-13T16:55:53+08:00">2018-10-13</time>
+              <time title="Created: 2018-10-13 16:55:53" itemprop="dateCreated datePublished" datetime="2018-10-13T16:55:53+08:00">2018-10-13</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-18 14:12:25" itemprop="dateModified" datetime="2018-10-18T14:12:25+08:00">2018-10-18</time>
               
             
           </span>
@@ -902,14 +1062,6 @@ min_w||Xw - y||^2</script><p>在sklearn中，通过线性回归得到的系数�
 <p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html#sklearn.linear_model.LinearRegression.score" target="_blank" rel="noopener">R^2 Score</a> </p>
 </blockquote>
 <h3 id="线性回归模型可视化"><a href="#线性回归模型可视化" class="headerlink" title="线性回归模型可视化"></a>线性回归模型可视化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plt.scatter(X, Y)</span><br><span class="line">plt.plot(X, reg.predict(X), color=<span class="string">'red'</span>, linewidth=<span class="number">2</span>)</span><br><span class="line">plt.xlabel(<span class="string">"x"</span>)</span><br><span class="line">plt.ylabel(<span class="string">"y"</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<h2 id="朴素贝叶斯-Naive-Bayes"><a href="#朴素贝叶斯-Naive-Bayes" class="headerlink" title="朴素贝叶斯 (Naive Bayes)"></a>朴素贝叶斯 (Naive Bayes)</h2><p>朴素贝叶斯分类器是一类简单的概率分类器，它基于贝叶斯定理和特征间的强大的（朴素的）独立假设，算法实现简单且可以支持很大的特征空间，同时也具备很快的训练速度。以下是贝叶斯公式。</p>
-<script type="math/tex; mode=display">
-P(A|B) = \frac{P(B|A) P(A)}{P(B)}</script><ul>
-<li>P(A|B)是已知B发生后A的条件概率，也由于得自B的取值而被称作A的<strong>后验概率</strong>。</li>
-<li>P(B|A)是已知A发生后B的条件概率，也由于得自A的取值而被称作B的后验概率(似然率)。</li>
-<li>P(A)是A的<strong>先验概率</strong>（或边缘概率）。之所以称为”先验”是因为它不考虑任何B方面的因素。</li>
-<li>P(B)是B的先验概率或边缘概率。</li>
-</ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/10/13/scikit-learn-supervised-learning/#more" rel="contents">
@@ -1031,7 +1183,7 @@ P(A|B) = \frac{P(B|A) P(A)}{P(B)}</script><ul>
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2018-10-17 12:25:38" itemprop="dateModified" datetime="2018-10-17T12:25:38+08:00">2018-10-17</time>
+                <time title="Modified: 2018-10-18 17:18:11" itemprop="dateModified" datetime="2018-10-18T17:18:11+08:00">2018-10-18</time>
               
             
           </span>
@@ -1073,9 +1225,6 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
 <p>对许多机器学习算法，特征缩放将影响最终的效果，如SVM和K-Means等(影响计算距离时各特征的比重)。</p>
 <p>此外，特征缩放通常可以加速(大部分)机器学习算法的训练过程。</p>
 <h1 id="文本特征"><a href="#文本特征" class="headerlink" title="文本特征"></a>文本特征</h1><p>文本分析是机器学习算法的一个重要应用领域，然而原始的文本数据很难直接作为大部分算法的输入，为此 scikit-learn 提供了许多方法从文本中提取特征向量。</p>
-<h2 id="词袋-Bag-of-Words"><a href="#词袋-Bag-of-Words" class="headerlink" title="词袋 (Bag of Words)"></a>词袋 (Bag of Words)</h2><p>词袋（Bag-of-Words, BOW）模型是文本向量化的一种方式，主要关注文档中单词的出现频率，舍弃了单词中的所有顺序信息。</p>
-<p>任何文档都可以编码成一个固定长度的向量，该向量表示词汇表中每个单词在文档中的计数或频率，长度为从所有文档中抽取的单词构成的词汇表的大小。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer</span><br><span class="line"></span><br><span class="line"><span class="comment"># CountVectorizer implements both tokenization and occurrence counting in a single class</span></span><br><span class="line">vectorizer = CountVectorizer()</span><br><span class="line"></span><br><span class="line"><span class="comment"># tokenizes a string</span></span><br><span class="line">analyze = vectorizer.build_analyzer()</span><br><span class="line">analyze(<span class="string">"This is a text document to analyze."</span>) == (</span><br><span class="line">    [<span class="string">'this'</span>, <span class="string">'is'</span>, <span class="string">'text'</span>, <span class="string">'document'</span>, <span class="string">'to'</span>, <span class="string">'analyze'</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># tokenize and count the word occurrences of a minimalistic corpus of text documents</span></span><br><span class="line">corpus = [</span><br><span class="line">    <span class="string">'This is the first document.'</span>,</span><br><span class="line">    <span class="string">'This is the second second document.'</span>,</span><br><span class="line">    <span class="string">'And the third one.'</span>,</span><br><span class="line">    <span class="string">'Is this the first document?'</span>,</span><br><span class="line">]</span><br><span class="line">X = vectorizer.fit_transform(corpus)</span><br><span class="line"><span class="keyword">print</span> vectorizer.get_feature_names() == (</span><br><span class="line">    [<span class="string">'and'</span>, <span class="string">'document'</span>, <span class="string">'first'</span>, <span class="string">'is'</span>, <span class="string">'one'</span>, <span class="string">'second'</span>, <span class="string">'the'</span>, <span class="string">'third'</span>, <span class="string">'this'</span>])</span><br><span class="line"><span class="keyword">print</span> X.toarray()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Transform a new document to document-term matrix.</span></span><br><span class="line"><span class="keyword">print</span> vectorizer.transform([<span class="string">'Something completely new.'</span>]).toarray()</span><br><span class="line"></span><br><span class="line"><span class="comment"># To preserve some of the local ordering information,</span></span><br><span class="line"><span class="comment"># we can extract 2-grams of words in addition to the 1-grams (individual words).</span></span><br><span class="line">bigram_vectorizer = CountVectorizer(ngram_range=(<span class="number">1</span>, <span class="number">2</span>),</span><br><span class="line">                                    token_pattern=<span class="string">r'\b\w+\b'</span>, min_df=<span class="number">1</span>)</span><br><span class="line">analyzer = bigram_vectorizer.build_analyzer()</span><br><span class="line"><span class="keyword">print</span> analyze(<span class="string">'Bi-grams are cool!'</span>) == (</span><br><span class="line">    [<span class="string">'bi'</span>, <span class="string">'grams'</span>, <span class="string">'are'</span>, <span class="string">'cool'</span>, <span class="string">'bi grams'</span>, <span class="string">'grams are'</span>, <span class="string">'are cool'</span>])</span><br><span class="line"><span class="keyword">print</span> bigram_vectorizer.fit_transform(corpus).toarray()</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/10/13/scikit-learn-dataset-trans/#more" rel="contents">
@@ -1314,7 +1463,7 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
           <h1 class="post-title" itemprop="name headline">
                 
                 <a class="post-title-link" href="/2018/10/11/linux-text-utils-intro/" itemprop="url">
-                  Linux常用文本处理命令
+                  Linux 常用文本处理命令
                 </a>
               
             
@@ -1357,7 +1506,7 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2018-10-17 16:19:38" itemprop="dateModified" datetime="2018-10-17T16:19:38+08:00">2018-10-17</time>
+                <time title="Modified: 2018-10-19 11:51:34" itemprop="dateModified" datetime="2018-10-19T11:51:34+08:00">2018-10-19</time>
               
             
           </span>
@@ -1391,8 +1540,8 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
 
       
         
-          <p>Linux系统有许多的工具用来对文本进行过滤和处理，下面对一些常用的工具进行简单总结。</p>
-<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><p>grep工具对文件的每一行搜索指定的模式字符串。如果找到了匹配这个字符串的行，就打印该行的内容。</p>
+          <p>Linux 系统有许多的工具用来对文本进行过滤和处理，下面对一些常用的工具进行简单总结。</p>
+<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><p>grep 工具对文件的每一行搜索指定的模式字符串。如果找到了匹配这个字符串的行，就打印该行的内容。</p>
 <h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grep [OPTIONS] PATTERN [FILE...] </span><br><span class="line"></span><br><span class="line">grep [OPTIONS] [-e PATTERN | -f FILE] [FILE...]</span><br></pre></td></tr></table></figure>
 <h3 id="常用选项"><a href="#常用选项" class="headerlink" title="常用选项"></a>常用选项</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定pattern，可用于需要匹配多个模式的情况</span></span><br><span class="line">-e PATTERN</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定文件中，每行存储一个模式</span></span><br><span class="line">-f FILE</span><br><span class="line"></span><br><span class="line"><span class="comment"># 忽略大小写</span></span><br><span class="line">-i, --ignore-case</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 反检索，只显示不匹配的行。</span></span><br><span class="line">-v, --invert-match</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 匹配整个单词</span></span><br><span class="line">-w, --word-regexp</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 匹配整行</span></span><br><span class="line">-x, --line-regexp</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># 只输出匹配的行数，不显示匹配的内容。</span></span><br><span class="line">-c, --count</span><br><span class="line"></span><br><span class="line"><span class="comment"># 高亮匹配的字符串</span></span><br><span class="line"><span class="comment"># WHEN is never, always, auto</span></span><br><span class="line">--color[=WHEN]    </span><br><span class="line"></span><br><span class="line"><span class="comment"># 搜索多个文件时，不显示匹配文件名 </span></span><br><span class="line">-h，--no-filename</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示行号</span></span><br><span class="line">-n，--line-number</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只显示匹配的部分</span></span><br><span class="line">-o, --only-matching</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不显示错误信息。</span></span><br><span class="line">-s，--no-messages</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不显示信息，只返回退出状态。0表示匹配成功</span></span><br><span class="line">-q，--quiet</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出匹配成功的文件</span></span><br><span class="line">-l，--files-with-matches</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出不匹配模式的文件</span></span><br><span class="line">-L，--files-without-match</span><br></pre></td></tr></table></figure>
           <!--noindex-->
@@ -1651,7 +1800,7 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1907,13 +2056,15 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
   
     
       
-    
-      
-    
-      
-    
-      
         
+      
+    
+      
+    
+      
+    
+      
+    
       
     
       
