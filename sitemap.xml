@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://airgiser.github.io/2018/10/22/numpy-operations/</loc>
+    
+    <lastmod>2018-10-22T04:35:25.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://airgiser.github.io/2018/10/19/numpy-ndarray/</loc>
     
     <lastmod>2018-10-19T04:12:46.000Z</lastmod>
