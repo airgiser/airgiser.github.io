@@ -320,7 +320,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 <a class="post-title-link" href="/2018/10/22/numpy-operations/" itemprop="url">
-                  NumPy 笔记 - 数组的运算与操作
+                  Numpy 教程 - 数组的运算与操作
                 </a>
               
             
@@ -346,12 +346,24 @@
                 
               
 
-              <time title="Created: 2018-10-22 12:30:58 / Modified: 14:30:10" itemprop="dateCreated datePublished" datetime="2018-10-22T12:30:58+08:00">2018-10-22</time>
+              <time title="Created: 2018-10-22 12:30:58" itemprop="dateCreated datePublished" datetime="2018-10-22T12:30:58+08:00">2018-10-22</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-23 15:43:13" itemprop="dateModified" datetime="2018-10-23T15:43:13+08:00">2018-10-23</time>
               
             
           </span>
@@ -385,7 +397,8 @@
 
       
         
-          <h1 id="基本运算"><a href="#基本运算" class="headerlink" title="基本运算"></a>基本运算</h1><h2 id="算术运算"><a href="#算术运算" class="headerlink" title="算术运算"></a>算术运算</h2><p>与标量的运算:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a + <span class="number">1</span></span><br><span class="line">array([<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">2</span>**a</span><br><span class="line">array([ <span class="number">2</span>,  <span class="number">4</span>,  <span class="number">8</span>, <span class="number">16</span>])</span><br></pre></td></tr></table></figure></p>
+          <h1 id="基本运算"><a href="#基本运算" class="headerlink" title="基本运算"></a>基本运算</h1><p>Numpy的数组支持算术运算、逻辑运算、常见数学函数等许多的运算功能。</p>
+<h2 id="算术运算"><a href="#算术运算" class="headerlink" title="算术运算"></a>算术运算</h2><p>与标量的运算:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a + <span class="number">1</span></span><br><span class="line">array([<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">2</span>**a</span><br><span class="line">array([ <span class="number">2</span>,  <span class="number">4</span>,  <span class="number">8</span>, <span class="number">16</span>])</span><br></pre></td></tr></table></figure></p>
 <p>数组元素的算术运算:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = np.ones(<span class="number">4</span>) + <span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a - b</span><br><span class="line">array([<span class="number">-1.</span>,  <span class="number">0.</span>,  <span class="number">1.</span>,  <span class="number">2.</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a * b</span><br><span class="line">array([ <span class="number">2.</span>,  <span class="number">4.</span>,  <span class="number">6.</span>,  <span class="number">8.</span>])</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>j = np.arange(<span class="number">5</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">2</span>**(j + <span class="number">1</span>) - j</span><br><span class="line">array([ <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">6</span>, <span class="number">13</span>, <span class="number">28</span>])</span><br></pre></td></tr></table></figure></p>
 <p>这些操作远比在Python中直接实现效率要高的多:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = np.arange(<span class="number">10000</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>%timeit a + <span class="number">1</span>  </span><br><span class="line"><span class="number">10000</span> loops, best of <span class="number">3</span>: <span class="number">24.3</span> us per loop</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l = range(<span class="number">10000</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>%timeit [i+<span class="number">1</span> <span class="keyword">for</span> i <span class="keyword">in</span> l] </span><br><span class="line"><span class="number">1000</span> loops, best of <span class="number">3</span>: <span class="number">861</span> us per loop</span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
@@ -466,7 +479,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 <a class="post-title-link" href="/2018/10/19/numpy-ndarray/" itemprop="url">
-                  NumPy 笔记 - 多维数组
+                  Numpy 教程 - 多维数组
                 </a>
               
             
@@ -492,12 +505,24 @@
                 
               
 
-              <time title="Created: 2018-10-19 11:47:55 / Modified: 12:12:46" itemprop="dateCreated datePublished" datetime="2018-10-19T11:47:55+08:00">2018-10-19</time>
+              <time title="Created: 2018-10-19 11:47:55" itemprop="dateCreated datePublished" datetime="2018-10-19T11:47:55+08:00">2018-10-19</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-23 15:43:07" itemprop="dateModified" datetime="2018-10-23T15:43:07+08:00">2018-10-23</time>
               
             
           </span>
@@ -1971,7 +1996,11 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
