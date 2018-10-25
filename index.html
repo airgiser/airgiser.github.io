@@ -300,6 +300,154 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/25/matplotlib-simple-guide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeiJun's Programming Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/25/matplotlib-simple-guide/" itemprop="url">
+                  Matplotlib 简明教程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-25 19:03:37 / Modified: 19:13:55" itemprop="dateCreated datePublished" datetime="2018-10-25T19:03:37+08:00">2018-10-25</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Matplotlib 可以说是最常用的 Python 绘图模块，其实现了许多类似 Matlab 中的函数，可以帮助用户轻松获得高质量的图形。</p>
+<h2 id="Pyplot"><a href="#Pyplot" class="headerlink" title="Pyplot"></a>Pyplot</h2><p>matplotlib.pyplot 提供了一系列与 Matlab 绘图命令对应的函数，如果你熟悉 Matlab 绘图将很容易上手。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 Jupyter notebook 时在开头添加如下命令使图形嵌入当前页面</span></span><br><span class="line">%matplotlib inline</span><br></pre></td></tr></table></figure>
+<p>绘制简单折线：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">plt.figure() <span class="comment"># 创建一个新的图</span></span><br><span class="line"></span><br><span class="line">plt.plot([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], [<span class="number">1</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">16</span>]) <span class="comment"># 传入一些 x 和 y 的值来绘制折线</span></span><br><span class="line">plt.title(<span class="string">'Line Chart: Polyline'</span>)     <span class="comment"># 设置标题</span></span><br><span class="line">plt.xlabel(<span class="string">'x'</span>)                       <span class="comment"># 设置 x 轴标签文字</span></span><br><span class="line">plt.ylabel(<span class="string">'y'</span>)                       <span class="comment"># 设置 y 轴标签文字</span></span><br><span class="line"></span><br><span class="line">plt.show()   <span class="comment"># 显示图形</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/airgiser/just-for-fun/master/examples/python/matplotlib/images/polyline.png" alt="image"></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/25/matplotlib-simple-guide/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/22/numpy-operations/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -363,7 +511,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2018-10-23 15:46:37" itemprop="dateModified" datetime="2018-10-23T15:46:37+08:00">2018-10-23</time>
+                <time title="Modified: 2018-10-25 19:04:23" itemprop="dateModified" datetime="2018-10-25T19:04:23+08:00">2018-10-25</time>
               
             
           </span>
@@ -522,7 +670,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2018-10-23 15:47:46" itemprop="dateModified" datetime="2018-10-23T15:47:46+08:00">2018-10-23</time>
+                <time title="Modified: 2018-10-25 19:04:26" itemprop="dateModified" datetime="2018-10-25T19:04:26+08:00">2018-10-25</time>
               
             
           </span>
@@ -1758,179 +1906,13 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/11/effective-learning-skills/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="WeiJun">
-      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="WeiJun's Programming Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/11/effective-learning-skills/" itemprop="url">
-                  高效学习技巧
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-10-11 17:37:46" itemprop="dateCreated datePublished" datetime="2018-10-11T17:37:46+08:00">2018-10-11</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-10-12 18:37:58" itemprop="dateModified" datetime="2018-10-12T18:37:58+08:00">2018-10-12</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>美国加州威廉格拉瑟学院(William Glasser Institute)的一项研究表明：</p>
-<ul>
-<li>如果通过阅读获取信息，最终只有大概10%被长期存储下来；看到或听到的信息能保留50%；</li>
-<li><strong>亲身体验</strong>(动用各种感官)的信息可以被保留80%；</li>
-<li>如果把学到的知识<strong>积极地教给他人</strong>，我们就可以记住至少95%。</li>
-</ul>
-<p>有效学习知识四大关键：</p>
-<ol>
-<li>有效吸收知识</li>
-<li>做好笔记</li>
-<li>记忆</li>
-<li>复习</li>
-</ol>
-<h2 id="高效阅读"><a href="#高效阅读" class="headerlink" title="高效阅读"></a>高效阅读</h2><p><strong>只要方法正确，阅读的速度越快，越容易记住相关信息</strong>。最好的方法就是一边读，一边在重点信息旁做标记，只要有笔或干脆用食指就可以。<strong>用笔或手指辅助阅读</strong>能大大提高阅读时的<strong>专注度</strong>，并极大地提高你的<strong>阅读速度</strong>。</p>
-<h2 id="关键点笔记"><a href="#关键点笔记" class="headerlink" title="关键点笔记"></a>关键点笔记</h2><p>建议每专心阅读<strong>20分钟</strong>左右就停下来做些笔记，在刚刚读过的内容中找出<strong>关键点</strong>，然后在纸上写下这些关键信息。<strong>思维导图</strong>可以说是完美的信息储存工具。理想情况下应当凭记忆从刚刚读过的信息中抽取关键信息，而不用再回头翻一遍，不过也不必强求。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/11/effective-learning-skills/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1971,7 +1953,7 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1985,12 +1967,6 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
                 <div class="site-state-item site-state-tags">
                   <a href="/tags/index.html">
                     
-                    
-                      
-                    
-                      
-                    
-                      
                     
                       
                     
@@ -2237,9 +2213,9 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
       
     
       
-        
-      
     
+      
+        
       
     
       

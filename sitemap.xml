@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://airgiser.github.io/2018/10/25/matplotlib-simple-guide/</loc>
+    
+    <lastmod>2018-10-25T11:13:55.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://airgiser.github.io/2018/10/19/numpy-ndarray/</loc>
     
-    <lastmod>2018-10-23T07:47:46.000Z</lastmod>
+    <lastmod>2018-10-25T11:04:26.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://airgiser.github.io/2018/10/22/numpy-operations/</loc>
     
-    <lastmod>2018-10-23T07:46:37.000Z</lastmod>
+    <lastmod>2018-10-25T11:04:23.000Z</lastmod>
     
   </url>
   
