@@ -300,6 +300,160 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/11/17/redis-geo-intro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeiJun's Programming Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/17/redis-geo-intro/" itemprop="url">
+                  Redis GEO 相关命令简介
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-11-17 12:45:51 / Modified: 12:47:48" itemprop="dateCreated datePublished" datetime="2018-11-17T12:45:51+08:00">2018-11-17</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Redis GEO 特性(Redis版本&gt;=3.2.0)支持对地理位置进行存储、空间索引、空间查询等相关操作。下面简要介绍其基本命令。</p>
+<h2 id="使用-GEOADD-添加位置"><a href="#使用-GEOADD-添加位置" class="headerlink" title="使用 GEOADD 添加位置"></a>使用 GEOADD 添加位置</h2><p>GEOADD 用于将给定的地理空间元素(纬度、经度、名称)添加到指定的集合(由key指定)中。Redis 内部会把对应的数据存储到一个 zset 有序集合中。存储时经纬度坐标会转换为 Geohash 值以实现空间索引，从而支持空间查询操作。</p>
+<h3 id="命令形式"><a href="#命令形式" class="headerlink" title="命令形式"></a>命令形式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GEOADD key longitude latitude member [longitude latitude member ...]</span><br></pre></td></tr></table></figure>
+<p>GEOADD 命令以 x,y 的格式接受经纬度参数，即经度在前，纬度在后。可以一次添加多个地理位置信息，即纬度、经度、名称可以重复多次。</p>
+<p>GEOADD 支持的坐标范围是有限的，接近两极的坐标无法支持：</p>
+<ul>
+<li>有效的经度介于 -180 度至 180 度之间。</li>
+<li>有效的纬度介于 -85.05112878 度至 85.05112878 度之间。</li>
+</ul>
+<p>GEOADD 每添加一个元素的时间复杂度为 O(log(N)) ，其中 N 为 key 对应的集合中的元素数量。</p>
+<p>GEOADD 命令的返回值为新加入到集合中的地理空间元素的数量，集合中已存在的的元素(仅更新)不计入内。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/11/17/redis-geo-intro/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/11/02/law-of-probability/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1757,166 +1911,6 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/12/scikit-learn-intro/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="WeiJun">
-      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="WeiJun's Programming Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/12/scikit-learn-intro/" itemprop="url">
-                  scikit-learn 笔记 - 基本流程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-10-12 15:44:16" itemprop="dateCreated datePublished" datetime="2018-10-12T15:44:16+08:00">2018-10-12</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-10-16 12:11:50" itemprop="dateModified" datetime="2018-10-16T12:11:50+08:00">2018-10-16</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="数据加载"><a href="#数据加载" class="headerlink" title="数据加载"></a>数据加载</h1><p>scikit-learn 在实现时使用了 NumPy 数组，所以我们可以用 NumPy 来加载 csv 文件。</p>
-<p>从指定 URL 加载数据：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line"><span class="comment"># url with dataset</span></span><br><span class="line">url =  <span class="string">"http://www.example.com/ml-data"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># download the file</span></span><br><span class="line">raw_data = urllib.urlopen(url)</span><br><span class="line"></span><br><span class="line"><span class="comment"># load the CSV file as a numpy matrix</span></span><br><span class="line">dataset = np.loadtxt(raw_data, delimiter=<span class="string">","</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># separate the data from the target attributes</span></span><br><span class="line">X = dataset[:,<span class="number">0</span>:<span class="number">7</span>]</span><br><span class="line">y = dataset[:,<span class="number">8</span>]</span><br></pre></td></tr></table></figure></p>
-<p>从指定文件加载数据：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># load the CSV file as a numpy matrix</span></span><br><span class="line">dataset = np.loadtxt(<span class="string">"data/example.csv"</span>, delimiter=<span class="string">","</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># separate the data from the target attributes</span></span><br><span class="line">X = dataset[:,<span class="number">0</span>:<span class="number">7</span>]</span><br><span class="line">y = dataset[:,<span class="number">8</span>]</span><br></pre></td></tr></table></figure></p>
-<h1 id="数据归一化"><a href="#数据归一化" class="headerlink" title="数据归一化"></a>数据归一化</h1><p>大多数的梯度方法对数据的缩放都很敏感。因此在运行算法之前，需要对数据进行预处理，使之归一化，或规格化。归一化会进行<strong>特征缩放</strong>，替换所有特征的名义值，使得每个特征值在0和1之间。规格化还可以使得每个特征的值有0和1的离差。scikit-learn 已经提供了相应的函数。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> preprocessing</span><br><span class="line"></span><br><span class="line"><span class="comment"># normalize the data attributes</span></span><br><span class="line">normalized_X = preprocessing.normalize(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># standardize the data attributes</span></span><br><span class="line">standardized_X = preprocessing.scale(X)</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/12/scikit-learn-intro/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1964,7 +1958,7 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1993,7 +1987,11 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -2224,9 +2222,9 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
   
     
       
-        
-      
     
+      
+        
       
     
       
