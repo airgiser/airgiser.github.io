@@ -109,25 +109,25 @@
 
 
 
-  <meta name="description" content="美国加州威廉格拉瑟学院(William Glasser Institute)的一项研究表明：  如果通过阅读获取信息，最终只有大概10%被长期存储下来；看到或听到的信息能保留50%； 亲身体验(动用各种感官)的信息可以被保留80%； 如果把学到的知识积极地教给他人，我们就可以记住至少95%。  有效学习知识四大关键：  有效吸收知识 做好笔记 记忆 复习  高效阅读只要方法正确，阅读的速度越快，越">
-<meta name="keywords" content="Learning">
+  <meta name="description" content="性能评估为了防止模型过拟合训练数据，需要从数据集划分一部分数据到测试集，在独立的测试集上评估性能（泛化能力）。 scikit-learn 提供了多种评估方法，包括：  学习器的 score 方法返回默认的评估指标。 使用交叉验证的模型评估工具内部使用了相应的评分策略 metrics 模块实现了用于各种不同目的的性能评估指标。  123456789101112131415161718192021im">
+<meta name="keywords" content="Machine Learning">
 <meta property="og:type" content="article">
-<meta property="og:title" content="高效学习技巧">
-<meta property="og:url" content="https://airgiser.github.io/2018/10/11/effective-learning-skills/index.html">
+<meta property="og:title" content="scikit-learn 笔记 - 模型选择与评估">
+<meta property="og:url" content="https://airgiser.github.io/2018/11/02/scikit-learn-model-eval/index.html">
 <meta property="og:site_name" content="WeiJun&#39;s Programming Notes">
-<meta property="og:description" content="美国加州威廉格拉瑟学院(William Glasser Institute)的一项研究表明：  如果通过阅读获取信息，最终只有大概10%被长期存储下来；看到或听到的信息能保留50%； 亲身体验(动用各种感官)的信息可以被保留80%； 如果把学到的知识积极地教给他人，我们就可以记住至少95%。  有效学习知识四大关键：  有效吸收知识 做好笔记 记忆 复习  高效阅读只要方法正确，阅读的速度越快，越">
+<meta property="og:description" content="性能评估为了防止模型过拟合训练数据，需要从数据集划分一部分数据到测试集，在独立的测试集上评估性能（泛化能力）。 scikit-learn 提供了多种评估方法，包括：  学习器的 score 方法返回默认的评估指标。 使用交叉验证的模型评估工具内部使用了相应的评分策略 metrics 模块实现了用于各种不同目的的性能评估指标。  123456789101112131415161718192021im">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-12T10:37:58.000Z">
+<meta property="og:updated_time" content="2019-03-14T06:56:05.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="高效学习技巧">
-<meta name="twitter:description" content="美国加州威廉格拉瑟学院(William Glasser Institute)的一项研究表明：  如果通过阅读获取信息，最终只有大概10%被长期存储下来；看到或听到的信息能保留50%； 亲身体验(动用各种感官)的信息可以被保留80%； 如果把学到的知识积极地教给他人，我们就可以记住至少95%。  有效学习知识四大关键：  有效吸收知识 做好笔记 记忆 复习  高效阅读只要方法正确，阅读的速度越快，越">
+<meta name="twitter:title" content="scikit-learn 笔记 - 模型选择与评估">
+<meta name="twitter:description" content="性能评估为了防止模型过拟合训练数据，需要从数据集划分一部分数据到测试集，在独立的测试集上评估性能（泛化能力）。 scikit-learn 提供了多种评估方法，包括：  学习器的 score 方法返回默认的评估指标。 使用交叉验证的模型评估工具内部使用了相应的评分策略 metrics 模块实现了用于各种不同目的的性能评估指标。  123456789101112131415161718192021im">
 
 
 
 
 
 
-  <link rel="canonical" href="https://airgiser.github.io/2018/10/11/effective-learning-skills/"/>
+  <link rel="canonical" href="https://airgiser.github.io/2018/11/02/scikit-learn-model-eval/"/>
 
 
 
@@ -137,7 +137,7 @@
   };
 </script>
 
-  <title>高效学习技巧 | WeiJun's Programming Notes</title>
+  <title>scikit-learn 笔记 - 模型选择与评估 | WeiJun's Programming Notes</title>
   
 
 
@@ -301,7 +301,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/11/effective-learning-skills/">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/11/02/scikit-learn-model-eval/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="WeiJun">
@@ -318,7 +318,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">高效学习技巧
+          <h1 class="post-title" itemprop="name headline">scikit-learn 笔记 - 模型选择与评估
               
             
           </h1>
@@ -343,7 +343,7 @@
                 
               
 
-              <time title="Created: 2018-10-11 17:37:46" itemprop="dateCreated datePublished" datetime="2018-10-11T17:37:46+08:00">2018-10-11</time>
+              <time title="Created: 2018-11-02 12:27:08" itemprop="dateCreated datePublished" datetime="2018-11-02T12:27:08+08:00">2018-11-02</time>
             
 
             
@@ -360,7 +360,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2018-10-12 18:37:58" itemprop="dateModified" datetime="2018-10-12T18:37:58+08:00">2018-10-12</time>
+                <time title="Modified: 2019-03-14 14:56:05" itemprop="dateModified" datetime="2019-03-14T14:56:05+08:00">2019-03-14</time>
               
             
           </span>
@@ -401,46 +401,28 @@
       
 
       
-        <p>美国加州威廉格拉瑟学院(William Glasser Institute)的一项研究表明：</p>
+        <h1 id="性能评估"><a href="#性能评估" class="headerlink" title="性能评估"></a>性能评估</h1><p>为了防止模型过拟合训练数据，需要从数据集划分一部分数据到测试集，在独立的测试集上评估性能（泛化能力）。</p>
+<p>scikit-learn 提供了多种评估方法，包括：</p>
 <ul>
-<li>如果通过阅读获取信息，最终只有大概10%被长期存储下来；看到或听到的信息能保留50%；</li>
-<li><strong>亲身体验</strong>(动用各种感官)的信息可以被保留80%；</li>
-<li>如果把学到的知识<strong>积极地教给他人</strong>，我们就可以记住至少95%。</li>
+<li>学习器的 score 方法返回默认的评估指标。</li>
+<li>使用交叉验证的模型评估工具内部使用了相应的评分策略</li>
+<li>metrics 模块实现了用于各种不同目的的性能评估指标。</li>
 </ul>
-<p>有效学习知识四大关键：</p>
-<ol>
-<li>有效吸收知识</li>
-<li>做好笔记</li>
-<li>记忆</li>
-<li>复习</li>
-</ol>
-<h2 id="高效阅读"><a href="#高效阅读" class="headerlink" title="高效阅读"></a>高效阅读</h2><p><strong>只要方法正确，阅读的速度越快，越容易记住相关信息</strong>。最好的方法就是一边读，一边在重点信息旁做标记，只要有笔或干脆用食指就可以。<strong>用笔或手指辅助阅读</strong>能大大提高阅读时的<strong>专注度</strong>，并极大地提高你的<strong>阅读速度</strong>。</p>
-<h2 id="关键点笔记"><a href="#关键点笔记" class="headerlink" title="关键点笔记"></a>关键点笔记</h2><p>建议每专心阅读<strong>20分钟</strong>左右就停下来做些笔记，在刚刚读过的内容中找出<strong>关键点</strong>，然后在纸上写下这些关键信息。<strong>思维导图</strong>可以说是完美的信息储存工具。理想情况下应当凭记忆从刚刚读过的信息中抽取关键信息，而不用再回头翻一遍，不过也不必强求。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm</span><br><span class="line"></span><br><span class="line"><span class="comment"># load the iris data set </span></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line"><span class="keyword">print</span> iris.data.shape, iris.target.shape</span><br><span class="line"></span><br><span class="line"><span class="comment"># split into training and test sets</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(</span><br><span class="line">    iris.data, iris.target, test_size=<span class="number">0.4</span>, random_state=<span class="number">0</span>)</span><br><span class="line"><span class="keyword">print</span> X_train.shape, y_train.shape</span><br><span class="line"><span class="keyword">print</span> X_test.shape, y_test.shape</span><br><span class="line"></span><br><span class="line"><span class="comment"># evaluation classifier</span></span><br><span class="line">clf = svm.SVC(kernel=<span class="string">'linear'</span>, C=<span class="number">1</span>).fit(X_train, y_train)</span><br><span class="line"><span class="keyword">print</span> clf.score(X_test, y_test) </span><br><span class="line">pred = clf.predict(X_test)</span><br><span class="line">print(metrics.classification_report(y_test, pred))</span><br><span class="line">print(metrics.confusion_matrix(y_test, pred))</span><br></pre></td></tr></table></figure>
+<h1 id="交叉验证-Cross-Validation"><a href="#交叉验证-Cross-Validation" class="headerlink" title="交叉验证 (Cross Validation)"></a>交叉验证 (Cross Validation)</h1><p>在评估不同的模型参数(超参数)的效果时，直接使用测试集将有可能存在过拟合测试集的风险（多次人为调整模型参数再用测试集验证择优，相当于让模型某种程度学习了测试集），此时在测试集上评估泛化性能就不再准确。</p>
+<p>我们可以选择将数据集划分为训练集、验证集、测试集，在验证集上调试模型参数，但这样每个集合的样本量就会减少，在总的样本数较少时，就不太合适。</p>
 <a id="more"></a>
-<h2 id="记忆"><a href="#记忆" class="headerlink" title="记忆"></a>记忆</h2><p>列完关键点后，可以将这些信息组织起来，按照顺序进行编码。</p>
-<ul>
-<li>首先在思维导图上用数字给关键点<strong>编号</strong>；</li>
-<li>然后将这些关键点写在一张<strong>清单</strong>上；</li>
-<li>接下来将每个关键点转化成一个<strong>视觉形象</strong>；</li>
-<li>最后将每个视觉形象安放在你设定的路径上，用<strong>路径记忆法</strong>一下子就能记住刚刚读过的所有重要信息了。</li>
-</ul>
-<h2 id="复习"><a href="#复习" class="headerlink" title="复习"></a>复习</h2><h3 id="首因效应和近期效应"><a href="#首因效应和近期效应" class="headerlink" title="首因效应和近期效应"></a>首因效应和近期效应</h3><ul>
-<li>一方面，刚开始记忆时，人的记忆效率会非常高，但随着大脑吸收信息越来越多，它开始逐渐走神，效率会逐渐降低。这被称为<strong>首因效应</strong>，比如记忆20个数字，你会发现可能只记住了最前面的5到10个左右；</li>
-<li>另一方面，在快要结束时，你的记忆效率会再度提高，此时大脑会告诉你该记的东西快要完了，它会立刻觉醒——这就是所谓的<strong>近期效应</strong>。</li>
-</ul>
-<p>我们会更容易记住最初接触到的信息，以及最后一段信息，而在这两段之间，我们的大脑忙于吸收刚刚收到的信息，记忆效率会大打折扣。要想克服这种情况，最好的办法就是<strong>重复</strong>，通过重复或加入一些出格的信息来唤醒我们的大脑，让某些信息更加突出，更容易记住。</p>
-<p>如果是通过阅读吸收信息，最好的方法是经常中断。比如本打算学习120分钟，建议将其分解为6个20分钟的片段，<strong>每学习20分钟后，休息5分钟左右</strong>，就可以最大限度地发挥首因效用和近期效应，从而让你记住更多的信息。</p>
-<h3 id="遗忘曲线"><a href="#遗忘曲线" class="headerlink" title="遗忘曲线"></a>遗忘曲线</h3><p>1885年，德国心理学家赫尔曼.艾宾浩斯(Hermann Ebbinghaus)第一次公布了著名的<strong>遗忘曲线</strong>，描述了人们在记住一条新信息之后的遗忘情况。该遗忘曲线表明，人遗忘最快的时间是在记住信息之后的最初两小时之内，且记忆的理解效果越好遗忘得越慢。要想牢牢记住某条信息，需要在记忆过程中和记忆之后<strong>及时复习</strong>。通过不断复习，短时的记忆就可以成为<strong>长期记忆</strong>。</p>
-<h3 id="复习技巧"><a href="#复习技巧" class="headerlink" title="复习技巧"></a>复习技巧</h3><p>艾宾浩斯发现，只要在听讲时做好笔记，并在结束后<strong>立刻复习</strong>，就可以记住至少80%的信息。</p>
-<p>要想让记忆效果达到最优，我们应该：</p>
-<ul>
-<li><strong>学习完成后马上进行第一次复习</strong></li>
-<li><strong>第二天进行第二次复习</strong></li>
-<li><strong>一个星期之后进行第三次复习</strong></li>
-<li><strong>一个月之后进行第四次复习</strong></li>
-<li><strong>半年之后进行第五次复习</strong>。</li>
-</ul>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://zh.wikipedia.org/wiki/%E9%81%97%E5%BF%98%E6%9B%B2%E7%BA%BF" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E9%81%97%E5%BF%98%E6%9B%B2%E7%BA%BF</a></p>
+<h2 id="K-折交叉验证-k-fold-CV"><a href="#K-折交叉验证-k-fold-CV" class="headerlink" title="K 折交叉验证 (k-fold CV)"></a>K 折交叉验证 (k-fold CV)</h2><p>K 折交叉验证将数据集划分为 k 个子集，从中挑选一个作为测试集，剩下所有的作为训练集。<br>每次评估性能时挑选不同的子集作为测试集。这样就可以更充分地利用数据，解决数据样本较少时数据集划分的问题。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> KFold</span><br><span class="line"></span><br><span class="line"><span class="comment"># Example of 2-fold cross-validation on a dataset with 4 samples</span></span><br><span class="line">X = np.array([[<span class="number">0.</span>, <span class="number">0.</span>], [<span class="number">1.</span>, <span class="number">1.</span>], [<span class="number">-1.</span>, <span class="number">-1.</span>], [<span class="number">2.</span>, <span class="number">2.</span>]])</span><br><span class="line">y = np.array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>])</span><br><span class="line">kf = KFold(n_splits=<span class="number">2</span>)</span><br><span class="line"><span class="keyword">for</span> train_indices, test_indices <span class="keyword">in</span> kf.split(X):</span><br><span class="line">    print(<span class="string">"%s %s"</span> % (train_indices, test_indices))</span><br><span class="line">    X_train, X_test, y_train, y_test = X[train_indices], X[test_indices], y[train_indices], y[test_indices]</span><br></pre></td></tr></table></figure>
+<p>++注意：如果数据存在某种顺序，在划分数据集时应该先进行洗牌 (shuffling, 打乱数据顺序)++。</p>
+<h1 id="超参数调试"><a href="#超参数调试" class="headerlink" title="超参数调试"></a>超参数调试</h1><p>超参数是那些无法通过模型直接学得的参数，在 scikit-learn 中这些参数通常是在构造学习器的时候指定，超参数的选择对模型的性能往往有关键的影响，我们可以结合交叉验证在超参数空间中搜索得到合适的超参数。</p>
+<h2 id="GridSearchCV"><a href="#GridSearchCV" class="headerlink" title="GridSearchCV"></a>GridSearchCV</h2><p>GridSearchCV 用于遍历多种参数组合，通过交叉验证确定具有最佳效果的参数。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm, datasets</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> GridSearchCV</span><br><span class="line"></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Dictionary with parameters names (string) as keys </span></span><br><span class="line"><span class="comment"># and lists of parameter settings to try as values.</span></span><br><span class="line"><span class="comment"># This enables searching over any sequence of parameter settings.</span></span><br><span class="line">parameters = &#123;<span class="string">'kernel'</span>:(<span class="string">'linear'</span>, <span class="string">'rbf'</span>), <span class="string">'C'</span>:[<span class="number">1</span>, <span class="number">10</span>]&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Run fit with all sets of parameters, </span></span><br><span class="line"><span class="comment"># and retained the best combination.</span></span><br><span class="line">svc = svm.SVC()</span><br><span class="line">clf = GridSearchCV(svc, parameters)</span><br><span class="line">clf.fit(iris.data, iris.target)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> clf.best_params_</span><br></pre></td></tr></table></figure></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="http://scikit-learn.org/stable/model_selection.html" target="_blank" rel="noopener">http://scikit-learn.org/stable/model_selection.html</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/model_evaluation.html" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/model_evaluation.html</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/cross_validation.html" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/cross_validation.html</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/cross_validation.html#k-fold" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/cross_validation.html#k-fold</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/grid_search.html#grid-search" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/grid_search.html#grid-search</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html</a></p>
 
       
     </div>
@@ -466,7 +448,7 @@
     <strong>Post author:  </strong>WeiJun</li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="https://airgiser.github.io/2018/10/11/effective-learning-skills/" title="高效学习技巧">https://airgiser.github.io/2018/10/11/effective-learning-skills/</a>
+    <a href="https://airgiser.github.io/2018/11/02/scikit-learn-model-eval/" title="scikit-learn 笔记 - 模型选择与评估">https://airgiser.github.io/2018/11/02/scikit-learn-model-eval/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> unless stating additionally.</li>
@@ -479,7 +461,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Learning/" rel="tag"># Learning</a>
+            <a href="/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
           
         </div>
       
@@ -492,14 +474,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/10/25/scikit-learn-unsupervised-learning/" rel="next" title="scikit-learn 笔记 - 非监督学习">
+                <i class="fa fa-chevron-left"></i> scikit-learn 笔记 - 非监督学习
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/10/18/scikit-learn-dataset-trans/" rel="prev" title="scikit-learn 笔记 - 数据集转换">
-                scikit-learn 笔记 - 数据集转换 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/11/06/law-of-probability/" rel="prev" title="常用的概率定理">
+                常用的概率定理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -654,7 +640,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#高效阅读"><span class="nav-number">1.</span> <span class="nav-text">高效阅读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键点笔记"><span class="nav-number">2.</span> <span class="nav-text">关键点笔记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#记忆"><span class="nav-number">3.</span> <span class="nav-text">记忆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复习"><span class="nav-number">4.</span> <span class="nav-text">复习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#首因效应和近期效应"><span class="nav-number">4.1.</span> <span class="nav-text">首因效应和近期效应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遗忘曲线"><span class="nav-number">4.2.</span> <span class="nav-text">遗忘曲线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复习技巧"><span class="nav-number">4.3.</span> <span class="nav-text">复习技巧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#性能评估"><span class="nav-number">1.</span> <span class="nav-text">性能评估</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#交叉验证-Cross-Validation"><span class="nav-number">2.</span> <span class="nav-text">交叉验证 (Cross Validation)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#K-折交叉验证-k-fold-CV"><span class="nav-number">2.1.</span> <span class="nav-text">K 折交叉验证 (k-fold CV)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#超参数调试"><span class="nav-number">3.</span> <span class="nav-text">超参数调试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GridSearchCV"><span class="nav-number">3.1.</span> <span class="nav-text">GridSearchCV</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>

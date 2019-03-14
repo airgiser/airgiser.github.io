@@ -2,86 +2,72 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://airgiser.github.io/2019/01/15/matplotlib-simple-guide/</loc>
+    
+    <lastmod>2019-03-14T07:00:52.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://airgiser.github.io/2018/12/22/numpy-operations/</loc>
+    
+    <lastmod>2019-03-14T07:00:22.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://airgiser.github.io/2018/12/19/numpy-ndarray/</loc>
+    
+    <lastmod>2019-03-14T07:00:14.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://airgiser.github.io/2018/11/06/law-of-probability/</loc>
+    
+    <lastmod>2019-03-14T06:56:42.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://airgiser.github.io/2018/11/02/scikit-learn-model-eval/</loc>
+    
+    <lastmod>2019-03-14T06:56:05.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://airgiser.github.io/2018/10/25/scikit-learn-unsupervised-learning/</loc>
+    
+    <lastmod>2019-03-14T06:55:18.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://airgiser.github.io/2018/10/19/scikit-learn-supervised-learning/</loc>
+    
+    <lastmod>2019-03-14T06:54:50.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://airgiser.github.io/2018/10/18/scikit-learn-dataset-trans/</loc>
+    
+    <lastmod>2019-03-14T06:54:12.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://airgiser.github.io/2019/02/15/linux-text-utils-intro/</loc>
+    
+    <lastmod>2019-03-14T06:52:05.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://airgiser.github.io/2018/11/17/redis-geo-intro/</loc>
     
     <lastmod>2018-11-17T04:47:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://airgiser.github.io/2018/11/02/law-of-probability/</loc>
-    
-    <lastmod>2018-11-02T07:04:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://airgiser.github.io/2018/10/25/matplotlib-simple-guide/</loc>
-    
-    <lastmod>2018-10-26T02:17:09.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://airgiser.github.io/2018/10/22/numpy-operations/</loc>
-    
-    <lastmod>2018-10-25T11:39:14.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://airgiser.github.io/2018/10/19/numpy-ndarray/</loc>
-    
-    <lastmod>2018-10-25T11:39:02.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://airgiser.github.io/2018/10/11/linux-text-utils-intro/</loc>
-    
-    <lastmod>2018-10-19T03:51:34.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://airgiser.github.io/2018/10/13/scikit-learn-dataset-trans/</loc>
-    
-    <lastmod>2018-10-18T09:18:11.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://airgiser.github.io/2018/10/13/scikit-learn-unsupervised-learning/</loc>
-    
-    <lastmod>2018-10-18T06:13:16.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://airgiser.github.io/2018/10/13/scikit-learn-supervised-learning/</loc>
-    
-    <lastmod>2018-10-18T06:12:25.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://airgiser.github.io/2018/10/17/data-science-process/</loc>
-    
-    <lastmod>2018-10-18T06:07:59.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://airgiser.github.io/2018/10/16/scikit-learn-model-eval/</loc>
-    
-    <lastmod>2018-10-17T04:23:30.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://airgiser.github.io/2018/10/12/scikit-learn-intro/</loc>
-    
-    <lastmod>2018-10-16T04:11:50.000Z</lastmod>
     
   </url>
   

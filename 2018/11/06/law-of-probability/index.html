@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+<meta name="google-site-verification" content="LwEo7v4IrA5w5uFEAJdECe3Pe9gER5FB9DY6VXMUEwM" />
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文总结了一些在计算概率时经常用到的定理，如乘法法则、贝叶斯定理等等。我们会首先回顾概率公理，然后介绍由概率公理引出的概率论中的常用定理。 概率公理对于事件空间 S 中的每一个事件  A，可以通过一个函数 P 得到一个实数 P(A)，并且该函数满足下面的 3 个公理，那么函数 P 叫做概率函数，相应的 P(A) 叫做事件 A 的概率。 公理 1  0\leq P(A)\leq 1\ (A\in S">
+<meta name="keywords" content="Probability">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用的概率定理">
+<meta property="og:url" content="https://airgiser.github.io/2018/11/06/law-of-probability/index.html">
+<meta property="og:site_name" content="WeiJun&#39;s Programming Notes">
+<meta property="og:description" content="本文总结了一些在计算概率时经常用到的定理，如乘法法则、贝叶斯定理等等。我们会首先回顾概率公理，然后介绍由概率公理引出的概率论中的常用定理。 概率公理对于事件空间 S 中的每一个事件  A，可以通过一个函数 P 得到一个实数 P(A)，并且该函数满足下面的 3 个公理，那么函数 P 叫做概率函数，相应的 P(A) 叫做事件 A 的概率。 公理 1  0\leq P(A)\leq 1\ (A\in S">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-14T06:56:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常用的概率定理">
+<meta name="twitter:description" content="本文总结了一些在计算概率时经常用到的定理，如乘法法则、贝叶斯定理等等。我们会首先回顾概率公理，然后介绍由概率公理引出的概率论中的常用定理。 概率公理对于事件空间 S 中的每一个事件  A，可以通过一个函数 P 得到一个实数 P(A)，并且该函数满足下面的 3 个公理，那么函数 P 叫做概率函数，相应的 P(A) 叫做事件 A 的概率。 公理 1  0\leq P(A)\leq 1\ (A\in S">
+
+
+
+
+
+
+  <link rel="canonical" href="https://airgiser.github.io/2018/11/06/law-of-probability/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>常用的概率定理 | WeiJun's Programming Notes</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WeiJun's Programming Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+    
+      
+    
+    <a href="https://github.com/airgiser" class="github-corner" target="_blank" title="Follow me on GitHub" aria-label="Follow me on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#222; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg>
+    
+      </a>
+    
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/11/06/law-of-probability/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeiJun's Programming Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">常用的概率定理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-11-06 12:00:56" itemprop="dateCreated datePublished" datetime="2018-11-06T12:00:56+08:00">2018-11-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-14 14:56:42" itemprop="dateModified" datetime="2019-03-14T14:56:42+08:00">2019-03-14</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文总结了一些在计算概率时经常用到的定理，如乘法法则、贝叶斯定理等等。我们会首先回顾概率公理，然后介绍由概率公理引出的概率论中的常用定理。</p>
+<h1 id="概率公理"><a href="#概率公理" class="headerlink" title="概率公理"></a>概率公理</h1><p>对于事件空间 <strong>S</strong> 中的每一个事件  <strong>A</strong>，可以通过一个函数 <strong>P</strong> 得到一个实数 <strong>P(A)</strong>，并且该函数满足下面的 3 个公理，那么函数 <strong>P</strong> 叫做<strong>概率函数</strong>，相应的 <strong>P(A)</strong> 叫做<strong>事件 A 的概率</strong>。</p>
+<p><strong>公理 1</strong></p>
+<script type="math/tex; mode=display">
+0\leq P(A)\leq 1\ (A\in S)</script><p>表示事件 A 的概率 P(A) 是一个0与1之间（包含0与1）的非负实数。</p>
+<p><strong>公理 2</strong></p>
+<script type="math/tex; mode=display">
+P(S)=1</script><p>表示事件空间总的概率值为 1 。</p>
+<p><strong>公理 3</strong></p>
+<script type="math/tex; mode=display">
+P(A\cup B)=P(A)+P(B)\ (A\cap B=\varnothing)</script><p>表示互斥事件的加法法则。可以推广到可数个互斥事件的联集。</p>
+<h1 id="概率定理"><a href="#概率定理" class="headerlink" title="概率定理"></a>概率定理</h1><p>我们可以从概率公理推导出以下的一些概率定理。</p>
+<h2 id="互补法则"><a href="#互补法则" class="headerlink" title="互补法则"></a>互补法则</h2><p>与 A 互补事件的概率：</p>
+<script type="math/tex; mode=display">
+P({\bar {A}})=1-P(A),\in S</script><p>互补法则可以通过公理3和公理2证明。</p>
+<a id="more"></a>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>连续掷两次骰子，得到至少一个点数6的概率等于1减去两次都不是点数6的概率：</p>
+<script type="math/tex; mode=display">
+P = 1 - P(\bar{A_6})*P(\bar{B_6}) = 1 - \frac{5}{6}*\frac{5}{6} = \frac{11}{36}</script><p>注意此处用到了后面才会介绍的无关事件的乘法法则。</p>
+<h2 id="不可能事件的概率"><a href="#不可能事件的概率" class="headerlink" title="不可能事件的概率"></a>不可能事件的概率</h2><p>不可能事件的概率为零：</p>
+<script type="math/tex; mode=display">
+P(\varnothing )=0</script><p>此定理可以通过公理2和互补法则证明。</p>
+<h2 id="多个互斥事件的加法法则"><a href="#多个互斥事件的加法法则" class="headerlink" title="多个互斥事件的加法法则"></a>多个互斥事件的加法法则</h2><p>如果若干事件：</p>
+<script type="math/tex; mode=display">
+A_{1},A_{2},\cdots A_{n}\in S</script><p><strong>每两两之间是空集关系</strong>，那么这些所有事件集合的概率等于单个事件的概率的和：</p>
+<script type="math/tex; mode=display">
+{P(A_{1}\cup \cdots \cup A_{n})=\sum _{j=1}^{n}P(A_{j})}</script><p>注意针对这一定理有效性的决定因素是各事件<strong>不能同时发生</strong>。</p>
+<p>此定理由公理3推广而来。</p>
+<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h3><p>掷一次骰子得到的点数大于4的概率等于点数为5的概率加上点数为6的概率：</p>
+<script type="math/tex; mode=display">
+P = P(A_5) + P(A_6) = \frac{1}{6} + \frac{1}{6} = \frac{1}{3}</script><h2 id="差集的计算法则"><a href="#差集的计算法则" class="headerlink" title="差集的计算法则"></a>差集的计算法则</h2><p>如果事件 A， B 是差集关系，则有，</p>
+<script type="math/tex; mode=display">
+{\displaystyle P(A\setminus B)=P(A)-P(A\cap B)}</script><p>此定理可以通过公理3证明。</p>
+<h3 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h3><p>连续掷两次骰子，第一个点数为6，第二个点数不为6的概率：</p>
+<script type="math/tex; mode=display">
+P = P(A_6) - P(A_6)*P(B_6) = \frac{1}{6} - \frac{1}{6}*\frac{1}{6} = \frac{5}{36}</script><p>注意此处用到了后面才会介绍的无关事件的乘法法则。</p>
+<h2 id="任意事件的加法法则"><a href="#任意事件的加法法则" class="headerlink" title="任意事件的加法法则"></a>任意事件的加法法则</h2><p>对于事件空间 S 中的任意两个事件 A 和 B，有如下定理：</p>
+<script type="math/tex; mode=display">
+P(A\cup B)=P(A)+P(B)-P(A\cap B)</script><p>此定理可以通过公理3得出，实际上可以认为公理3是此定理的特殊情况。</p>
+<h3 id="示例-3"><a href="#示例-3" class="headerlink" title="示例"></a>示例</h3><p>连续掷两次骰子，得到至少一个点数6的概率：</p>
+<script type="math/tex; mode=display">
+P = P(A_6) + P(B_6) - P(A_6)*P(B_6) = \frac{1}{6} + \frac{1}{6} - \frac{1}{6}*\frac{1}{6} = \frac{11}{36}</script><h2 id="乘法法则"><a href="#乘法法则" class="headerlink" title="乘法法则"></a>乘法法则</h2><p>事件 A， B 同时发生的概率是：</p>
+<script type="math/tex; mode=display">
+{P(A\cap B)=P(A)\cdot P(B\vert A)=P(B)\cdot P(A\vert B)}</script><p>公式中的 P(A|B) 是指在 B 条件下 A 发生的概率，又称作<strong>条件概率</strong>。</p>
+<h3 id="示例-4"><a href="#示例-4" class="headerlink" title="示例"></a>示例</h3><p>假设有6个袋子编号为1～6，每个袋子里面有一个白球一个黑球，我们首先掷一次骰子，通过点数选择对应编号的袋子，然后从袋子里面随机拿一个球。拿到1号袋子里面的黑球的概率为：</p>
+<script type="math/tex; mode=display">
+P = P(A_1) \cdot P(B\vert A_1)
+= \frac{1}{6} \cdot \frac{1}{2}
+= \frac{1}{12}</script><h2 id="无关事件乘法法则"><a href="#无关事件乘法法则" class="headerlink" title="无关事件乘法法则"></a>无关事件乘法法则</h2><p>两个不相关联的事件 A， B 同时发生的概率是：</p>
+<script type="math/tex; mode=display">
+{P(A\cap B)=P(A)\cdot P(B)}</script><p>此定理实际上是前一定理的特殊情况。</p>
+<h3 id="示例-5"><a href="#示例-5" class="headerlink" title="示例"></a>示例</h3><p>连续掷两次骰子，得到连续两个6点的概率：</p>
+<script type="math/tex; mode=display">
+P = P(A_6)*P(B_6) = \frac{1}{6}*\frac{1}{6} = \frac{1}{36}</script><h2 id="完全概率定理"><a href="#完全概率定理" class="headerlink" title="完全概率定理"></a>完全概率定理</h2><p>n 个事件互相间独立，且共同组成整个事件空间 S，即</p>
+<script type="math/tex; mode=display">
+H_{i}\cap H_{j}=\varnothing\ (i\neq j)</script><script type="math/tex; mode=display">
+H_{1}\cup H_{2}\cup ...\cup H_{n}=S</script><p>这时 A 的概率可以表示为：</p>
+<script type="math/tex; mode=display">
+P(A)=\sum _{j=1}^{n}P(A|H_{j})\cdot P(H_{j})</script><h3 id="示例-6"><a href="#示例-6" class="headerlink" title="示例"></a>示例</h3><p>假设有 A, B, C 三个袋子，A 里面有 14 个白球和 6 个红球，B 里面有 2 个白球和 8 个红球，C 里面有3个白球和7个红球。我们首先在三个袋子里面随机选择一个，然后从选择的袋子里面随机取出一个球。</p>
+<p>假设选择的袋子为A，B，C的概率分别是：</p>
+<script type="math/tex; mode=display">
+P(A) = \frac{3}{6}, 
+P(B) = \frac{2}{6}, 
+P(C) = \frac{1}{6}</script><p>则最后抽到的球是白球的概率P(W)为：</p>
+<script type="math/tex; mode=display">
+P(W) 
+= P(W|A) \cdot P(A) + P(W|B) \cdot P(B) + P(W|C) \cdot P(C)
+
+= \frac{14}{20} \cdot \frac{3}{6} + \frac{2}{10} \cdot \frac{2}{6} + \frac{3}{10} \cdot \frac{1}{6}
+= \frac{28}{60} = 0.4667</script><h3 id="进一步推广"><a href="#进一步推广" class="headerlink" title="进一步推广"></a>进一步推广</h3><p>根据事件B和各种不同的H事件组合条件下事件A的条件概率，可求事件B发生的条件下，事件A的条件概率：</p>
+<script type="math/tex; mode=display">
+P(A|B)=\sum _{j=1}^{n}P\big(A|(B,H_{j})\big)\cdot P(H_{j}|B)</script><h2 id="贝叶斯定理"><a href="#贝叶斯定理" class="headerlink" title="贝叶斯定理"></a>贝叶斯定理</h2><p>贝叶斯定理用来描述两个条件概率之间的关系，比如 P(A|B) 和 P(B|A)。按照定理 6 的乘法法则，P(A∩B)=P(A)·P(B|A)=P(B)·P(A|B)，可以立刻导出贝叶斯定理：</p>
+<script type="math/tex; mode=display">
+{P(A\vert B)={\frac {P(B\vert A)\cdot P(A)}{P(B)}}}</script><h3 id="计算技巧"><a href="#计算技巧" class="headerlink" title="计算技巧"></a>计算技巧</h3><p>贝叶斯公式中，P(A)·P(B|A)的计算较为简单，而P(B)的计算有时比较困难，我们有两种计算方式(本质上是一样的)。</p>
+<h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><p>根据完全概率公式计算P(B)，随后使用贝叶斯公式：</p>
+<script type="math/tex; mode=display">
+P(B)=\sum _{j=1}^{n}P(B|H_{j})\cdot P(H_{j})</script><script type="math/tex; mode=display">
+{P(A\vert B)={\frac {P(B\vert A)\cdot P(A)}{P(B)}}}</script><h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><p>如果直接计算P(B)比较困难，我们可以首先计算：</p>
+<script type="math/tex; mode=display">
+{P'(A\vert B)={P(B\vert A)\cdot P(A)}}</script><script type="math/tex; mode=display">
+{P'(\bar{A}\vert B)={P(B\vert \bar{A})\cdot P(\bar{A})}}</script><p>随后根据：</p>
+<script type="math/tex; mode=display">
+P(A\vert B) + P(\bar{A} \vert B) = 1</script><p>进行归一化:</p>
+<script type="math/tex; mode=display">
+P(A\vert B) = \frac
+{P'(A\vert B)}
+{P'(A\vert B) + P'(\bar{A} \vert B)}</script><h3 id="示例-7"><a href="#示例-7" class="headerlink" title="示例"></a>示例</h3><p>举例来说，假设我们用P(C)表示得癌症的概率：</p>
+<script type="math/tex; mode=display">
+P(C) = 0.001</script><script type="math/tex; mode=display">
+P({\bar {C}}) = 0.999</script><p>假设以下是通过医疗手段检测癌症的概率，得癌症检测为阳性的概率约为0.8，没得癌症检测为阳性的概率约为0.1：</p>
+<script type="math/tex; mode=display">
+P(POS\vert C) = 0.8</script><script type="math/tex; mode=display">
+P(POS\vert {\bar C}) = 0.1</script><p>通过完全概率公式和贝叶斯公式，我们可以求出癌症检测为阳性，得癌症的概率:</p>
+<script type="math/tex; mode=display">
+P(POS) = P(POS\vert C) \cdot P(C) 
++ P(POS\vert {\bar C}) \cdot P({\bar {C}}) = 0.1007</script><script type="math/tex; mode=display">
+P(C \vert POS) = \frac{P(POS\vert C) \cdot P(C)}{P(POS)} = 0.007944</script><h3 id="进一步推广-1"><a href="#进一步推广-1" class="headerlink" title="进一步推广"></a>进一步推广</h3><p>贝叶斯公式应用于多个事件：</p>
+<script type="math/tex; mode=display">
+P\big(A | (B,C)\big) = \frac
+{P\big(B|(A,C)\big) \cdot P(A|C)}
+{P(B|C)}</script><p>上面的公式同样可根据乘法法则推导出：</p>
+<script type="math/tex; mode=display">
+P(A,B,C) 
+= 
+P\big(A|(B,C)\big) \cdot 
+P(B|C) \cdot P(C)
+=
+P\big(B|(A,C)\big) \cdot 
+P(A|C) \cdot P(C)</script><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://zh.wikipedia.org/wiki/%E6%A6%82%E7%8E%87%E8%AE%BA" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E6%A6%82%E7%8E%87%E8%AE%BA</a></p>
+<p><a href="https://zh.wikipedia.org/wiki/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86</a></p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>WeiJun</li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://airgiser.github.io/2018/11/06/law-of-probability/" title="常用的概率定理">https://airgiser.github.io/2018/11/06/law-of-probability/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> unless stating additionally.</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Probability/" rel="tag"># Probability</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/02/scikit-learn-model-eval/" rel="next" title="scikit-learn 笔记 - 模型选择与评估">
+                <i class="fa fa-chevron-left"></i> scikit-learn 笔记 - 模型选择与评估
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/17/redis-geo-intro/" rel="prev" title="Redis GEO 相关命令简介">
+                Redis GEO 相关命令简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">WeiJun</p>
+              <p class="site-description motion-element" itemprop="description">If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/airgiser" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概率公理"><span class="nav-number">1.</span> <span class="nav-text">概率公理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#概率定理"><span class="nav-number">2.</span> <span class="nav-text">概率定理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#互补法则"><span class="nav-number">2.1.</span> <span class="nav-text">互补法则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例"><span class="nav-number">2.1.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不可能事件的概率"><span class="nav-number">2.2.</span> <span class="nav-text">不可能事件的概率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多个互斥事件的加法法则"><span class="nav-number">2.3.</span> <span class="nav-text">多个互斥事件的加法法则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-1"><span class="nav-number">2.3.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#差集的计算法则"><span class="nav-number">2.4.</span> <span class="nav-text">差集的计算法则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-2"><span class="nav-number">2.4.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任意事件的加法法则"><span class="nav-number">2.5.</span> <span class="nav-text">任意事件的加法法则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-3"><span class="nav-number">2.5.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#乘法法则"><span class="nav-number">2.6.</span> <span class="nav-text">乘法法则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-4"><span class="nav-number">2.6.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无关事件乘法法则"><span class="nav-number">2.7.</span> <span class="nav-text">无关事件乘法法则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-5"><span class="nav-number">2.7.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完全概率定理"><span class="nav-number">2.8.</span> <span class="nav-text">完全概率定理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-6"><span class="nav-number">2.8.1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进一步推广"><span class="nav-number">2.8.2.</span> <span class="nav-text">进一步推广</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯定理"><span class="nav-number">2.9.</span> <span class="nav-text">贝叶斯定理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#计算技巧"><span class="nav-number">2.9.1.</span> <span class="nav-text">计算技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法一"><span class="nav-number">2.9.1.1.</span> <span class="nav-text">方法一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法二"><span class="nav-number">2.9.1.2.</span> <span class="nav-text">方法二</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-7"><span class="nav-number">2.9.2.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进一步推广-1"><span class="nav-number">2.9.3.</span> <span class="nav-text">进一步推广</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">WeiJun</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="Total Visitors">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="Total Views">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
