@@ -300,6 +300,169 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/18/scikit-learn-dataset-trans/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Escape The Brain">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/18/scikit-learn-dataset-trans/" itemprop="url">
+                  scikit-learn 笔记 - 数据集转换
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-18 16:50:48" itemprop="dateCreated datePublished" datetime="2018-10-18T16:50:48+08:00">2018-10-18</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-14 14:54:12" itemprop="dateModified" datetime="2019-03-14T14:54:12+08:00">2019-03-14</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="特征缩放-Feature-Scaling"><a href="#特征缩放-Feature-Scaling" class="headerlink" title="特征缩放 (Feature Scaling)"></a>特征缩放 (Feature Scaling)</h1><p>在使用机器学习算法前，经常需要进行特征缩放(feature scaling)，将所有特征都缩放到相同的尺度 ([0,1]的范围)。</p>
+<p>下面是进行特征缩放的一种方式：</p>
+<script type="math/tex; mode=display">
+x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">featureScaling</span><span class="params">(arr)</span>:</span></span><br><span class="line">    minval = min(arr)</span><br><span class="line">    maxval = max(arr)</span><br><span class="line">    <span class="keyword">return</span> [<span class="number">1.0</span> * (val - minval) / (maxval - minval) <span class="keyword">for</span> val <span class="keyword">in</span> arr]</span><br></pre></td></tr></table></figure>
+<p>使用sklearn：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> MinMaxScaler</span><br><span class="line"></span><br><span class="line">train_data = numpy.array([[<span class="number">-1</span>, <span class="number">2</span>], [<span class="number">-0.5</span>, <span class="number">6</span>], [<span class="number">0</span>, <span class="number">10</span>], [<span class="number">1</span>, <span class="number">18</span>]])</span><br><span class="line">test_data = numpy.array([[<span class="number">2</span>, <span class="number">2</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># create the scaler</span></span><br><span class="line">scaler = MinMaxScaler()</span><br><span class="line"></span><br><span class="line"><span class="comment"># compute the minimum and maximum to be used for later scaling.</span></span><br><span class="line">scaler.fit(train_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># scaling features</span></span><br><span class="line">print(scaler.transform(train_data))</span><br><span class="line">print(scaler.transform(test_data))</span><br></pre></td></tr></table></figure></p>
+<p>对许多机器学习算法，特征缩放将影响最终的效果，如SVM和K-Means等(影响计算距离时各特征的比重)。</p>
+<p>此外，特征缩放通常可以加速(大部分)机器学习算法的训练过程。</p>
+<h1 id="文本特征"><a href="#文本特征" class="headerlink" title="文本特征"></a>文本特征</h1><p>文本分析是机器学习算法的一个重要应用领域，然而原始的文本数据很难直接作为大部分算法的输入，为此 scikit-learn 提供了许多方法从文本中提取特征向量。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/18/scikit-learn-dataset-trans/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/11/effective-learning-skills/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -502,7 +665,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -535,7 +698,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -766,9 +933,37 @@
   
     
       
+        
+      
+    
+      
     
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 

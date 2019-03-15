@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+<meta name="google-site-verification" content="LwEo7v4IrA5w5uFEAJdECe3Pe9gER5FB9DY6VXMUEwM" />
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Kafka 是一个开源的分布式流处理平台，由 Scala 和 Java 编写。该项目的目标是为处理实时数据提供一个统一、高吞吐、低延迟的平台。 Kafka 的持久化层本质上是一个“按照分布式事务日志系统设计的大规模发布/订阅消息队列”，这使它作为企业级基础设施来处理流式数据时非常有价值。此外，Kafka 可以通过 Kafka Connect 连接到外部系统（用于数据输入/输出），并提供了 Kafk">
+<meta name="keywords" content="Kafka,Architecture">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka 的架构与设计概览">
+<meta property="og:url" content="https://airgiser.github.io/2019/03/15/kafka-architecture/index.html">
+<meta property="og:site_name" content="Escape The Brain">
+<meta property="og:description" content="Kafka 是一个开源的分布式流处理平台，由 Scala 和 Java 编写。该项目的目标是为处理实时数据提供一个统一、高吞吐、低延迟的平台。 Kafka 的持久化层本质上是一个“按照分布式事务日志系统设计的大规模发布/订阅消息队列”，这使它作为企业级基础设施来处理流式数据时非常有价值。此外，Kafka 可以通过 Kafka Connect 连接到外部系统（用于数据输入/输出），并提供了 Kafk">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/airgiser/just-for-fun/master/res/img/Overview_of_Apache_Kafka.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/airgiser/just-for-fun/master/res/img/cluster_architecture.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/airgiser/just-for-fun/master/res/img/topic_partition.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/airgiser/just-for-fun/master/res/img/kafka_log.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/airgiser/just-for-fun/master/res/img/log_anatomy.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/airgiser/just-for-fun/master/res/img/consumer-groups.png">
+<meta property="og:updated_time" content="2019-03-15T09:07:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kafka 的架构与设计概览">
+<meta name="twitter:description" content="Kafka 是一个开源的分布式流处理平台，由 Scala 和 Java 编写。该项目的目标是为处理实时数据提供一个统一、高吞吐、低延迟的平台。 Kafka 的持久化层本质上是一个“按照分布式事务日志系统设计的大规模发布/订阅消息队列”，这使它作为企业级基础设施来处理流式数据时非常有价值。此外，Kafka 可以通过 Kafka Connect 连接到外部系统（用于数据输入/输出），并提供了 Kafk">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/airgiser/just-for-fun/master/res/img/Overview_of_Apache_Kafka.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://airgiser.github.io/2019/03/15/kafka-architecture/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Kafka 的架构与设计概览 | Escape The Brain</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Escape The Brain</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+    
+      
+    
+    <a href="https://github.com/airgiser" class="github-corner" target="_blank" title="Follow me on GitHub" aria-label="Follow me on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#222; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg>
+    
+      </a>
+    
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2019/03/15/kafka-architecture/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Escape The Brain">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Kafka 的架构与设计概览
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-03-15 16:52:27 / Modified: 17:07:51" itemprop="dateCreated datePublished" datetime="2019-03-15T16:52:27+08:00">2019-03-15</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Kafka 是一个开源的分布式流处理平台，由 Scala 和 Java 编写。该项目的目标是为处理实时数据提供一个统一、高吞吐、低延迟的平台。</p>
+<p>Kafka 的持久化层本质上是一个“按照分布式事务日志系统设计的大规模发布/订阅消息队列”，这使它作为企业级基础设施来处理流式数据时非常有价值。此外，Kafka 可以通过 Kafka Connect 连接到外部系统（用于数据输入/输出），并提供了 Kafka Streams(一个 Java 流式处理库)。</p>
+<h2 id="设计目标"><a href="#设计目标" class="headerlink" title="设计目标"></a>设计目标</h2><p>Kafka 主要的设计目标如下：</p>
+<ul>
+<li><strong>高吞吐</strong></li>
+<li><strong>低延迟</strong></li>
+<li>提供<strong>持久化</strong>能力，并支持<strong>常数时间复杂度</strong>的访问性能。</li>
+<li>同时支持<strong>离线</strong>数据处理和<strong>实时</strong>数据处理。</li>
+<li>支持<strong>分区</strong>，及<strong>分布式</strong>消费，同时保证每个 Partition 内的消息顺序传输。</li>
+<li><strong>容错性</strong></li>
+</ul>
+<h2 id="Kafka-架构"><a href="#Kafka-架构" class="headerlink" title="Kafka 架构"></a>Kafka 架构</h2><p>Kafka 架构中一般包含由多个 Broker 组成的 Kafka 集群，以及多个 Producer 和多个 Consumer。其中涉及的一些关键概念如下：</p>
+<ul>
+<li><strong>Broker</strong>: Kafka 集群包含一个或多个服务器，这些服务器被称为 Broker。</li>
+<li><strong>Topic</strong>: 每条发布到 Kafka 集群的消息都有一个类别，这个类别被称为 Topic。也可以将每一个 Topic 理解为不同的消息队列。不同的 Topic 物理上将分开存储。</li>
+<li><strong>Partition</strong>: Parition 是物理上的概念，每个 Topic 包含一个或多个 Partition。这些 Partition 可能分布在不同的 Broker 上。</li>
+<li><strong>Producer</strong>: 消息的生产者，使用 push 模式将消息发布到 Broker。</li>
+<li><strong>Consumer</strong>: 消息的消费者，使用 pull 模式从 Broker 订阅并消费消息。</li>
+<li><strong>Consumer Group</strong>: 每个 Consumer 属于一个特定的 Consumer Group。一条消息在一个 Consumer Group 内只能被消费一次，但不同的 Consumer Group 可同时消费这一消息。</li>
+</ul>
+<a id="more"></a>
+<p><img src="https://raw.githubusercontent.com/airgiser/just-for-fun/master/res/img/Overview_of_Apache_Kafka.png" alt="image"></p>
+<h3 id="Broker-和-ZooKeeper"><a href="#Broker-和-ZooKeeper" class="headerlink" title="Broker 和 ZooKeeper"></a>Broker 和 ZooKeeper</h3><p>Kafka 集群通常会由多个 Broker 组成以实现负载均衡。Broker 上存储了日志的 Partition，一个 Topic 的各个 Partition 往往会分布在不同的 Broker上。</p>
+<p>Broker 是无状态的，所以 Kafka 集群会通过 ZooKeeper 来管理状态和配置，选举 Leader，以及在 Consumer Group 发生变化时维持负载均衡等。</p>
+<p><img src="https://raw.githubusercontent.com/airgiser/just-for-fun/master/res/img/cluster_architecture.jpg" alt="image"></p>
+<h3 id="Topic-和-Partition"><a href="#Topic-和-Partition" class="headerlink" title="Topic 和 Partition"></a>Topic 和 Partition</h3><p>Topic 在逻辑上可以认为是一个队列，每一条消息都需要指定 Topic，可以理解为需要指定这条消息应该被放入哪个队列中。</p>
+<p>Topic 会被分成一个或多个 Partition，每个 Partition 在物理上对应一个文件夹，该文件夹下存储这个 Partition 的所有消息和索引文件。由于不同 Partition 可位于不同机器，因此可以充分利用集群优势，实现并行处理。这样 Kafaka 的吞吐率就有机会得到线性提升。</p>
+<p><img src="https://raw.githubusercontent.com/airgiser/just-for-fun/master/res/img/topic_partition.png" alt="image"></p>
+<p>如果 Partition 没有备份，一旦一个或多个 Broker 宕机，则该 Broker上的所有 Partition 都无法继续提供服务。若该 Broker 永远无法恢复，则其上的数据将丢失。为了保障 Kafka 集群的高可用性及数据持久化目标，就需要引入 Replication 机制。</p>
+<p>为了更好的做负载均衡，Kafka 应尽量将所有的 Partition 均匀分配到整个集群上。同时为了提高 Kafka 的容错能力，也需要将同一个 Partition 的 Replica 尽量分散到不同的机器。</p>
+<p>引入 Replication 机制之后，同一个 Partition 可能会有多个 Replica，而这时需要在这些 Replication 之间选出一个 Leader，Producer 和 Consumer 只与这个 Leader 交互，其它 Replica 作为 Follower 从 Leader 中复制数据。</p>
+<p>Kafka 在 ZooKeeper 中动态维护了一个 ISR（in-sync replicas），这个 ISR 里的所有 Replica 都跟上了 Leader。在 Leader 宕机需要重新选举 Leader 的时候，只有 ISR 里的成员才有被选为 Leader 的可能。这样就避免了需要等待最慢的 Broker 的情况。</p>
+<h3 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h3><p>一个 Partition 会按顺序分成多个 Segment 文件，每个 Segment 文件以该 Segment 第一条消息的 offset 命名并以“.kafka”为后缀。另外会有一个索引文件，它标明了每个 segment 下包含的 log entry 的 offset 范围。Segment 文件实际上是一个 log entry 序列，一个 log entry 对应一条消息，其中包含了消息的长度、校验码及消息体等信息。</p>
+<p><img src="https://raw.githubusercontent.com/airgiser/just-for-fun/master/res/img/kafka_log.png" alt="image"></p>
+<p>因为每条消息都是被追加到对应的 Partition 中，属于顺序写磁盘，因此效率非常高（顺序写磁盘效率可能比随机写内存还要高，这保证了 Kafka 的高吞吐率）。</p>
+<p><img src="https://raw.githubusercontent.com/airgiser/just-for-fun/master/res/img/log_anatomy.png" alt="image"></p>
+<p>因为磁盘限制，不可能永久保留所有数据，所以有时需要删除旧数据，删除的时候是以 Segment 文件为单位进行删除的。</p>
+<h3 id="Producer"><a href="#Producer" class="headerlink" title="Producer"></a>Producer</h3><p>Producer 在发送消息到 Broker 的时候，会依据 Paritition 机制来选择将其存储到哪一个 Partition。合理的 Partition 机制可以使所有消息均匀分布到不同的 Partition 中，从而实现负载均衡。不同的消息可以并行写入位于不同 Broker 的不同 Partition 里，从而极大地提高了吞吐率。</p>
+<p>在发送一条消息时，可以指定这条消息的 key，Producer 再根据这个 key 和 Partition 机制来判断应该将这条消息发送到哪个 Parition。</p>
+<p>Producer 可以一次性发送多条消息，通过批量发送既可以减少了网络传输的 Overhead，提高传输效率，又可以提高了写磁盘的效率，从而提高吞吐量。在批量发送时，还可以将一批消息压缩后进行传输，从而更大程度提高网络传输效率。Broker 接收消息后，并不直接解压缩，而是直接将消息以压缩形式持久化到磁盘，Consumer 在拿到数据之后再解压缩。</p>
+<h3 id="Consumer-和-Consumer-Group"><a href="#Consumer-和-Consumer-Group" class="headerlink" title="Consumer 和 Consumer Group"></a>Consumer 和 Consumer Group</h3><p>使用 Consumer high level API 时，同一 Topic 的一条消息只能被同一个 Consumer Group 内的一个 Consumer 消费，但多个 Consumer Group 可同时消费这一消息。</p>
+<p>用 Consumer Group 还可以将 Consumer 进行自由的分组而不需要多次发送消息到不同的 Topic。</p>
+<p>实际上，Kafka 的设计理念之一就是同时提供离线处理和实时处理。根据这一特性，可以使用 Storm 这种实时流处理系统对消息进行实时在线处理，同时使用 Hadoop 这种批处理系统进行离线处理，还可以同时将数据实时备份到另一个数据中心，只需要保证这三个操作所使用的 Consumer 属于不同的 Consumer Group 即可。</p>
+<p><img src="https://raw.githubusercontent.com/airgiser/just-for-fun/master/res/img/consumer-groups.png" alt="image"></p>
+<p>Kafka 会为每一个 Consumer Group 保留一些 metadata 信息——当前消费的消息的位置，也即 offset。这个 offset 由 Consumer 控制。正常情况下 Consumer 会在消费完一条消息后递增该 offset。当然，Consumer 也可将 offset 设成一个较小的值，重新消费一些消息。</p>
+<p>因为 offset 由 Consumer 控制，所以 Kafka Broker 是无状态的，它不需要标记哪些消息被哪些 Consumer Group 消费过，也不需要通过 Broker 去保证同一个 Consumer Group 只有一个 Consumer 能消费某一条消息，因此也就不需要锁机制，这也为 Kafka 的高吞吐率提供了有力保障。</p>
+<h3 id="消息传输的语义"><a href="#消息传输的语义" class="headerlink" title="消息传输的语义"></a>消息传输的语义</h3><p>消息传输的语义有以下几种可能：</p>
+<ul>
+<li><p><strong>At most once</strong> — 消息可能会丢，但绝不会重复传输。</p>
+</li>
+<li><p><strong>At least one</strong> — 消息绝不会丢，但可能会重复传输。</p>
+</li>
+<li><p><strong>Exactly once</strong> — 每条消息肯定会被传输一次且仅传输一次，很多时候这是用户所想要的。</p>
+</li>
+</ul>
+<h4 id="消息的发布"><a href="#消息的发布" class="headerlink" title="消息的发布"></a>消息的发布</h4><p>当 Producer 向 Broker 发送消息时，一旦这条消息被 commit，Replication 机制可以它就不会丢。但是如果 Producer 发送数据给 Broker 后，遇到网络问题而造成通信中断，那 Producer 就无法判断该条消息是否已经 commit。虽然 Kafka 无法确定网络故障期间发生了什么，但是 Producer 可以生成一种类似于主键的东西，发生故障时幂等性的重试多次，这样就做到了 Exactly once。</p>
+<p>在 0.11.0.0 版本之前，该 Feature 还未实现，因此重试(未收到响应时)可能会导致同一消息多次写入日志。在 0.11.0.0 版本之后 Kafka 已提供相应的选项可以保证Exactly once。目前在默认情况下，一条消息从 Producer 到 Broker 确保了 At least once，另外也可通过设置 Producer 异步发送实现 At most once。</p>
+<h4 id="消息的消费"><a href="#消息的消费" class="headerlink" title="消息的消费"></a>消息的消费</h4><p>Consumer 在从 Broker 读取消息后，可以选择 commit，该操作会在 Zookeeper 中保存这个Consumer 在对应的 Partition 中读取的消息的 offset。当 Consumer 下一次再读该 Partition 时会从下一条开始读取。如未 commit，下一次读取的开始位置会跟上一次 commit 之后的开始位置相同。当然可以将 Consumer 设置为 autocommit，即 Consumer 一旦读到数据立即自动 commit。如果只讨论这一读取消息的过程，那 Kafka 是确保了 Exactly once。</p>
+<p>但实际使用中应用程序并非在 Consumer 读取完数据就结束了，而是要进行进一步处理，而数据处理与 commit 的顺序在很大程度上决定了消息传输的语义：</p>
+<ul>
+<li><strong>读完消息先 commit 再处理消息</strong>。这种模式下，如果 Consumer 在 commit 后还没来得及处理消息就 crash 了，下次重新开始工作后就无法读到刚刚已提交而未处理的消息，这就对应于 <strong>At most once</strong>。</li>
+<li><strong>读完消息先处理再 commit</strong>。这种模式下，如果在处理完消息之后 commit 之前 Consumer crash 了，下次重新开始工作时还会处理刚刚未 commit 的消息，实际上该消息已经被处理过了。这就对应于 <strong>At least once</strong>。在很多使用场景下，消息都有一个主键，对应的消息处理往往具有幂等性，即多次处理这一条消息跟只处理一次是等效的，那就可以认为和 Exactly once 是一样的效果。</li>
+<li>如果一定要做到 <strong>Exactly once</strong>，就需要<strong>协调 offset 和消息处理后的输出</strong>。经典的做法是引入<strong>两阶段提交</strong>。如果能让 offset 和操作输入存在同一个地方，会更简洁和通用。这种方式可能更好，因为许多输出系统可能不支持两阶段提交。比如，Consumer 拿到数据后可能把数据放到 HDFS，如果把最新的 offset 和数据本身一起写到 HDFS，那就可以保证数据的输出和 offset 的更新要么都完成，要么都不完成，间接实现 Exactly once。（目前就 high level API 而言，offset 是存于 Zookeeper 中的，无法存于 HDFS，而 low level API 的 offset 是由自己去维护的，可以将之存于 HDFS 中）</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://en.wikipedia.org/wiki/Apache_Kafka" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Apache_Kafka</a></p>
+<p><a href="https://kafka.apache.org/documentation" target="_blank" rel="noopener">https://kafka.apache.org/documentation</a></p>
+<p><a href="https://www.infoq.com/articles/apache-kafka" target="_blank" rel="noopener">https://www.infoq.com/articles/apache-kafka</a></p>
+<p><a href="https://www.infoq.cn/article/kafka-analysis-part-1" target="_blank" rel="noopener">https://www.infoq.cn/article/kafka-analysis-part-1</a></p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>WeiJun</li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://airgiser.github.io/2019/03/15/kafka-architecture/" title="Kafka 的架构与设计概览">https://airgiser.github.io/2019/03/15/kafka-architecture/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> unless stating additionally.</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Kafka/" rel="tag"># Kafka</a>
+          
+            <a href="/tags/Architecture/" rel="tag"># Architecture</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/15/linux-text-utils-intro/" rel="next" title="Linux 常用文本处理命令">
+                <i class="fa fa-chevron-left"></i> Linux 常用文本处理命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">WeiJun</p>
+              <p class="site-description motion-element" itemprop="description">If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/airgiser" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#设计目标"><span class="nav-number">1.</span> <span class="nav-text">设计目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka-架构"><span class="nav-number">2.</span> <span class="nav-text">Kafka 架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Broker-和-ZooKeeper"><span class="nav-number">2.1.</span> <span class="nav-text">Broker 和 ZooKeeper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Topic-和-Partition"><span class="nav-number">2.2.</span> <span class="nav-text">Topic 和 Partition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#持久化"><span class="nav-number">2.3.</span> <span class="nav-text">持久化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Producer"><span class="nav-number">2.4.</span> <span class="nav-text">Producer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Consumer-和-Consumer-Group"><span class="nav-number">2.5.</span> <span class="nav-text">Consumer 和 Consumer Group</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息传输的语义"><span class="nav-number">2.6.</span> <span class="nav-text">消息传输的语义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#消息的发布"><span class="nav-number">2.6.1.</span> <span class="nav-text">消息的发布</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消息的消费"><span class="nav-number">2.6.2.</span> <span class="nav-text">消息的消费</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">WeiJun</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="Total Visitors">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="Total Views">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -300,6 +300,169 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2019/03/15/kafka-architecture/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Escape The Brain">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/15/kafka-architecture/" itemprop="url">
+                  Kafka 的架构与设计概览
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-03-15 16:52:27 / Modified: 17:07:51" itemprop="dateCreated datePublished" datetime="2019-03-15T16:52:27+08:00">2019-03-15</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Kafka 是一个开源的分布式流处理平台，由 Scala 和 Java 编写。该项目的目标是为处理实时数据提供一个统一、高吞吐、低延迟的平台。</p>
+<p>Kafka 的持久化层本质上是一个“按照分布式事务日志系统设计的大规模发布/订阅消息队列”，这使它作为企业级基础设施来处理流式数据时非常有价值。此外，Kafka 可以通过 Kafka Connect 连接到外部系统（用于数据输入/输出），并提供了 Kafka Streams(一个 Java 流式处理库)。</p>
+<h2 id="设计目标"><a href="#设计目标" class="headerlink" title="设计目标"></a>设计目标</h2><p>Kafka 主要的设计目标如下：</p>
+<ul>
+<li><strong>高吞吐</strong></li>
+<li><strong>低延迟</strong></li>
+<li>提供<strong>持久化</strong>能力，并支持<strong>常数时间复杂度</strong>的访问性能。</li>
+<li>同时支持<strong>离线</strong>数据处理和<strong>实时</strong>数据处理。</li>
+<li>支持<strong>分区</strong>，及<strong>分布式</strong>消费，同时保证每个 Partition 内的消息顺序传输。</li>
+<li><strong>容错性</strong></li>
+</ul>
+<h2 id="Kafka-架构"><a href="#Kafka-架构" class="headerlink" title="Kafka 架构"></a>Kafka 架构</h2><p>Kafka 架构中一般包含由多个 Broker 组成的 Kafka 集群，以及多个 Producer 和多个 Consumer。其中涉及的一些关键概念如下：</p>
+<ul>
+<li><strong>Broker</strong>: Kafka 集群包含一个或多个服务器，这些服务器被称为 Broker。</li>
+<li><strong>Topic</strong>: 每条发布到 Kafka 集群的消息都有一个类别，这个类别被称为 Topic。也可以将每一个 Topic 理解为不同的消息队列。不同的 Topic 物理上将分开存储。</li>
+<li><strong>Partition</strong>: Parition 是物理上的概念，每个 Topic 包含一个或多个 Partition。这些 Partition 可能分布在不同的 Broker 上。</li>
+<li><strong>Producer</strong>: 消息的生产者，使用 push 模式将消息发布到 Broker。</li>
+<li><strong>Consumer</strong>: 消息的消费者，使用 pull 模式从 Broker 订阅并消费消息。</li>
+<li><strong>Consumer Group</strong>: 每个 Consumer 属于一个特定的 Consumer Group。一条消息在一个 Consumer Group 内只能被消费一次，但不同的 Consumer Group 可同时消费这一消息。</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/15/kafka-architecture/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2019/02/15/linux-text-utils-intro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1741,169 +1904,6 @@ min_w||Xw - y||^2</script><p>在sklearn中，通过线性回归得到的系数�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/18/scikit-learn-dataset-trans/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="WeiJun">
-      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Escape The Brain">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/18/scikit-learn-dataset-trans/" itemprop="url">
-                  scikit-learn 笔记 - 数据集转换
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-10-18 16:50:48" itemprop="dateCreated datePublished" datetime="2018-10-18T16:50:48+08:00">2018-10-18</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-03-14 14:54:12" itemprop="dateModified" datetime="2019-03-14T14:54:12+08:00">2019-03-14</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="特征缩放-Feature-Scaling"><a href="#特征缩放-Feature-Scaling" class="headerlink" title="特征缩放 (Feature Scaling)"></a>特征缩放 (Feature Scaling)</h1><p>在使用机器学习算法前，经常需要进行特征缩放(feature scaling)，将所有特征都缩放到相同的尺度 ([0,1]的范围)。</p>
-<p>下面是进行特征缩放的一种方式：</p>
-<script type="math/tex; mode=display">
-x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">featureScaling</span><span class="params">(arr)</span>:</span></span><br><span class="line">    minval = min(arr)</span><br><span class="line">    maxval = max(arr)</span><br><span class="line">    <span class="keyword">return</span> [<span class="number">1.0</span> * (val - minval) / (maxval - minval) <span class="keyword">for</span> val <span class="keyword">in</span> arr]</span><br></pre></td></tr></table></figure>
-<p>使用sklearn：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> MinMaxScaler</span><br><span class="line"></span><br><span class="line">train_data = numpy.array([[<span class="number">-1</span>, <span class="number">2</span>], [<span class="number">-0.5</span>, <span class="number">6</span>], [<span class="number">0</span>, <span class="number">10</span>], [<span class="number">1</span>, <span class="number">18</span>]])</span><br><span class="line">test_data = numpy.array([[<span class="number">2</span>, <span class="number">2</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># create the scaler</span></span><br><span class="line">scaler = MinMaxScaler()</span><br><span class="line"></span><br><span class="line"><span class="comment"># compute the minimum and maximum to be used for later scaling.</span></span><br><span class="line">scaler.fit(train_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># scaling features</span></span><br><span class="line">print(scaler.transform(train_data))</span><br><span class="line">print(scaler.transform(test_data))</span><br></pre></td></tr></table></figure></p>
-<p>对许多机器学习算法，特征缩放将影响最终的效果，如SVM和K-Means等(影响计算距离时各特征的比重)。</p>
-<p>此外，特征缩放通常可以加速(大部分)机器学习算法的训练过程。</p>
-<h1 id="文本特征"><a href="#文本特征" class="headerlink" title="文本特征"></a>文本特征</h1><p>文本分析是机器学习算法的一个重要应用领域，然而原始的文本数据很难直接作为大部分算法的输入，为此 scikit-learn 提供了许多方法从文本中提取特征向量。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/18/scikit-learn-dataset-trans/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1951,7 +1951,7 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1984,7 +1984,11 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -2221,9 +2225,9 @@ x' = \frac{x - x_{min}}{x_{max} - x_{min}}</script><figure class="highlight pyth
       
     
       
-        
-      
     
+      
+        
       
     
       
