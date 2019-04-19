@@ -300,6 +300,159 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2019/04/19/stochastic-optimization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WeiJun">
+      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Escape The Brain">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/19/stochastic-optimization/" itemprop="url">
+                  随机优化算法简介
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-04-19 14:47:41 / Modified: 14:50:35" itemprop="dateCreated datePublished" datetime="2019-04-19T14:47:41+08:00">2019-04-19</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>随机优化算法特别适合用来解决受多个变量影响，存在很多可能的解，且结果因这些变量的组合而产生很大变化的问题。其典型的应用场景是，问题的解空间非常大，以至于我们无法对所有可能的解逐一尝试的情况。对于这类问题最简单低效的求解方法是尝试随机猜测成千上万个解，并从中找出最佳的解。更有效率的方法则是从随机解出发，朝着可能有改进的方向修正来逼近最优解。本文将从最低效的随机搜索算法出发，随后介绍更优的爬山法、模拟退火、遗传算法等随机优化算法。</p>
+<h2 id="成本函数-Cost-Function"><a href="#成本函数-Cost-Function" class="headerlink" title="成本函数(Cost Function)"></a>成本函数(Cost Function)</h2><p>成本函数是使用优化算法解决问题的关键。任何优化算法的目标，都是要寻找一组能够使得成本函数的结果最小化的解。因此，当我们给定一个解时，成本函数需要评估这个解的好坏，并返回一个值表示评估的结果，通常返回的值越大代表成本越高，即对应的解越差。</p>
+<h2 id="随机搜索-Random-Searching"><a href="#随机搜索-Random-Searching" class="headerlink" title="随机搜索(Random Searching)"></a>随机搜索(Random Searching)</h2><p>随机搜索是一种简单低效的优化算法，虽然效果不是非常好，但是有助于我们理解其他的优化算法，也是我们评估其他算法的基线。</p>
+<p>随机搜索会尝试 n 次的随机猜测，每次尝试的过程如下：</p>
+<ol>
+<li>首先生成一个随机解；</li>
+<li>随后使用成本函数评估成本；</li>
+<li>与目前为止的最优解比较成本，如果成本更低则更新最优解及最优成本。</li>
+</ol>
+<p>虽然 n 次的猜测在全部的可能性中只占非常小的一部分，得到最优解的几率很小，但我们仍然有机会得到还算不错的解。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/04/19/stochastic-optimization/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2019/03/15/kafka-architecture/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1739,171 +1892,6 @@ P({\bar {A}})=1-P(A),\in S</script><p>互补法则可以通过公理3和公理2�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://airgiser.github.io/2018/10/19/scikit-learn-supervised-learning/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="WeiJun">
-      <meta itemprop="description" content="If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present.">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Escape The Brain">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/19/scikit-learn-supervised-learning/" itemprop="url">
-                  scikit-learn 笔记 - 监督学习
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-10-19 16:55:53" itemprop="dateCreated datePublished" datetime="2018-10-19T16:55:53+08:00">2018-10-19</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-03-14 14:54:50" itemprop="dateModified" datetime="2019-03-14T14:54:50+08:00">2019-03-14</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="线性回归-Linear-Regression"><a href="#线性回归-Linear-Regression" class="headerlink" title="线性回归 (Linear Regression)"></a>线性回归 (Linear Regression)</h2><p>线性模型的数学表示：</p>
-<script type="math/tex; mode=display">
-\hat{y}(w,x) = w_0 + w_1x_1 + ... + w_px_p</script><p>通常使用最小二乘法来解决线性回归问题，从而得到合适的系数。</p>
-<script type="math/tex; mode=display">
-min_w||Xw - y||^2</script><p>在sklearn中，通过线性回归得到的系数有 coef<em> 和 intercept</em> 。coef<em> 表示向量w(w1,…,wp)， intercept</em> 表示截距w0。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> mean_squared_error, r2_score</span><br><span class="line"></span><br><span class="line"><span class="comment"># create linear regression model</span></span><br><span class="line">reg = LinearRegression()</span><br><span class="line"></span><br><span class="line"><span class="comment"># fit the model on the training set</span></span><br><span class="line">clf.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># use the trained model to predict result for the test set</span></span><br><span class="line">pred = clf.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># The coefficients</span></span><br><span class="line">print(<span class="string">'Coefficients: '</span>, reg.coef_)</span><br><span class="line">print(<span class="string">'Intercept: '</span>, reg.intercept_)</span><br><span class="line"></span><br><span class="line"><span class="comment"># The mean squared error</span></span><br><span class="line">print(<span class="string">"Mean squared error: %.2f"</span></span><br><span class="line">      % mean_squared_error(y_test, pred))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Explained variance score: 1 is perfect prediction</span></span><br><span class="line">print(<span class="string">'Variance score: %.2f'</span> % r2_score(y_test, pred))</span><br><span class="line"><span class="comment"># also can use the below code</span></span><br><span class="line"><span class="comment"># reg.score(X_test, y_test)</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html#sklearn.linear_model.LinearRegression.score" target="_blank" rel="noopener">R^2 Score</a> </p>
-</blockquote>
-<h3 id="线性回归模型可视化"><a href="#线性回归模型可视化" class="headerlink" title="线性回归模型可视化"></a>线性回归模型可视化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plt.scatter(X, Y)</span><br><span class="line">plt.plot(X, reg.predict(X), color=<span class="string">'red'</span>, linewidth=<span class="number">2</span>)</span><br><span class="line">plt.xlabel(<span class="string">"x"</span>)</span><br><span class="line">plt.ylabel(<span class="string">"y"</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/19/scikit-learn-supervised-learning/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1951,7 +1939,7 @@ min_w||Xw - y||^2</script><p>在sklearn中，通过线性回归得到的系数�
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1988,7 +1976,9 @@ min_w||Xw - y||^2</script><p>在sklearn中，通过线性回归得到的系数�
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -2219,15 +2209,15 @@ min_w||Xw - y||^2</script><p>在sklearn中，通过线性回归得到的系数�
   
     
       
-    
-      
-    
-      
-    
-      
-    
-      
         
+      
+    
+      
+    
+      
+    
+      
+    
       
     
       
